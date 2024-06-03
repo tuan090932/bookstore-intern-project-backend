@@ -67,12 +67,13 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 # API ADMIN LARAVEL
 ### Environmental information
-- PHP: 8.1 or above
+- PHP: 8.2.10
 - MySQL: 8.0.24
+- Laravel: v10.48.12 
 
 ### Setup
 
-Start project:
+Start Laravel:
 ```
 php artisan serve
 ```
@@ -100,16 +101,6 @@ php artisan migrate
 Run seeder
 ```
 php artisan db:seed
-```
-
-NPM install
-```
-npm install
-```
-
-NPM run dev
-```
-npm run dev
 ```
 
 Link:
