@@ -67,7 +67,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 # API ADMIN LARAVEL
 ### Environmental information
-- PHP: 8.1 
+- PHP: 8.1 or above
 - MySQL: 8.0.24
 
 ### Setup
