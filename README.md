@@ -65,60 +65,63 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-## Version
+# API ADMIN LARAVEL
+### Environmental information
+- PHP: 8.1 
+- MySQL: 8.0.24
 
-PHP 8.1 or above.
-Laravel 10.x.
+### Setup
 
-# Setup
-
-## Git
-
-Before dev:
-Please create your branch using the following commands (note: create branch from branch develop):
-
-> Add new:
-
-```
-git checkout -b add/[your-branch-name]
-```
-
-> Update:
-
-```
-git checkout -b modify/[your-branch-name]
-```
-
-> Fix:
-
-```
-git checkout -b fix/[your-branch-name]
-```
-
-## Composer
-
+Install composer
 ```
 composer install
 ```
 
-## Run project
-
+Copy .env
 ```
-php artisan serve
+cp .env.example .env
 ```
-Server running on [http://127.0.0.1:8000].
 
-## Pint
+Generate key
+```
+php artisan key:generate
+```
 
->Running pint 
+Run migration
+```
+php artisan migrate
+```
+
+Run seeder
+```
+php artisan db:seed
+```
+
+NPM install
+```
+npm install
+```
+
+NPM run dev
+```
+npm run dev
+```
+
+Link:
+```
+http://localhost:8000
+```
+
+### Connect database MySQL info
+```
+HOST: 127.0.0.1
+PORT: 3306
+USERNAME: root
+PASSWORD: root
+DATABASE_NAME: bookstore
+```
+
+### PINT 
 ```
 ./vendor/bin/pint
-```
-
->You may also run Pint on specific files or directories:
-```
-./vendor/bin/pint app/Models
-```
-```
-./vendor/bin/pint app/Models/User.php
 ```
