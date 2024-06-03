@@ -75,7 +75,7 @@ Laravel 10.x.
 ## Git
 
 Before dev:
-Please create your branch with follow command
+Please create your branch using the following commands (note: create branch from branch develop):
 
 > Add new:
 
