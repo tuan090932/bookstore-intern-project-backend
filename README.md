@@ -62,7 +62,7 @@ http://localhost
 
 Error:
 If you encounter this error when running Docker:
-Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0".
+>Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0".
 You can fix it with the following command:
 
 ```
