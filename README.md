@@ -1,51 +1,72 @@
 # API ADMIN LARAVEL
 ### Environmental information
-- PHP: 8.2.10
+- PHP: 8.1.21
 - MySQL: 8.0.24
 - Laravel: v10.48.12 
+- Nginx
 
 ### Setup
-
-Start Laravel:
+Start docker:
 
 ```
-php artisan serve
+docker-compose up -d
 ```
 
 Install composer
 
 ```
-composer install
+docker-compose exec php-fpm composer install
 ```
 
 Copy .env
 
 ```
-cp .env.example .env
+docker-compose exec php-fpm cp .env.example .env
 ```
 
 Generate key
 
 ```
-php artisan key:generate
+docker-compose exec php-fpm php artisan key:generate
 ```
 
 Run migration
 
 ```
-php artisan migrate
+docker-compose exec php-fpm php artisan migrate
 ```
 
 Run seeder
 
 ```
-php artisan db:seed
+docker-compose exec php-fpm php artisan db:seed
+```
+
+NPM install
+
+```
+docker-compose exec php-fpm npm install
+```
+
+NPM run dev
+
+```
+docker-compose exec php-fpm npm run dev
 ```
 
 Link:
 
 ```
-http://localhost:8000
+http://localhost
+```
+
+Error:
+If you encounter this error when running Docker:
+Composer detected issues in your platform: Your Composer dependencies require a PHP version ">= 8.1.0".
+You can fix it with the following command:
+
+```
+composer install --ignore-platform-reqs
 ```
 
 ### Connect database MySQL info
@@ -59,5 +80,6 @@ DATABASE_NAME: bookstore
 
 ### PINT 
 ```
-./vendor/bin/pint
+docker-compose exec php-fpm ./vendor/bin/pint
 ```
+
