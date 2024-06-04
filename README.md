@@ -83,4 +83,44 @@ DATABASE_NAME: bookstore
 ```
 docker-compose exec php-fpm ./vendor/bin/pint
 ```
+### ADMIN
+If you want to access the admin page, follow the following commands:
 
+First, change the DB_HOST in .env to run migration
+
+From
+
+```
+DB_HOST=mysql
+```
+
+To
+
+```
+DB_HOST=127.0.0.1
+```
+Then use this command:
+
+```
+php artisan admin:install
+```
+
+After that change the DB_HOST in .env to access to admin page
+
+From
+
+```
+DB_HOST=127.0.0.1
+```
+
+To
+
+```
+DB_HOST=mysql
+```
+
+Link:
+
+```
+http://localhost/admin
+```
