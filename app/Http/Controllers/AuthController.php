@@ -50,7 +50,6 @@ class AuthController extends Controller
         $this->middleware('auth:api', ['except' => ['login', 'refresh']]);
     }
 
-
     /**
      * Handles the user login process.
      *
@@ -62,8 +61,7 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth('api')->attempt($credentials))
-        {
+        if (! $token = auth('api')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -142,6 +140,7 @@ class AuthController extends Controller
      * This private method generates a new refresh token based on the user's ID, a random value, and the configured refresh token TTL.
      * The refresh token is then encoded and returned.
      */
+
     private function createRefreshToken()
     {
         $data = [
@@ -154,7 +153,8 @@ class AuthController extends Controller
         return $refreshToken ;
     }
 
-    /**
+
+     /**
      * Responds with the access token and refresh token.
      *
      * This protected method formats the access token and refresh token in the expected response format, including the token type and expiration time.
