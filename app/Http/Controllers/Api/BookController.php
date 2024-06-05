@@ -3,15 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-<<<<<<< HEAD
 use App\Models\Book;
-=======
->>>>>>> develop
 use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-<<<<<<< HEAD
     private $book;
 
     public function __construct(Book $book)
@@ -28,7 +24,4 @@ class BookController extends Controller
 
         return response()->json($books, 200);
     }
-=======
-    //
->>>>>>> develop
 }

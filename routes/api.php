@@ -2,11 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
 use App\Http\Controllers\Api\BookController;
-=======
 use App\Http\Controllers\Api\AuthController;
->>>>>>> develop
 
 /*
 |--------------------------------------------------------------------------
@@ -16,27 +13,13 @@ use App\Http\Controllers\Api\AuthController;
 | Here is where you can register API routes for your application. These
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "api" middleware group. Make something great!
-|   
+|
 */
 
-<<<<<<< HEAD
-
-Route::group([
-    'prefix' => 'books'
-], function () {
-    Route::get('/', [BookController::class, 'index']);
-});
-
-
-
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-=======
+// Uncomment the following block to add a route that retrieves the authenticated user
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-
 
 /**
  * API Routes for Authentication
@@ -63,12 +46,32 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'auth'
 
-], function ()
-{
+], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::get('profile', [AuthController::class, 'profile']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
+});
 
->>>>>>> develop
+/**
+ * API Routes for Books
+ *
+ * This route group handles all book-related API endpoints.
+ * The group is prefixed with 'api/books'.
+ *
+ * Endpoints:
+ * - GET /api/books: Retrieves a list of all books.
+ *
+ * These endpoints use the `BookController` to handle the corresponding logic.
+ *
+ * The following api with API routes bellow:
+ *
+ * 127.0.0.1/api/books
+ * Example: 127.0.0.1/api/books/
+ */
+
+Route::group([
+    'prefix' => 'books'
+], function () {
+    Route::get('/', [BookController::class, 'index']);
 });
