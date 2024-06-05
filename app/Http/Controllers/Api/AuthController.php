@@ -1,0 +1,171 @@
+<?php
+
+namespace App\Http\Controllers\Api;
+
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Carbon\Exceptions\Exception;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\JWT;
+
+class AuthController extends Controller
+{
+    /**
+     * API -> authentication -> JWT token
+
+    *request data: send token through header (authorization: bearer <token>)
+
+    *server -> check token validity -> decode payload -> query db return data
+
+    *## Security
+    *- Issue with access_token: if hacker gets access_token => can hack into the system, exploit data based on access_token
+    *- Solution:
+        *1/ Reduce access_token lifespan => inconvenience for users as they have to constantly re-login (e.g., access_token lifespan is 1 hour, users have to login again every hour)
+        *2/ Add a refresh_token: longer lifespan and used to issue new access_token after each login
+        *3/ When logging out, put token in blacklist, if refresh_token expires, logout and put token in blacklist
+        *+ When authorizing, check if token is in blacklist
+
+    *## Issue with refresh_token
+    *- Old access_token still valid, hacker can use it to access and exploit data
+    *- Solution:
+    *+ After token is refreshed, put old access_token in blacklist
+     */
+
+    /**
+     * Constructor for the AuthController class.
+     *
+     * This constructor sets up the middleware for the controller's actions.
+     * The 'auth:api' middleware is applied to all actions, except for the 'login' and 'refresh' actions.
+     *
+     * The 'auth:api' middleware is responsible for authenticating the user using the API guard.
+     * This ensures that all protected actions (everything except 'login' and 'refresh') can only be accessed by authenticated users.
+     *
+     * The 'except' parameter in the middleware call specifies the actions that should be excluded from the authentication check.
+     * In this case, the 'login' and 'refresh' actions are excluded, as they are used for the authentication process itself and do not require the user to be already authenticated.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login', 'refresh']]);
+    }
+
+    /**
+     * Handles the user login process.
+     *
+     * This action retrieves the email and password from the request, and attempts to authenticate the user using the API guard.
+     * If the authentication is successful, a new access token and refresh token are generated and returned in the response.
+     * If the authentication fails, a 401 Unauthorized response is returned.
+     */
+    public function login()
+    {
+        $credentials = request(['email', 'password']);
+
+        if (! $token = auth('api')->attempt($credentials)) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        $refreshToken = $this->createRefreshToken();
+
+        return $this->respondWithToken($token, $refreshToken);
+    }
+
+    /**
+     * Retrieves the authenticated user's profile information.
+     *
+     * This action uses the 'auth:api' middleware to ensure that only authenticated users can access this endpoint.
+     * If the user is authenticated, their profile information is returned in the response.
+     * If the user is not authenticated, a 401 Unauthorized response is returned.
+     */
+    public function profile()
+    {
+        try
+        {
+            return response()->json(auth('api')->user());
+        }
+        catch(JWTException $e)
+        {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+    }
+
+    /**
+     * Logs out the authenticated user.
+     *
+     * This action invalidates the user's access token, effectively logging them out.
+     * A success message is returned in the response.
+     */
+    public function logout()
+    {
+        auth('api')->logout();
+
+        return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    /**
+     * Refreshes the user's access token.
+     *
+     * This action takes a refresh token from the request, decodes it, and uses the user's information to generate a new access token.
+     * If the refresh token is valid, a new access token and refresh token are returned in the response.
+     * If the refresh token is invalid, a 500 Internal Server Error response is returned.
+     */
+    public function refresh()
+    {
+        $refreshToken = request()->refresh_token;
+        try
+        {
+            $decodeToken = JWTAuth::getJWTProvider()->decode($refreshToken);
+            $user = User::find($decodeToken['user_id']);
+            if(!$user)
+            {
+                return response()->json(['error', 'User not found'], 404);
+            }
+            auth('api')->invalidate();
+
+            $token = auth('api')->login($user);
+
+            $refreshToken = $this->createRefreshToken();
+
+            return $this->respondWithToken($token, $refreshToken);
+        }
+        catch (JWTException $e)
+        {
+            return response()->json(['error' => 'Refresh Token Invalid'], 500);
+        }
+    }
+
+    /**
+     * Creates a new refresh token for the authenticated user.
+     *
+     * This private method generates a new refresh token based on the user's ID, a random value, and the configured refresh token TTL.
+     * The refresh token is then encoded and returned.
+     */
+
+    private function createRefreshToken()
+    {
+        $data = [
+            'user_id' => auth('api')->user()->id,
+            'random' => rand() . time(),
+            'exp' => time() + config('jwt.refresh_ttl')
+        ];
+
+        $refreshToken = JWTAuth::getJWTProvider()->encode($data);
+        return $refreshToken ;
+    }
+
+
+     /**
+     * Responds with the access token and refresh token.
+     *
+     * This protected method formats the access token and refresh token in the expected response format, including the token type and expiration time.
+     */
+    protected function respondWithToken($token, $refreshToken)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'refresh_token' => $refreshToken,
+            'token_type' => 'bearer',
+            'expires_in' => config('jwt.ttl') * 60
+        ]);
+    }
+}
