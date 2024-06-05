@@ -16,7 +16,7 @@ class BookController extends Controller
     }
     public function index()
     {
-        $books = $this->book->showAllBooks();
+        $books = $this->book->getAllBooks();
 
         if ($books->isEmpty()) {
             return response()->json(['message' => 'Book not found'], 200);

@@ -24,8 +24,8 @@ class Book extends Model
         'author_id',
     ];
 
-    public function showAllBooks()
+    public function getAllBooks()
     {
-        return self::all();
+        return Book::all();
     }
 }
