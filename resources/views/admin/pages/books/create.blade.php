@@ -10,39 +10,47 @@
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-7">
-                    <label for="TenSP">Tên sản phẩm</label>
-                    <input type="text" class="form-control" id="TenSP">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title">
                 </div>
                 <div class="form-group col-md-5">
-                    <label for="NSX">Nhà sản xuất</label>
-                    <input type="text" class="form-control" id="NSX">
+                    <label for="language">Language</label>
+                    <input type="text" class="form-control" id="language" name="language">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="THieu">Thương hiệu</label>
-                    <input type="text" class="form-control" id="THieu">
+                    <label for="numPages">Num pages</label>
+                    <input type="number" class="form-control" id="numPages" name="numPages">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="DMSP">Danh mục SP</label>
-                    <select name="DanhMucSp" id="DanhMucSp" class="form-control"></select>
+                    <label for="publisher">Publisher</label>
+                    <input type="text" class="form-control" id="publisher" name="publisher">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="Gia">Giá</label>
-                    <input type="number" min="0" class="form-control" id="Gia">
+                    <label for="category">Category</label>
+                    <input type="text" class="form-control" id="category" name="category">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="TongSL">Tổng SL</label>
-                    <input type="number" min="0" class="form-control" id="TongSL">
+                    <label for="price">Price</label>
+                    <input type="number" min="0" class="form-control" id="price" name="price">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="stock">Stock</label>
+                    <input type="number" min="0" class="form-control" id="stock" name="stock">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="author">Author</label>
+                    <input type="text" class="form-control" id="author" name="author">
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="image">Image</label>
+                    <input type="text" class="form-control" id="image" name="image">
                 </div>
 
                 <div class="form-group col-md-12">
-                    <label for="HinhAnh">Url hình ảnh</label>
-                    <input type="text" class="form-control" id="HinhAnh">
+                    <label for="description">Description</label>
+                    <textarea type="text" class="form-control" rows="6" id="description" name="description"></textarea>
                 </div>
-
-                <div class="form-group col-md-12">
-                    <label for="ChiTiet">Chi tiết</label>
-                    <textarea type="text" class="form-control" rows="6" id="ChiTiet"></textarea>
-                </div>
+                
             </div>
 
             <hr class="my-12" />
@@ -54,7 +62,7 @@
                     <span class="icon text-white-50">
                         <i class="fas fa-arrow-left"></i>
                     </span>
-                    <span class="text">Quay lại</span>
+                    <span class="text">Back</span>
                 </a>
 
                 <!------ Button Tạo ------>
