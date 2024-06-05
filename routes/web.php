@@ -20,6 +20,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/login', function () {
+    return view('admin.pages.auth.login');
+})->name('login'); 
+Route::get('/register', function () {
+    return view('admin.pages.auth.register');
+})->name('register'); 
+Route::get('/forgot-password', function () {
+    return view('admin.pages.auth.forgot-password');
+})->name('forgot-password'); 
+
 Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('dashboard');
 Route::get('admin/users', [UserController::class, 'index'])->name('users.index');
 
