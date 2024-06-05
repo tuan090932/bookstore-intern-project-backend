@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\BookController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +19,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('dashboard');
+Route::get('admin/users', [UserController::class, 'index'])->name('users.index');
+
+Route::get('admin/books', [BookController::class, 'index'])->name('books.index');
+Route::get('admin/books/create', [BookController::class, 'create'])->name('books.create');
+Route::get('admin/books/edit', [BookController::class, 'show'])->name('books.edit');
