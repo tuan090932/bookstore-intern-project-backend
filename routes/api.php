@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\CategoryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +74,29 @@ Route::group([
 
 Route::group([
     'prefix' => 'books'
+], function () {
+    Route::get('/', [BookController::class, 'index']);
+});
+
+/**
+ * API Routes for Categories
+ *
+ * This route group handles all category-related API endpoints.
+ * The group is prefixed with 'api/categories'.
+ *
+ * Endpoints:
+ * - GET /api/categories: Retrieves a list of all categories.
+ *
+ * These endpoints use the `CategoryController` to handle the corresponding logic.
+ *
+ * The following api with API routes bellow:
+ *
+ * 127.0.0.1/api/categories
+ * Example: 127.0.0.1/api/categories/
+ */
+
+Route::group([
+    'prefix' => 'categories'
 ], function () {
     Route::get('/', [BookController::class, 'index']);
 });
