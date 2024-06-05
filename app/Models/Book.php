@@ -23,9 +23,4 @@ class Book extends Model
         'stock',
         'author_id',
     ];
-
-    public function getAllBooks()
-    {
-        return Book::all();
-    }
 }

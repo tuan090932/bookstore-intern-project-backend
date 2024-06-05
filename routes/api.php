@@ -17,9 +17,7 @@ use App\Http\Controllers\Api\BookController;
 
 
 Route::group([
-    'middleware' => 'api',
     'prefix' => 'books'
-
 ], function () {
     Route::get('/', [BookController::class, 'index']);
 });
