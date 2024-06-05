@@ -27,4 +27,11 @@ class RegisterRequest extends FormRequest
             'password' => 'required|string|min:6|confirmed',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'email.unique' => 'This email address is already registered.',
+        ];
+    }
 }
