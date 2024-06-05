@@ -19,10 +19,43 @@ class RegisterController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
+    // public function register(RegisterRequest $request)
+    // {
+    //     try
+    //     {
+    //         $user = User::create([
+    //             'name' => $request->name,
+    //             'email' => $request->email,
+    //             'password' => Hash::make($request->password),
+    //         ]);
+
+    //         return response()->json([
+    //             'message' => 'User successfully registered',
+    //             'user' => $user
+    //         ], 201);
+    //     }
+    //     catch (\Exception $e)
+    //     {
+    //         return response()->json([
+    //             'message' => 'Registration failed',
+    //             'error' => $e->getMessage()
+    //         ], 400);
+    //     }
+    // }
+
     public function register(RegisterRequest $request)
     {
         try
         {
+            $existingUser = User::where('email', $request->email)->first();
+
+            if ($existingUser)
+            {
+                return response()->json([
+                    'message' => 'Email already exists'
+                ], 409);
+            }
+
             $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -42,4 +75,5 @@ class RegisterController extends Controller
             ], 400);
         }
     }
+
 }
