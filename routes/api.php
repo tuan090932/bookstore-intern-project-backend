@@ -98,5 +98,5 @@ Route::group([
 Route::group([
     'prefix' => 'categories'
 ], function () {
-    Route::get('/', [BookController::class, 'index']);
+    Route::get('/', [CategoryController::class, 'index']);
 });
