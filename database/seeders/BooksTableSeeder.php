@@ -9,7 +9,6 @@ use Faker\Factory as Faker;
 class BooksTableSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
      *
      * @return void
      */

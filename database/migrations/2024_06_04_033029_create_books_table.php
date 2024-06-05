@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('books', function (Blueprint $table) {
-            $table->id('book_id'); // Sử dụng 'book_id' làm khóa chính
+            $table->id('book_id');
             $table->string('title', 250);
             $table->unsignedBigInteger('language_id');
             $table->integer('num_pages');
@@ -25,9 +25,6 @@ return new class extends Migration
             $table->integer('stock');
             $table->unsignedBigInteger('author_id');
             $table->timestamps();
-
-            // Thiết lập khóa ngoại
-
         });
     }
 
