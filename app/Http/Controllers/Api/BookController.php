@@ -8,20 +8,15 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    private $book;
 
-    public function __construct(Book $book)
-    {
-        $this->book = $book;
-    }
+    /**
+     * Display a listing of all books.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
-        $books = Book::all();;
-
-        if ($books->isEmpty()) {
-            return response()->json(['message' => 'Book not found'], 200);
-        }
-
-        return response()->json($books, 200);
+        $books = Book::all();
+        return response()->json($books);
     }
 }
