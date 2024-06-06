@@ -10,10 +10,13 @@ class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * Using with function to Eager Loading
      */
     public function index()
     {
         $books = Book::with(['author', 'category', 'language', 'publisher'])->get();
+        // $books = Book::all();
 
         return view('admin.pages.books.index', compact('books'));
     }

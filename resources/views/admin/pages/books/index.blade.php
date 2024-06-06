@@ -33,6 +33,7 @@
                             <th>Số lượng trang</th>
                             <th>Tác giả</th>
                             <th>Đơn vị phát hành</th>
+                            <th>Ngôn ngữ</th>
                             <th>Options</th>
                         </tr>
                     </thead>
@@ -45,6 +46,7 @@
                             <th>Số lượng trang</th>
                             <th>Tác giả</th>
                             <th>Đơn vị phát hành</th>
+                            <th>Ngôn ngữ</th>
                             <th>Options</th>
                         </tr>
                     </tfoot>
