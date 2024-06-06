@@ -13,16 +13,26 @@ class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    // Custom primary key for the User model
+    protected $primaryKey = 'user_id';
+
+    // Fields that are mass assignable
     protected $fillable = [
-        'name',
+        'user_name',
         'email',
-        'password',
+        'phone_number',
+        'address_id',
     ];
+
+    /**
+     * Get the address associated with the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function address()
+    {
+        return $this->belongsTo(Address::class, 'address_id', 'address_id');
+    }
 
     /**
      * The attributes that should be hidden for serialization.
