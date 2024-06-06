@@ -18,4 +18,17 @@ class BookController extends Controller
         $books = Book::all();
         return response()->json($books);
     }
+
+    /**
+     * Display the specified book by its ID.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+
+    public function show($id)
+    {
+        $book = Book::find($id);
+        return response()->json($book);
+    }
 }

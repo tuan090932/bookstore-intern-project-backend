@@ -63,7 +63,8 @@ Route::group([
  *
  * Endpoints:
  * - GET /api/books: Retrieves a list of all books.
- *
+ * - GET /api/books/{id}: Retrieves a specific book by its ID.
+
  * These endpoints use the `BookController` to handle the corresponding logic.
  *
  * The following api with API routes bellow:
@@ -76,4 +77,5 @@ Route::group([
     'prefix' => 'books'
 ], function () {
     Route::get('/', [BookController::class, 'index']);
+    Route::get('/{id}', [BookController::class, 'show']);
 });
