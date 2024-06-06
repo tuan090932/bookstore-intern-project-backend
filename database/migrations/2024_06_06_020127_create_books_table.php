@@ -12,12 +12,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('books', function (Blueprint $table) {
+            $table->id('book_id');
             $table->unsignedBigInteger('language_id');
             $table->unsignedBigInteger('publisher_id');
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('author_id');
-
-            $table->id('book_id');
             $table->string('title', 250);
             $table->integer('num_pages');
             $table->string('image', 250);
@@ -26,6 +25,7 @@ return new class extends Migration
             $table->integer('stock');
             $table->timestamps();
 
+            // Foreign key declarations and references to related tables
             $table->foreign('language_id')->references('language_id')->on('languages');
             $table->foreign('publisher_id')->references('publisher_id')->on('publishers');
             $table->foreign('category_id')->references('category_id')->on('categories');
