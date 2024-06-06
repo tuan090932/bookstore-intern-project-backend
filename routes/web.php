@@ -39,3 +39,5 @@ Route::get('admin/books/edit', [BookController::class, 'show'])->name('books.edi
 
 
 Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
+
+Route::resource('books', BookController::class);

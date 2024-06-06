@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\Language;
+use App\Models\Author;
+use App\Models\Publisher;
+
 
 class BookController extends Controller
 {
@@ -26,15 +31,34 @@ class BookController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.books.create');
+        $categories = Category::all();
+        $authors = Author::all();
+        $languages = Language::all();
+        $publishers = Publisher::all();
+        return view('admin.pages.books.create', compact('categories','authors', 'languages','publishers'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        $request->validate([
+            'title' => 'required|string|max:250',
+            'language_id' => 'required|integer',
+            'num_pages' => 'required|integer',
+            'publisher_id' => 'required|integer',
+            'category_id' => 'required|integer',
+            'image' => 'required|string|max:250|unique:books,image',
+            'description' => 'required|string|max:250',
+            'price' => 'required|numeric',
+            'stock' => 'required|integer',
+            'author_id' => 'required|integer',
+        ]);
+
+        Book::create($request->all());
+
+        return redirect()->route('books.index')->with('success', 'Book added successfully.'); 
     }
 
     /**

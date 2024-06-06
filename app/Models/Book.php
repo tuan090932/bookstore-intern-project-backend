@@ -9,6 +9,8 @@ class Book extends Model
 {
     use HasFactory;
 
+    // Bảng được liên kết với model này
+    protected $table = 'books';
     // Custom primary key for the Book model
     protected $primaryKey = 'book_id';
 
