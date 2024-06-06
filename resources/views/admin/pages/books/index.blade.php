@@ -52,7 +52,7 @@
                             <tr>
                                 <td>{{ $book->title }}</td>
                                 <td>{{ $book->category->category_name }}</td>
-                                <td>{{ $book->price }}</td>
+                                <td>{{ formatVND($book->price) }}</td>
                                 <td>{{ $book->stock }}</td>
                                 <td>{{ $book->num_pages }}</td>
                                 <td>{{ $book->author->author_name }}</td>

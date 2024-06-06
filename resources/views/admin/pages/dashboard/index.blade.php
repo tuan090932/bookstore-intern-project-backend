@@ -47,30 +47,7 @@
                         <td>Giao hàng</td>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Kit V65</td>
-                        <td>2.150.000đ</td>
-                        <td>Đã thanh toán</td>
-                        <td><span class="status delivered">Đã giao hàng</span></td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>LOGITECH G502</td>
-                        <td>2.150.000đ</td>
-                        <td>Quá hạn thanh toán</td>
-                        <td><span class="status pending">Đang chờ thanh toán</span></td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>Kit V65</td>
-                        <td>2.150.000đ</td>
-                        <td>Đã thanh toán</td>
-                        <td><span class="status return">Hoàn trả</span></td>
-                    </tr>
-                </tbody>
+
                 <tbody>
                     <tr>
                         <td>LOGITECH G502</td>
