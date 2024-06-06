@@ -16,23 +16,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/login', function () {
     return view('admin.pages.auth.login');
-})->name('login'); 
+})->name('login');
 Route::get('/register', function () {
     return view('admin.pages.auth.register');
-})->name('register'); 
+})->name('register');
 Route::get('/forgot-password', function () {
     return view('admin.pages.auth.forgot-password');
-})->name('forgot-password'); 
+})->name('forgot-password');
 
-Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('dashboard');
+
 Route::get('admin/users', [UserController::class, 'index'])->name('users.index');
 
 Route::get('admin/books', [BookController::class, 'index'])->name('books.index');
 Route::get('admin/books/create', [BookController::class, 'create'])->name('books.create');
 Route::get('admin/books/edit', [BookController::class, 'show'])->name('books.edit');
+
+
+Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');

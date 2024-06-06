@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Book;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -12,7 +13,9 @@ class BookController extends Controller
      */
     public function index()
     {
-        return view('admin.pages.books.index');
+        $books = Book::with(['author', 'category', 'language', 'publisher'])->get();
+
+        return view('admin.pages.books.index', compact('books'));
     }
 
     /**
