@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Address;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -33,13 +35,39 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user_name' => 'required',
-            'email' => 'required',
-            'phone_number' => 'required',
-            'password' => 'required',
-            '' => '',
+            'user_name' => 'required|string|max:250',
+            'email' => 'required|email|unique:users,email',
+            'phone_number' => 'required|string|max:250',
+            'password' => 'required|min:6',
+            'city' => 'required|string|max:250',
+            'country_name' => 'required|string|max:250',
+            'shipping_address' => 'required',
         ]);
-        User::create($request->all());
+
+        // $user = User::makeVisible(['password'])->create([
+        //     'user_name' => $request->input('user_name'),
+        //     'email' => $request->input('email'),
+        //     'phone_number' => $request->input('phone_number'),
+        //     'password' => Hash::make($request->input('password')),
+        // ]);
+        // create user
+        $user = new User();
+        $user->makeVisible(['password']);
+
+        $user->user_name = $request->input('user_name');
+        $user->email = $request->input('email');
+        $user->phone_number = $request->input('phone_number');
+        $user->password = Hash::make($request->input('password'));
+
+        $user->save();
+
+        // create address of user
+        Address::create([
+            'city' => $request->input('city'),
+            'country_name' => $request->input('country_name'),
+            'shipping_address' => $request->input('shipping_address'),
+            'user_id' => $user->user_id,
+        ]);
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
 

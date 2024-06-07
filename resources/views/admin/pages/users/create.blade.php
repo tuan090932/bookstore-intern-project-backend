@@ -6,36 +6,45 @@
 <!-- DataTales Example -->
 <div class="row">
     <div class="col-md-12">
-        <form id="input-form">
+        @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+        <form action="{{ route('users.store') }}" method="POST" id="input-form">
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username">
+                    <label for="user_name">Username</label>
+                    <input type="text" class="form-control" id="user_name" name="user_name" value="{{ old('user_name') }}">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="email">Email</label>
-                    <input type="text" class="form-control" id="email" name="email">
+                    <input type="text" class="form-control" id="email" name="email" value="{{ old('email') }}">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="phoneNumber">Phone number</label>
-                    <input type="text" class="form-control" id="phoneNumber" name="phoneNumber">
+                    <label for="phone_number">Phone number</label>
+                    <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ old('phone_number') }}">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password">
+                    <input type="password" class="form-control" id="password" name="password" value="{{ old('password') }}">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="city">City</label>
-                    <input type="text" class="form-control" id="city" name="city">
+                    <input type="text" class="form-control" id="city" name="city" value="{{ old('city') }}">
                 </div>
                 <div class="form-group col-md-6">
-                    <label for="countryName">Country</label>
-                    <input type="text" class="form-control" id="countryName" name="countryName">
+                    <label for="country_name">Country</label>
+                    <input type="text" class="form-control" id="country_name" name="country_name" value="{{ old('country_name') }}">
                 </div>
                 <div class="form-group col-md-12">
-                    <label for="shippingAddress">Shipping address</label>
-                    <input type="text" class="form-control" id="shippingAddress" name="shippingAddress">
+                    <label for="shipping_address">Shipping address</label>
+                    <input type="text" class="form-control" id="shipping_address" name="shipping_address" value="{{ old('shipping_address') }}">
                 </div>
             </div>
 
@@ -62,4 +71,5 @@
         </form>
     </div>
 </div>
+
 @endsection
