@@ -90,6 +90,8 @@ class BookController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $books = Book::findOrFail($id);
+        $books->delete();
+        return redirect()->route('books.index')->with('success','Delete Product Successfully');      
     }
 }
