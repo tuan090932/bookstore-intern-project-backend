@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,13 +23,13 @@ Route::get('/', function () {
 
 Route::get('/login', function () {
     return view('admin.pages.auth.login');
-})->name('login'); 
+})->name('login');
 Route::get('/register', function () {
     return view('admin.pages.auth.register');
-})->name('register'); 
+})->name('register');
 Route::get('/forgot-password', function () {
     return view('admin.pages.auth.forgot-password');
-})->name('forgot-password'); 
+})->name('forgot-password');
 
 Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('dashboard');
 Route::get('admin/users', [UserController::class, 'index'])->name('users.index');
@@ -36,3 +37,24 @@ Route::get('admin/users', [UserController::class, 'index'])->name('users.index')
 Route::get('admin/books', [BookController::class, 'index'])->name('books.index');
 Route::get('admin/books/create', [BookController::class, 'create'])->name('books.create');
 Route::get('admin/books/edit', [BookController::class, 'show'])->name('books.edit');
+
+
+
+/**
+ * Web Routes for Admin Panel
+ *
+ * This route group handles all admin-related web endpoints.
+ * The group is prefixed with 'admin'
+ *
+ * Endpoints:
+ * - GET /admin/categories: Displays a list of categories.
+ *
+ * These endpoints use the `CategoryController` to handle the corresponding logic.
+ *
+ * The following web routes are listed below:
+ *
+ * Example: http://localhost/admin/categories
+ */
+Route::prefix('admin')->group(function () {
+    Route::get('categories', [CategoryController::class, 'index'])->name('categories.index');
+});
