@@ -53,8 +53,16 @@
                             <td>{{ $user->user_name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->phone_number }}</td>
-                            <td>{{ $user->address->city}}</td>
-                            <td>{{ $user->address->shipping_address }}</td>
+                            @php
+                            $address = $user->address->first();
+                            @endphp
+                            @if ($address)
+                            <td>{{ $address->city}}</td>
+                            <td>{{ $address->shipping_address }}</td>
+                            @else
+                            <td></td>
+                            <td></td>
+                            @endif
                             <td>
                                 <div class="d-flex  justify-content-center">
                                     <a href="#" class="mr-2 text-success">
@@ -77,7 +85,6 @@
             </div>
         </div>
     </div>
-
 </div>
 <!-- /.container-fluid -->
 

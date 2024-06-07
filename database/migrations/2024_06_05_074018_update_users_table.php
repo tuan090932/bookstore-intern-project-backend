@@ -18,10 +18,6 @@ return new class extends Migration
 
             // Add columns phone_number, address_id
             $table->string('phone_number', 250)->nullable();
-            $table->unsignedBigInteger('address_id')->nullable();
-
-            // Add foreign key 
-            $table->foreign('address_id')->references('address_id')->on('address')->onDelete('set null');
         });
     }
 
@@ -34,8 +30,6 @@ return new class extends Migration
             $table->renameColumn('user_id', 'id');
             $table->renameColumn('user_name', 'name');
             $table->dropColumn('phone_number');
-            $table->dropForeign(['address_id']);
-            $table->dropColumn('address_id');
         });
     }
 };
