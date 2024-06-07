@@ -37,7 +37,6 @@ Route::get('admin/books', [BookController::class, 'index'])->name('books.index')
 Route::get('admin/books/create', [BookController::class, 'create'])->name('books.create');
 Route::get('admin/books/edit', [BookController::class, 'show'])->name('books.edit');
 Route::get('admin/books/edit', [BookController::class, 'show'])->name('books.edit');
-Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('books.destroy');
 
 
 Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
