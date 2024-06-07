@@ -16,7 +16,11 @@ return new class extends Migration
             $table->string('city', 250);
             $table->string('country_name', 250);
             $table->text('shipping_address');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
+
+            // Add foreign key
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('set null');
         });
     }
 

@@ -8,11 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $table = 'users';
     // Custom primary key for the User model
     protected $primaryKey = 'user_id';
 
@@ -25,16 +27,6 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     /**
-     * Get the address associated with the user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function address()
-    {
-        return $this->belongsTo(Address::class, 'address_id', 'address_id');
-    }
-
-    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
@@ -43,6 +35,16 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'remember_token',
     ];
+
+    /**
+     * Get the address associated with the user.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function address(): HasMany
+    {
+        return $this->hasMany(Address::class, 'user_id', 'user_id');
+    }
 
     /**
      * The attributes that should be cast.
