@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -42,3 +43,14 @@ Route::get('admin/books/search',[BookController::class, 'search'])->name('books.
 Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
 
 Route::resource('books', BookController::class);
+
+
+/*
+|--------------------------------------------------------------------------
+| Languages Routes
+|--------------------------------------------------------------------------
+|
+|
+*/
+
+Route::get('admin/language', [LanguageController::class, 'index'])->name('languages.index');
