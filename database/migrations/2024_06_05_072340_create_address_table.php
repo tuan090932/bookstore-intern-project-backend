@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('address', function (Blueprint $table) {
+        Schema::create('addresses', function (Blueprint $table) {
             $table->id('address_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('city', 250);
             $table->string('country_name', 250);
             $table->text('shipping_address');
-            $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
 
             // Add foreign key

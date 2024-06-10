@@ -17,7 +17,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with(['address'])->get();
+        $users = User::with(['addresses'])->get();
+        $users->each(function ($user) {
+            $user->addresses = $user->addresses->first();
+        });
         return view('admin.pages.users.index', compact('users'));
     }
 
