@@ -22,7 +22,7 @@ class LanguageController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.pages.languages.create');
     }
 
     /**
@@ -30,7 +30,13 @@ class LanguageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'language_name' => 'required|string|max:250',
+        ]);
+
+        Language::create($request->all());
+
+        return redirect()->route('language.index')->with('success','Language added successfully');
     }
 
     /**
