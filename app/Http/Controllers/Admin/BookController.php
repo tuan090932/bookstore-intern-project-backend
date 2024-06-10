@@ -100,9 +100,8 @@ class BookController extends Controller
      */
     public function search(Request $request)
     {
-        $query = $request->input('search');
-        $books = Book::where('title', 'like' , $query)->with(['author', 'category', 'language', 'publisher'])->get();
+        $search = $request->input('search');
+        $books = Book::where('title', 'like', '%' . $search . '%')->with(['author', 'category', 'language', 'publisher'])->get();
         return view('admin.pages.books.index', compact('books'));
     }
-
 }
