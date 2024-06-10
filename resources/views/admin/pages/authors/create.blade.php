@@ -30,10 +30,7 @@
                 </div>
                 <div class="form-group col-md-5">
                     <label for="age">Tuổi</label>
-                    <input type="text" class="form-control @error('age') is-invalid @enderror" id="age" name="age" value="{{ old('age') }}">
-                    @error('age')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                    <input type="text" class="form-control" id="age" name="age" value="{{ old('age') }}">
                 </div>
                 <div class="form-group col-md-6">
                     <label for="birth_date">Năm sinh</label>

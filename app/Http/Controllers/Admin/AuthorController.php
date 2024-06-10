@@ -34,7 +34,6 @@ class AuthorController extends Controller
     {
         $request->validate([
             'author_name' => 'required|string|max:255',
-            'age' => 'required|integer|max:150|min:10',
             'birth_date' => 'required|date',
             'death_date' => 'nullable|date',
         ]);
