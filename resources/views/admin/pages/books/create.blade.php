@@ -50,7 +50,7 @@
                     <label for="description">Description</label>
                     <textarea type="text" class="form-control" rows="6" id="description" name="description"></textarea>
                 </div>
-                
+
             </div>
 
             <hr class="my-12" />
