@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Address extends Model
 {
     use HasFactory;
-    protected $table = 'address';
+    protected $table = 'addresses';
 
     // Custom primary key for the Address model
     protected $primaryKey = 'address_id';
@@ -25,8 +25,8 @@ class Address extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function user()
+    public function users()
     {
-        return $this->BelongsTo(User::class, 'address_id', 'address_id');
+        return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 }
