@@ -2,35 +2,42 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-use Faker\Factory as Faker;
 
 class BooksTableSeeder extends Seeder
 {
     /**
-     *
-     * @return void
+     * Run the database seeds.
      */
-    public function run()
+    public function run(): void
     {
-        $faker = Faker::create();
-
-        foreach (range(1, 2) as $index) {
-            DB::table('books')->insert([
-                'title' => $faker->sentence(3),
-                'language_id' => $faker->numberBetween(1, 10),
-                'num_pages' => $faker->numberBetween(100, 1000),
-                'publisher_id' => $faker->numberBetween(1, 10),
-                'category_id' => $faker->numberBetween(1, 10),
-                'image' => $faker->imageUrl(250, 250, 'books', true, 'Faker'),
-                'description' => $faker->paragraph,
-                'price' => $faker->randomFloat(2, 10, 200),
-                'stock' => $faker->numberBetween(1, 100),
-                'author_id' => $faker->numberBetween(1, 10),
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-        }
+        DB::table('books')->insert([
+            [
+                'title' => 'Cho tôi xin một vé đi tuổi thơ',
+                'language_id' => 1,
+                'publisher_id' => 1,
+                'category_id' => 1,
+                'author_id' => 1,
+                'num_pages' => 230,
+                'image' => 'https://cdn0.fahasa.com/media/catalog/product/8/9/8935212361934.jpg',
+                'description' => 'Một cuốn sách về tuổi thơ',
+                'price' => 100000,
+                'stock' => 50,
+            ],
+            [
+                'title' => 'Tuổi thơ dữ dội',
+                'language_id' => 1,
+                'publisher_id' => 2,
+                'category_id' => 1,
+                'author_id' => 2,
+                'num_pages' => 350,
+                'image' => 'https://cdn0.fahasa.com/media/catalog/product/i/m/image_229833.jpg',
+                'description' => 'Một cuốn sách về tuổi thơ thời chiến của Nguyễn Huy Thiệp.',
+                'price' => 150000,
+                'stock' => 30,
+            ],
+        ]);
     }
 }

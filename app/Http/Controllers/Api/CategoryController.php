@@ -9,17 +9,14 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    private $category;
-    public function __construct(Category $category)
-    {
-        $this->category = $category;
-    }
+    /**
+     * Display a listing of all categories.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function index()
     {
         $categories = Category::all();
-        if ($categories->isEmpty()) {
-            return response()->json(['message' => 'Category not found'], 200);
-        }
-        return response()->json($categories, 200);
+        return response()->json($categories);
     }
 }
