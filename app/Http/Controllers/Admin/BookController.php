@@ -96,7 +96,7 @@ class BookController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Search for books by title..
      */
     public function search(Request $request)
     {
