@@ -74,7 +74,12 @@ class BookController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $books = Book::findOrFail($id);  
+        $categories = Category::all();
+        $authors = Author::all();
+        $languages = Language::all();
+        $publishers = Publisher::all();
+        return view('admin.pages.books.edit', compact('books','categories','authors', 'languages','publishers'));
     }
 
     /**
@@ -82,7 +87,9 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $books = Book::findOrFail($id);
+        $books->update($request->all());
+        return redirect()->route('books.index')->with('succes', 'Product updated successfully');
     }
 
     /**

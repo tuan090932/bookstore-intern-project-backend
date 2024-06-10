@@ -35,7 +35,8 @@ Route::get('admin/users', [UserController::class, 'index'])->name('users.index')
 
 Route::get('admin/books', [BookController::class, 'index'])->name('books.index');
 Route::get('admin/books/create', [BookController::class, 'create'])->name('books.create');
-Route::get('admin/books/edit', [BookController::class, 'show'])->name('books.edit');
+Route::get('admin/books/edit', [BookController::class, 'edit'])->name('books.edit');
+Route::get('admin/books/update', [BookController::class, 'update'])->name('books.update');
 Route::get('admin/books/search',[BookController::class, 'search'])->name('books.search');
 
 Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
