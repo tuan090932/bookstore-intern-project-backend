@@ -44,10 +44,7 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label for="death_date">Năm mất (Nếu có)</label>
-                    <input type="date" class="form-control @error('death_date') is-invalid @enderror" id="death_date" name="death_date" value="{{ old('death_date') }}">
-                    @error('death_date')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                    <input type="date" class="form-control" id="death_date" name="death_date" value="{{ old('death_date') }}">
                 </div>
             </div>
 
