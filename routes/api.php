@@ -50,6 +50,7 @@ use App\Http\Controllers\Api\BookController;
 ], function ()
 {
 
+    Route::post('register', [RegisterController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
     Route::get('profile', [AuthController::class, 'profile']);
     Route::post('logout', [AuthController::class, 'logout']);
@@ -57,7 +58,7 @@ use App\Http\Controllers\Api\BookController;
 
 });
 
-Route::post('register', [RegisterController::class, 'register']);
+
 
 /**
  * API Routes for Books
