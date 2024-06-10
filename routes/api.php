@@ -49,22 +49,15 @@ use App\Http\Controllers\Api\BookController;
 
 ], function ()
 {
+
     Route::post('login', [AuthController::class, 'login']);
     Route::get('profile', [AuthController::class, 'profile']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
+
 });
 
-Route::group([
-
-    'prefix' => 'auth'
-
-], function ()
-{
-    Route::post('register', [RegisterController::class, 'register']);
-});
-
-
+Route::post('register', [RegisterController::class, 'register']);
 
 /**
  * API Routes for Books

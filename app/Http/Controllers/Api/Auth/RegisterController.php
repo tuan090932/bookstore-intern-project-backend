@@ -7,6 +7,12 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\RegisterRequest;
+use Illuminate\Http\JsonResponse;
+use App\Exceptions\ValidationException;
+use Illuminate\Support\Facades\Log;
+
+
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -19,17 +25,19 @@ class RegisterController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(RegisterRequest $request)
+    public function register(Request $request): JsonResponse
     {
         try
         {
-            $existingUser = User::where('email', $request->email)->first();
+            $validator = Validator::make($request->all(), [
+                'name' => 'required|string|max:255',
+                'email' => 'required|string|email|max:255|unique:users',
+                'password' => 'required|string|min:6|confirmed',
+            ]);
 
-            if ($existingUser)
+            if ($validator->fails())
             {
-                return response()->json([
-                    'message' => 'Email already exists'
-                ], 409);
+                throw new ValidationException($validator->errors());
             }
 
             $user = User::create([
@@ -38,17 +46,17 @@ class RegisterController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
-            return response()->json([
-                'message' => 'User successfully registered',
-                'user' => $user
-            ], 201);
+            return response()->json(['message' => 'User registered successfully', 'user' => $user], 201);
+        }
+        catch (ValidationException $e)
+        {
+            return response()->json($e->getErrors(), 422);
         }
         catch (\Exception $e)
         {
-            return response()->json([
-                'message' => 'Registration failed',
-                'error' => $e->getMessage()
-            ], 400);
+            Log::error('Error registering user: ' . $e->getMessage());
+
+            return response()->json(['message' => 'An error occurred while registering the user'], 500);
         }
     }
 
