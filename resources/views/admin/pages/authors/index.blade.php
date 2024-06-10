@@ -65,11 +65,11 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{-- <div class="d-flex">
+                <div class="d-flex">
                     <nav>
-                        {{ $authorss->links('vendor.pagination.bootstrap-4') }}
+                        {{ $authors->links('vendor.pagination.bootstrap-4') }}
                     </nav>
-                </div> --}}
+                </div>
             </div>
         </div>
     </div>

@@ -124,3 +124,9 @@ Link:
 ```
 http://localhost/admin
 ```
+
+# Warning: To access the admin books page, please use the following command:
+
+```
+composer dump-autoload
+```
