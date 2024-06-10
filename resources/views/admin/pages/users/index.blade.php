@@ -11,7 +11,7 @@
     <!-- Page Heading -->
     <div class="d-grid d-flex justify-content-between mb-3">
         <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">Users</h1>
-        <a href="#" class="btn btn-primary btn-icon-split">
+        <a href="{{ route('users.create') }}" class="btn btn-primary btn-icon-split">
             <span class="icon text-white-50">
                 <i class="fas fa-plus"></i>
             </span>
