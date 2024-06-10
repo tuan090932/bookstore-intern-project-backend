@@ -35,21 +35,15 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user_name' => 'required|string|max:250',
+            'user_name' => 'required|string|max:250|unique:users,user_name',
             'email' => 'required|email|unique:users,email',
-            'phone_number' => 'required|string|max:250',
+            'phone_number' => 'required|string|max:250|unique:users,phone_number',
             'password' => 'required|min:6',
             'city' => 'required|string|max:250',
             'country_name' => 'required|string|max:250',
             'shipping_address' => 'required',
         ]);
 
-        // $user = User::makeVisible(['password'])->create([
-        //     'user_name' => $request->input('user_name'),
-        //     'email' => $request->input('email'),
-        //     'phone_number' => $request->input('phone_number'),
-        //     'password' => Hash::make($request->input('password')),
-        // ]);
         // create user
         $user = new User();
         $user->makeVisible(['password']);
