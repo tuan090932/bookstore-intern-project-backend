@@ -10,8 +10,6 @@ use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\JsonResponse;
 use App\Exceptions\ValidationException;
 use Illuminate\Support\Facades\Log;
-
-
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
