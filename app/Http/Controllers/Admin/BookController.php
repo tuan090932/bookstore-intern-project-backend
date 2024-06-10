@@ -94,4 +94,15 @@ class BookController extends Controller
         $books->delete();
         return redirect()->route('books.index')->with('success','Delete Product Successfully');      
     }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function search(Request $request)
+    {
+        $query = $request->input('search');
+        $books = Book::where('title', 'like' . $query)->with(['author', 'category', 'language', 'publisher'])->get();
+        return view('admin.pages.books.index', compact('books'));
+    }
+
 }
