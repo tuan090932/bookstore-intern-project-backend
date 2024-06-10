@@ -76,7 +76,9 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $addresses = Address::where('user_id', $id)->get();
+        return view('admin.pages.users.edit', compact('user', 'addresses'));
     }
 
     /**
