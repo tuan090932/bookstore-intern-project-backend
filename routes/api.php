@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\BookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,5 +49,29 @@ Route::group([
     Route::get('profile', [AuthController::class, 'profile']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
+});
 
+
+
+/**
+ * API Routes for Books
+ *
+ * This route group handles all book-related API endpoints.
+ * The group is prefixed with 'api/books'.
+ *
+ * Endpoints:
+ * - GET /api/books: Retrieves a list of all books.
+ *
+ * These endpoints use the `BookController` to handle the corresponding logic.
+ *
+ * The following api with API routes bellow:
+ *
+ * 127.0.0.1/api/books
+ * Example: 127.0.0.1/api/books/
+ */
+
+Route::group([
+    'prefix' => 'books'
+], function () {
+    Route::get('/', [BookController::class, 'index']);
 });
