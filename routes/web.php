@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BookController;
+use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -20,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
+
 Route::get('/login', function () {
     return view('admin.pages.auth.login');
 })->name('login');
@@ -37,5 +40,4 @@ Route::get('admin/books', [BookController::class, 'index'])->name('books.index')
 Route::get('admin/books/create', [BookController::class, 'create'])->name('books.create');
 Route::get('admin/books/edit', [BookController::class, 'show'])->name('books.edit');
 
-
-Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
+Route::resource('authors', AuthorController::class);
