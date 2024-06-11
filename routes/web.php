@@ -41,3 +41,6 @@ Route::get('admin/books/create', [BookController::class, 'create'])->name('books
 Route::get('admin/books/edit', [BookController::class, 'show'])->name('books.edit');
 
 Route::resource('admin/authors', AuthorController::class);
+Route::get('admin/authors/trashed', [AuthorController::class, 'trashed'])->name('authors.trashed');
+Route::post('admin/authors/{id}/restore', [AuthorController::class, 'restore'])->name('authors.restore');
+

@@ -128,8 +128,44 @@ class AuthorController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        try
+        {
+            $author = Author::findOrFail($id);
+            $author->delete();
+
+            return redirect()->back()->with('success', 'Tác giả đã được xóa thành công.');
+        }
+        catch (Exception $e)
+        {
+            Log::error('Error deleting author: '.$e->getMessage());
+
+            return redirect()->back()->with('error', 'Đã xảy ra lỗi khi xóa tác giả. Vui lòng thử lại.');
+        }
+    }
+
+    public function trashed()
+    {
+        $authors = Author::onlyTrashed()->paginate(15);
+
+        return view('admin.pages.authors.restore', compact('authors'));
+    }
+
+    public function restore($id)
+    {
+        try
+        {
+            $author = Author::onlyTrashed()->findOrFail($id);
+            $author->restore();
+
+            return redirect()->back()->with('success', 'Tác giả đã được khôi phục thành công.');
+        }
+        catch (Exception $e)
+        {
+            Log::error('Error restoring author: ' . $e->getMessage());
+
+            return redirect()->back()->with('error', 'Đã xảy ra lỗi khi khôi phục tác giả. Vui lòng thử lại.');
+        }
     }
 }

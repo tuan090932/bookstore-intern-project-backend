@@ -4,15 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
 class Author extends Model
 {
     use HasFactory;
 
+    use SoftDeletes;
+
     protected $primaryKey = 'author_id';
 
     protected $fillable = ['author_name', 'age', 'birth_date', 'death_date'];
+
+    protected $dates = ['deleted_at'];
 
     protected $casts = [
         'birth_date' => 'date',
