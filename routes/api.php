@@ -129,3 +129,4 @@ Route::prefix('address')->group(function () {
     Route::post('/', [AddressController::class, 'store']);
     Route::get('/{id}', [AddressController::class, 'show']);
 });
+
