@@ -2,11 +2,16 @@
 @section('title', 'Create User')
 @section('content')
 <h1 class="h3 mb-2 text-gray-800">Create User</h1>
+@if (session('error'))
+<div class="alert alert-danger">
+    {{ session('error') }}
+</div>
+@endif
 <hr class="my-12" />
 <!-- DataTales Example -->
 <div class="row">
     <div class="col-md-12">
-        <form action="{{ route('users.store') }}" method="POST" id="input-form">
+        <form action="{{ route('users.store') }}" method="POST">
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-6">
@@ -19,8 +24,8 @@
 
                 <div class="form-group col-md-6">
                     <label for="email">Email</label>
-                    <input type="text" class="form-control @error('user_name') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}">
-                    @error('user_name')
+                    <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}">
+                    @error('email')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
