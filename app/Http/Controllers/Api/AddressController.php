@@ -57,13 +57,13 @@ class AddressController extends Controller
     /**
      * Display the specified address.
      *
-     * @param  int  $id
+     * @param  int  $address_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show($address_id)
     {
         try {
-            $address = Address::findOrFail($id);
+            $address = Address::findOrFail($address_id);
             return response()->json($address);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Address not found'], 404);
