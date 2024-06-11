@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Models\Author;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,3 +40,5 @@ Route::get('/forgot-password', function () {
 Route::get('admin/users', [UserController::class, 'index'])->name('users.index');
 
 Route::resource('admin/books', BookController::class);
+
+Route::resource('admin/authors', AuthorController::class);
