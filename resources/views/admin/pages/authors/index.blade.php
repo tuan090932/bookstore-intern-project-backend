@@ -1,11 +1,41 @@
 @extends('admin.layouts.base')
-@section('title', 'authorss')
+@section('title', 'authors')
 @section('content')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.4/nouislider.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.4/nouislider.min.js"></script>
+
+<!-- Custom CSS for noUiSlider -->
+<style>
+    .noUi-target, .noUi-lower, .noUi-upper {
+        background: #f8f9fc;
+    }
+    .noUi-handle {
+        width: 10px;
+        height: 10px;
+        background: #4e73df;
+        border: 1px solid #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+    .noUi-tooltip {
+        display: none;
+    }
+    .age_range {
+        width: 100%;
+    }
+    .filter-form {
+        max-width: 30%;
+        margin-left: 20px;
+    }
+    .age_range_text {
+        margin-right: 30px;
+    }
+</style>
+
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
     <!-- Page Heading -->
-
     <div class="d-grid d-flex justify-content-between mb-3">
         <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">authors</h1>
         <a href="{{route('authors.create')}}" class="btn btn-primary btn-icon-split">
@@ -14,6 +44,22 @@
             </span>
             <span class="text">Create</span>
         </a>
+    </div>
+
+    <!-- Filter by Age Range -->
+    <div class="mb-4">
+        <form action="{{ route('authors.index') }}" method="GET" class="form-inline w-100 filter-form">
+            <label for="age_range" class="age_range_text">Tuổi: </label>
+            <div class="form-group mr-2 flex-grow-1">
+                <div class="age_range" id="age_range"></div>
+                <input type="hidden" name="min_age" id="min_age" value="{{ request()->get('min_age', 0) }}">
+                <input type="hidden" name="max_age" id="max_age" value="{{ request()->get('max_age', 100) }}">
+            </div>
+            <div class="form-group mr-2 age_range_values">
+                <span id="age_range_values" class="ml-3"></span>
+            </div>
+            <button type="submit" class="btn btn-primary ml-2 filter">Filter</button>
+        </form>
     </div>
 
     <!-- DataTales Example -->
@@ -82,5 +128,44 @@
 
 <!-- Page level custom scripts -->
 <script src="{{ asset('/assets/js/demo/datatables-demo.js') }}"></script>
+
+<!-- noUiSlider initialization -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var ageRangeSlider = document.getElementById('age_range');
+        var minAgeInput = document.getElementById('min_age');
+        var maxAgeInput = document.getElementById('max_age');
+        var ageRangeValues = document.getElementById('age_range_values');
+
+        noUiSlider.create(ageRangeSlider, {
+            start: [minAgeInput.value || 0, maxAgeInput.value || 100],
+            connect: true,
+            range: {
+                'min': 0,
+                'max': 100
+            },
+            tooltips: [true, true],
+            format: {
+                to: function (value) {
+                    return Math.round(value);
+                },
+                from: function (value) {
+                    return Number(value);
+                }
+            }
+        });
+
+        ageRangeSlider.noUiSlider.on('update', function (values, handle) {
+            minAgeInput.value = values[0];
+            maxAgeInput.value = values[1];
+            ageRangeValues.innerHTML = values.join(' - ');
+        });
+
+        ageRangeSlider.noUiSlider.on('set', function (values, handle) {
+            minAgeInput.value = values[0];
+            maxAgeInput.value = values[1];
+        });
+    });
+</script>
 
 @endsection

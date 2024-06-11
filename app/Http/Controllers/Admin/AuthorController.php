@@ -11,9 +11,19 @@ class AuthorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $authors = Author::paginate(15);
+        $query = Author::query();
+
+        // Filter by age range
+        if ($request->has('min_age') && $request->min_age !== null) {
+            $query->where('age', '>=', $request->min_age);
+        }
+        if ($request->has('max_age') && $request->max_age !== null) {
+            $query->where('age', '<=', $request->max_age);
+        }
+
+        $authors = $query->paginate(15);
 
         return view('admin.pages.authors.index', compact('authors'));
     }
