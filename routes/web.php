@@ -32,7 +32,7 @@ Route::get('/forgot-password', function () {
 
 
 Route::get('admin/users', [UserController::class, 'index'])->name('users.index');
-Route::get('search',[BookController::class, 'search']);
+Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
 Route::resource('admin/books', BookController::class);
 
 Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
