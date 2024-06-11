@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AddressController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +43,8 @@ Route::resource('/admin/users', UserController::class)->names([
     'update' => 'users.update',
     'destroy' => 'users.destroy',
 ]);
+
+Route::post('admin/addresses', [AddressController::class, 'store'])->name('addresses.store');
 
 Route::get('admin/books', [BookController::class, 'index'])->name('books.index');
 Route::get('admin/books/create', [BookController::class, 'create'])->name('books.create');

@@ -38,21 +38,15 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'user_name' => 'required|string|max:250',
+            'user_name' => 'required|string|max:250|unique:users,user_name',
             'email' => 'required|email|unique:users,email',
-            'phone_number' => 'required|string|max:250',
+            'phone_number' => 'required|string|max:250|unique:users,phone_number',
             'password' => 'required|min:6',
             'city' => 'required|string|max:250',
             'country_name' => 'required|string|max:250',
             'shipping_address' => 'required',
         ]);
 
-        // $user = User::makeVisible(['password'])->create([
-        //     'user_name' => $request->input('user_name'),
-        //     'email' => $request->input('email'),
-        //     'phone_number' => $request->input('phone_number'),
-        //     'password' => Hash::make($request->input('password')),
-        // ]);
         // create user
         $user = new User();
         $user->makeVisible(['password']);
@@ -79,9 +73,7 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        $user = User::findOrFail($id);
-        $addresses = Address::where('user_id', $id)->get();
-        return view('admin.pages.users.edit', compact('user', 'addresses'));
+        //
     }
 
     /**
@@ -89,7 +81,9 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $addresses = Address::where('user_id', $id)->get();
+        return view('admin.pages.users.edit', compact('user', 'addresses'));
     }
 
     /**
@@ -97,7 +91,14 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'user_name' => 'required|string|max:250|unique:users,user_name,' . $id . ',user_id',
+            'email' => 'required|email|unique:users,email,' . $id . ',user_id',
+            'phone_number' => 'required|string|max:250|unique:users,phone_number,' . $id . ',user_id',
+        ]);
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        return redirect()->route('users.edit', $id)->with('success', 'User updated successfully.');
     }
 
     /**
@@ -108,6 +109,6 @@ class UserController extends Controller
         Address::where('user_id', $id)->delete();
         $user = User::findOrFail($id);
         $user->delete();
-        return redirect()->route('users.index')->with('success','User deleted successfully');
+        return redirect()->route('users.index')->with('success', 'User deleted successfully');
     }
 }
