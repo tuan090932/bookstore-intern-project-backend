@@ -1,7 +1,7 @@
 @extends('admin.layouts.base')
-@section('title', 'Create Book')
+@section('title', 'Create Author')
 @section('content')
-<h1 class="h3 mb-2 text-gray-800">Create Book</h1>
+<h1 class="h3 mb-2 text-gray-800">Create Author</h1>
 <hr class="my-12" />
 <!-- DataTales Example -->
 <div class="row">
@@ -28,20 +28,19 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-                <div class="form-group col-md-5">
-                    <label for="age">Tuổi</label>
-                    <input type="text" class="form-control" id="age" name="age" value="{{ old('age') }}">
-                </div>
                 <div class="form-group col-md-6">
                     <label for="birth_date">Năm sinh</label>
-                    <input type="date" class="form-control @error('birth_date') is-invalid @enderror" id="birth_date" name="birth_date" value="{{ old('birth_date') }}">
+                    <input type="text" class="form-control @error('birth_date') is-invalid @enderror" id="birth_date" name="birth_date" value="{{ old('birth_date') }}" placeholder="DD/MM/YYYY">
                     @error('birth_date')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group col-md-6">
                     <label for="death_date">Năm mất (Nếu có)</label>
-                    <input type="date" class="form-control" id="death_date" name="death_date" value="{{ old('death_date') }}">
+                    <input type="text" class="form-control @error('death_date') is-invalid @enderror" id="death_date" name="death_date" value="{{ old('death_date') }}" placeholder="DD/MM/YYYY">
+                    @error('death_date')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
@@ -68,4 +67,39 @@
         </form>
     </div>
 </div>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function()
+    {
+        flatpickr("#birth_date", {
+            dateFormat: "d/m/Y",
+            altInput: true,
+            altFormat: "d/m/Y",
+            allowInput: true
+        });
+
+        flatpickr("#death_date", {
+            dateFormat: "d/m/Y",
+            altInput: true,
+            altFormat: "d/m/Y",
+            allowInput: true
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function()
+    {
+        const authorNameInput = document.getElementById('author_name');
+
+        authorNameInput.addEventListener('input', function()
+        {
+            let words = authorNameInput.value.split(' ');
+            for (let i = 0; i < words.length; i++)
+            {
+                words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
+            }
+            authorNameInput.value = words.join(' ');
+        });
+    });
+</script>
 @endsection
