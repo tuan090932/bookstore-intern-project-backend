@@ -47,12 +47,6 @@ class UserController extends Controller
             'shipping_address' => 'required',
         ]);
 
-        // $user = User::makeVisible(['password'])->create([
-        //     'user_name' => $request->input('user_name'),
-        //     'email' => $request->input('email'),
-        //     'phone_number' => $request->input('phone_number'),
-        //     'password' => Hash::make($request->input('password')),
-        // ]);
         // create user
         $user = new User();
         $user->makeVisible(['password']);
@@ -100,12 +94,21 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * This method deletes the user and related addresses with user_id = $id. 
+     * It redirects the user to the users.index page with a success or error message.
+     * 
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function destroy(string $id)
     {
-        Address::where('user_id', $id)->delete();
-        $user = User::findOrFail($id);
-        $user->delete();
-        return redirect()->route('users.index')->with('success','User deleted successfully');
+        try {
+            Address::where('user_id', $id)->delete();
+            $user = User::findOrFail($id);
+            $user->delete();
+            return redirect()->route('users.index')->with('success', 'User deleted successfully');
+        } catch (\Exception $e) {
+            return redirect()->route('users.index')->with('error', 'Failed to delete the user. Please try again.');
+        }
     }
 }
