@@ -12,7 +12,10 @@
             <div class="form-row">
                 <div class="form-group col-md-7">
                     <label for="title">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" value="{{ $books->title }}">
+                    <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" value="{{ $books->title }}">
+                    @error('title')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group col-md-5">
                     <label for="language">Language</label>
