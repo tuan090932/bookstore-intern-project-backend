@@ -99,7 +99,9 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $books = Book::findOrFail($id);
+        $books->update($request->all());
+        return redirect()->route('books.index')->with('succes', 'Product updated successfully');
     }
 
     /**
