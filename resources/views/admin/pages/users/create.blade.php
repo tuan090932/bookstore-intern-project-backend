@@ -6,45 +6,59 @@
 <!-- DataTales Example -->
 <div class="row">
     <div class="col-md-12">
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
         <form action="{{ route('users.store') }}" method="POST" id="input-form">
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="user_name">Username</label>
-                    <input type="text" class="form-control" id="user_name" name="user_name" value="{{ old('user_name') }}">
+                    <input type="text" class="form-control @error('user_name') is-invalid @enderror" id="user_name" name="user_name" value="{{ old('user_name') }}">
+                    @error('user_name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
+
                 <div class="form-group col-md-6">
                     <label for="email">Email</label>
-                    <input type="text" class="form-control" id="email" name="email" value="{{ old('email') }}">
+                    <input type="text" class="form-control @error('user_name') is-invalid @enderror" id="email" name="email" value="{{ old('email') }}">
+                    @error('user_name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group col-md-6">
                     <label for="phone_number">Phone number</label>
-                    <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ old('phone_number') }}">
+                    <input type="text" class="form-control @error('phone_number') is-invalid @enderror" id="phone_number" name="phone_number" value="{{ old('phone_number') }}">
+                    @error('phone_number')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+
                 </div>
                 <div class="form-group col-md-6">
                     <label for="password">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" value="{{ old('password') }}">
+                    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" value="{{ old('password') }}">
+                    @error('password')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group col-md-6">
                     <label for="city">City</label>
-                    <input type="text" class="form-control" id="city" name="city" value="{{ old('city') }}">
+                    <input type="text" class="form-control @error('city') is-invalid @enderror" id="city" name="city" value="{{ old('city') }}">
+                    @error('city')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group col-md-6">
                     <label for="country_name">Country</label>
-                    <input type="text" class="form-control" id="country_name" name="country_name" value="{{ old('country_name') }}">
+                    <input type="text" class="form-control @error('country_name') is-invalid @enderror" id="country_name" name="country_name" value="{{ old('country_name') }}">
+                    @error('country_name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
                 <div class="form-group col-md-12">
                     <label for="shipping_address">Shipping address</label>
-                    <input type="text" class="form-control" id="shipping_address" name="shipping_address" value="{{ old('shipping_address') }}">
+                    <input type="text" class="form-control @error('shipping_address') is-invalid @enderror" id="shipping_address" name="shipping_address" value="{{ old('shipping_address') }}">
+                    @error('shipping_address')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 

@@ -34,6 +34,9 @@ class UserController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * 
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -49,14 +52,16 @@ class UserController extends Controller
 
         // create user
         $user = new User();
-        $user->makeVisible(['password']);
 
         $user->user_name = $request->input('user_name');
         $user->email = $request->input('email');
         $user->phone_number = $request->input('phone_number');
-        $user->password = Hash::make($request->input('password'));
 
+        $user->makeVisible(['password']);
+        $user->password = Hash::make($request->input('password'));
         $user->save();
+
+        $user->makeHidden(['password']);
 
         // create address of user
         Address::create([
