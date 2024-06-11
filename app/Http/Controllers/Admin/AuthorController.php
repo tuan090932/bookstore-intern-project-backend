@@ -168,4 +168,5 @@ class AuthorController extends Controller
             return redirect()->back()->with('error', 'Đã xảy ra lỗi khi khôi phục tác giả. Vui lòng thử lại.');
         }
     }
+
 }

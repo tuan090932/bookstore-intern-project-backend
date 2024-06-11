@@ -37,7 +37,7 @@ class AddressController extends Controller
     {
         try {
             $validator = Validator::make($request->all(), [
-                'user_id' => 'required|exists:users,id', 
+                'user_id' => 'required|exists:users,id',
                 'shipping_address' => 'required|string',
                 'city' => 'required|string',
                 'country_name' => 'required|string',

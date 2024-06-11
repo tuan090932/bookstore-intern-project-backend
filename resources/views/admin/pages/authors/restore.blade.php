@@ -1,8 +1,3 @@
-@php
-    dd($authors);
-@endphp
-
-
 @extends('admin.layouts.base')
 @section('title', 'Restore Authors')
 @section('content')
@@ -56,10 +51,9 @@
                                 <td>
                                     <form action="{{ route('authors.restore', $author->author_id) }}" method="POST">
                                         @csrf
+                                        @method('PATCH')
                                         <button type="submit" class="btn btn-link p-0 m-0">
-                                            <svg width="32" height="32" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 3.546 8.639.5.5 0 0 1 .708.706A6 6 0 1 1 8 2v1a.5.5 0 0 1-1 0V1a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1H8z"/>
-                                            </svg>
+                                            <i style="font-size: 25px;" class="fa-solid fa-arrow-rotate-right"></i>
                                         </button>
                                     </form>
                                 </td>
