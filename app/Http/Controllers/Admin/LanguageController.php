@@ -36,7 +36,7 @@ class LanguageController extends Controller
 
         Language::create($request->all());
 
-        return redirect()->route('language.index')->with('success','Language added successfully');
+        return redirect()->route('languages.index')->with('success','Language added successfully');
     }
 
     /**
@@ -52,7 +52,8 @@ class LanguageController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $languages = Language::findOrFail($id);
+        return view('admin.pages.languages.edit', compact('languages'));
     }
 
     /**
@@ -60,7 +61,9 @@ class LanguageController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $languages = Language::findOrFail($id);
+        $languages->update($request->all());
+        return redirect()-> route('languages.index')->with('success', 'Product updated successfully');
     }
 
     /**
@@ -68,6 +71,8 @@ class LanguageController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $languages = Language::findOrFail($id);
+        $languages->delete();
+        return redirect()->route('languages.index')->with('success','Product deleted successfully');
     }
 }

@@ -54,3 +54,8 @@ Route::resource('books', BookController::class);
 */
 
 Route::get('admin/language', [LanguageController::class, 'index'])->name('languages.index');
+Route::get('admin/language/create', [LanguageController::class, 'create'])->name('languages.create');
+Route::get('admin/languages/edit', [LanguageController::class, 'edit'])->name('languages.edit');
+Route::get('admin/languages/update', [LanguageController::class, 'update'])->name('languages.update');
+
+Route::resource('languages', LanguageController::class);
