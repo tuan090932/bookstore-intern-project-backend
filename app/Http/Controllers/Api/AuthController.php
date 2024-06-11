@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Carbon\Exceptions\Exception;
+use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Tymon\JWTAuth\JWT;
@@ -15,22 +14,22 @@ class AuthController extends Controller
     /**
      * API -> authentication -> JWT token
 
-    *request data: send token through header (authorization: bearer <token>)
+     *request data: send token through header (authorization: bearer <token>)
 
-    *server -> check token validity -> decode payload -> query db return data
+     *server -> check token validity -> decode payload -> query db return data
 
-    *## Security
-    *- Issue with access_token: if hacker gets access_token => can hack into the system, exploit data based on access_token
-    *- Solution:
-        *1/ Reduce access_token lifespan => inconvenience for users as they have to constantly re-login (e.g., access_token lifespan is 1 hour, users have to login again every hour)
-        *2/ Add a refresh_token: longer lifespan and used to issue new access_token after each login
-        *3/ When logging out, put token in blacklist, if refresh_token expires, logout and put token in blacklist
-        *+ When authorizing, check if token is in blacklist
+     *## Security
+     *- Issue with access_token: if hacker gets access_token => can hack into the system, exploit data based on access_token
+     *- Solution:
+     *1/ Reduce access_token lifespan => inconvenience for users as they have to constantly re-login (e.g., access_token lifespan is 1 hour, users have to login again every hour)
+     *2/ Add a refresh_token: longer lifespan and used to issue new access_token after each login
+     *3/ When logging out, put token in blacklist, if refresh_token expires, logout and put token in blacklist
+     *+ When authorizing, check if token is in blacklist
 
-    *## Issue with refresh_token
-    *- Old access_token still valid, hacker can use it to access and exploit data
-    *- Solution:
-    *+ After token is refreshed, put old access_token in blacklist
+     *## Issue with refresh_token
+     *- Old access_token still valid, hacker can use it to access and exploit data
+     *- Solution:
+     *+ After token is refreshed, put old access_token in blacklist
      */
 
     /**
@@ -79,12 +78,9 @@ class AuthController extends Controller
      */
     public function profile()
     {
-        try
-        {
+        try {
             return response()->json(auth('api')->user());
-        }
-        catch(JWTException $e)
-        {
+        } catch (JWTException $e) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
     }
@@ -112,12 +108,10 @@ class AuthController extends Controller
     public function refresh()
     {
         $refreshToken = request()->refresh_token;
-        try
-        {
+        try {
             $decodeToken = JWTAuth::getJWTProvider()->decode($refreshToken);
             $user = User::find($decodeToken['user_id']);
-            if(!$user)
-            {
+            if (! $user) {
                 return response()->json(['error', 'User not found'], 404);
             }
             auth('api')->invalidate();
@@ -127,9 +121,7 @@ class AuthController extends Controller
             $refreshToken = $this->createRefreshToken();
 
             return $this->respondWithToken($token, $refreshToken);
-        }
-        catch (JWTException $e)
-        {
+        } catch (JWTException $e) {
             return response()->json(['error' => 'Refresh Token Invalid'], 500);
         }
     }
@@ -140,21 +132,20 @@ class AuthController extends Controller
      * This private method generates a new refresh token based on the user's ID, a random value, and the configured refresh token TTL.
      * The refresh token is then encoded and returned.
      */
-
     private function createRefreshToken()
     {
         $data = [
             'user_id' => auth('api')->user()->id,
-            'random' => rand() . time(),
-            'exp' => time() + config('jwt.refresh_ttl')
+            'random' => rand().time(),
+            'exp' => time() + config('jwt.refresh_ttl'),
         ];
 
         $refreshToken = JWTAuth::getJWTProvider()->encode($data);
-        return $refreshToken ;
+
+        return $refreshToken;
     }
 
-
-     /**
+    /**
      * Responds with the access token and refresh token.
      *
      * This protected method formats the access token and refresh token in the expected response format, including the token type and expiration time.
@@ -165,7 +156,7 @@ class AuthController extends Controller
             'access_token' => $token,
             'refresh_token' => $refreshToken,
             'token_type' => 'bearer',
-            'expires_in' => config('jwt.ttl') * 60
+            'expires_in' => config('jwt.ttl') * 60,
         ]);
     }
 }

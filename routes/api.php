@@ -1,12 +1,11 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CategoryController;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +21,6 @@ use App\Http\Controllers\Api\CategoryController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-
 
 /**
  * API Routes for Authentication
@@ -43,11 +41,10 @@ use App\Http\Controllers\Api\CategoryController;
  * 127.0.0.1/api/auth/{action}
  * Example: 127.0.0.1/api/auth/login
  */
-
 Route::group([
 
     'middleware' => 'api',
-    'prefix' => 'auth'
+    'prefix' => 'auth',
 
 ], function () {
     Route::post('login', [AuthController::class, 'login']);
@@ -55,8 +52,6 @@ Route::group([
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
 });
-
-
 
 /**
  * API Routes for Books
@@ -75,9 +70,8 @@ Route::group([
  * 127.0.0.1/api/books
  * Example: 127.0.0.1/api/books/
  */
-
 Route::group([
-    'prefix' => 'books'
+    'prefix' => 'books',
 ], function () {
     Route::get('/', [BookController::class, 'index']);
     Route::get('/{id}', [BookController::class, 'show']);
@@ -99,14 +93,11 @@ Route::group([
  * 127.0.0.1/api/categories
  * Example: 127.0.0.1/api/categories/
  */
-
 Route::group([
-    'prefix' => 'categories'
+    'prefix' => 'categories',
 ], function () {
     Route::get('/', [CategoryController::class, 'index']);
 });
-
-
 
 /**
  * API Routes for Address
@@ -123,10 +114,11 @@ Route::group([
  * These endpoints use the `AddressController` to handle the corresponding logic.
  *
  * The following api with API routes bellow:
- *
  */
 Route::prefix('address')->group(function () {
     Route::get('/', [AddressController::class, 'index']);
     Route::post('/', [AddressController::class, 'store']);
     Route::get('/{id}', [AddressController::class, 'show']);
+    Route::put('/{id}', [AddressController::class, 'update']);
+    Route::delete('/{id}', [AddressController::class, 'destroy']);
 });

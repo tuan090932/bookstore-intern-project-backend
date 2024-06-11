@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Address;
+use Illuminate\Database\Seeder;
 
 class AddressSeeder extends Seeder
 {
@@ -17,4 +17,3 @@ class AddressSeeder extends Seeder
         Address::factory()->count(10)->create();
     }
 }
-
