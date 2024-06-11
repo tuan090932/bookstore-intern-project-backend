@@ -1,3 +1,8 @@
+@php
+    dd($authors);
+@endphp
+
+
 @extends('admin.layouts.base')
 @section('title', 'Restore Authors')
 @section('content')
@@ -49,19 +54,18 @@
                                 <td>{{ $author->death_date }}</td>
                                 <td>{{ $author->deleted_at }}</td>
                                 <td>
-                                    <div class="d-flex justify-content-center">
-                                        <form action="{{ route('authors.restore', $author->author_id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-link p-0 m-0">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
-                                                    <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 3.546 8.639.5.5 0 0 1 .708.706A6 6 0 1 1 8 2v1a.5.5 0 0 1-1 0V1a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1H8z"/>
-                                                </svg>
-                                            </button>
-                                        </form>
-                                    </div>
+                                    <form action="{{ route('authors.restore', $author->author_id) }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="btn btn-link p-0 m-0">
+                                            <svg width="32" height="32" fill="currentColor">
+                                                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 3.546 8.639.5.5 0 0 1 .708.706A6 6 0 1 1 8 2v1a.5.5 0 0 1-1 0V1a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1H8z"/>
+                                            </svg>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
+
                     </tbody>
                 </table>
                 <div class="d-flex">
