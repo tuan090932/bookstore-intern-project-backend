@@ -8,20 +8,21 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    protected $table = 'users';
+    // Custom primary key for the User model
+    protected $primaryKey = 'user_id';
+
+    // Fields that are mass assignable
     protected $fillable = [
-        'name',
+        'user_name',
         'email',
-        'password',
+        'phone_number',
     ];
 
     /**
@@ -33,6 +34,16 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'remember_token',
     ];
+
+    /**
+     * Get the address associated with the user.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class, 'user_id', 'user_id');
+    }
 
     /**
      * The attributes that should be cast.
