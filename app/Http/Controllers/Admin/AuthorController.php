@@ -56,27 +56,27 @@ class AuthorController extends Controller
             'death_date.date_format' => 'Ngày mất phải có định dạng DD/MM/YYYY.',
         ];
 
+        $request->validate([
+            'author_name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('authors', 'author_name'),
+            ],
+            'birth_date' => [
+                'required',
+                'date_format:d/m/Y',
+                new ValidBirthDate
+            ],
+            'death_date' => [
+                'nullable',
+                'date_format:d/m/Y',
+                new ValidDeathDate($request->input('birth_date'))
+            ],
+        ], $messages);
+
         try
         {
-            $request->validate([
-                'author_name' => [
-                    'required',
-                    'string',
-                    'max:255',
-                    Rule::unique('authors', 'author_name'),
-                ],
-                'birth_date' => [
-                    'required',
-                    'date_format:d/m/Y',
-                    new ValidBirthDate
-                ],
-                'death_date' => [
-                    'nullable',
-                    'date_format:d/m/Y',
-                    new ValidDeathDate($request->input('birth_date'))
-                ],
-            ], $messages);
-
             $authorName = $request->input('author_name');
             $birthDate = Carbon::createFromFormat('d/m/Y', $request->input('birth_date'));
             $deathDate = $request->input('death_date') ? Carbon::createFromFormat('d/m/Y', $request->input('death_date')) : null;
@@ -100,7 +100,6 @@ class AuthorController extends Controller
             return redirect()->back()->with('error', 'Đã xảy ra lỗi khi tạo tác giả. Vui lòng thử lại.');
         }
     }
-
 
     /**
      * Display the specified resource.
