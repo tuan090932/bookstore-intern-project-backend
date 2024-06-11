@@ -11,6 +11,7 @@ use App\Rules\ValidDeathDate;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class AuthorController extends Controller
 {
@@ -55,39 +56,49 @@ class AuthorController extends Controller
             'death_date.date_format' => 'Ngày mất phải có định dạng DD/MM/YYYY.',
         ];
 
-        $request->validate([
-            'author_name' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('authors', 'author_name'),
-            ],
-            'birth_date' => [
-                'required',
-                'date_format:d/m/Y',
-                new ValidBirthDate
-            ],
-            'death_date' => [
-                'nullable',
-                'date_format:d/m/Y',
-                new ValidDeathDate($request->input('birth_date'))
-            ],
-        ], $messages);
+        try
+        {
+            $request->validate([
+                'author_name' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    Rule::unique('authors', 'author_name'),
+                ],
+                'birth_date' => [
+                    'required',
+                    'date_format:d/m/Y',
+                    new ValidBirthDate
+                ],
+                'death_date' => [
+                    'nullable',
+                    'date_format:d/m/Y',
+                    new ValidDeathDate($request->input('birth_date'))
+                ],
+            ], $messages);
 
-        $authorName = $request->input('author_name');
-        $birthDate = Carbon::createFromFormat('d/m/Y', $request->input('birth_date'));
-        $deathDate = $request->input('death_date') ? Carbon::createFromFormat('d/m/Y', $request->input('death_date')) : null;
+            $authorName = $request->input('author_name');
+            $birthDate = Carbon::createFromFormat('d/m/Y', $request->input('birth_date'));
+            $deathDate = $request->input('death_date') ? Carbon::createFromFormat('d/m/Y', $request->input('death_date')) : null;
 
-        $age = $deathDate ? $deathDate->year - $birthDate->year : Carbon::now()->year - $birthDate->year;
+            $age = $deathDate ? $deathDate->year - $birthDate->year : Carbon::now()->year - $birthDate->year;
 
-        Author::create([
-            'author_name' => $authorName,
-            'birth_date' => $birthDate->format('Y-m-d'),
-            'death_date' => $deathDate ? $deathDate->format('Y-m-d') : null,
-            'age' => $age,
-        ]);
+            Author::create([
+                'author_name' => $authorName,
+                'birth_date' => $birthDate->format('Y-m-d'),
+                'death_date' => $deathDate ? $deathDate->format('Y-m-d') : null,
+                'age' => $age,
+            ]);
 
-        return redirect()->back()->with('success', 'Tạo tác giả thành công.');
+            return redirect()->back()->with('success', 'Tạo tác giả thành công.');
+        }
+        catch (Exception $e)
+        {
+            // Logging the exception can be useful for debugging purposes
+            Log::error('Error creating author: '.$e->getMessage());
+
+            return redirect()->back()->with('error', 'Đã xảy ra lỗi khi tạo tác giả. Vui lòng thử lại.');
+        }
     }
 
 
