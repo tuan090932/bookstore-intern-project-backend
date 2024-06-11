@@ -23,7 +23,6 @@ class User extends Authenticatable implements JWTSubject
         'user_name',
         'email',
         'phone_number',
-        'address_id',
     ];
 
     /**
@@ -41,7 +40,7 @@ class User extends Authenticatable implements JWTSubject
      *
      * @return Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function address(): HasMany
+    public function addresses(): HasMany
     {
         return $this->hasMany(Address::class, 'user_id', 'user_id');
     }

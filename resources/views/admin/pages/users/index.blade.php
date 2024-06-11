@@ -11,7 +11,7 @@
     <!-- Page Heading -->
     <div class="d-grid d-flex justify-content-between mb-3">
         <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">Users</h1>
-        <a href="{{route('users.create')}}" class="btn btn-primary btn-icon-split">
+        <a href="#" class="btn btn-primary btn-icon-split">
             <span class="icon text-white-50">
                 <i class="fas fa-plus"></i>
             </span>
@@ -53,16 +53,8 @@
                             <td>{{ $user->user_name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->phone_number }}</td>
-                            @php
-                            $address = $user->address->first();
-                            @endphp
-                            @if ($address)
-                            <td>{{ $address->city}}</td>
-                            <td>{{ $address->shipping_address }}</td>
-                            @else
-                            <td></td>
-                            <td></td>
-                            @endif
+                            <td>{{ optional($user->addresses)->city }}</td>
+                            <td>{{ optional($user->addresses)->shipping_address }}</td>
                             <td>
                                 <div class="d-flex  justify-content-center">
                                     <a href="#" class="mr-2 text-success">
