@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CategoryController;
@@ -103,4 +104,29 @@ Route::group([
     'prefix' => 'categories'
 ], function () {
     Route::get('/', [CategoryController::class, 'index']);
+});
+
+
+
+/**
+ * API Routes for Address
+ *
+ * This route group handles all address-related API endpoints.
+ * The group is prefixed with 'api/address'.
+ *
+ * Endpoints:
+ * - GET /api/address: Retrieves a list of all addresses.
+ * - POST /api/address: Creates a new address.
+ * - GET /api/address/{id}: Retrieves a specific address by ID.
+ * - PUT /api/address/{id}: Updates a specific address by ID.
+ *
+ * These endpoints use the `AddressController` to handle the corresponding logic.
+ *
+ * The following api with API routes bellow:
+ *
+ */
+Route::prefix('address')->group(function () {
+    Route::get('/', [AddressController::class, 'index']);
+    Route::post('/', [AddressController::class, 'store']);
+    Route::get('/{id}', [AddressController::class, 'show']);
 });
