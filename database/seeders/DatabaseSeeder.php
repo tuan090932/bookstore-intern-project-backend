@@ -18,5 +18,9 @@ class DatabaseSeeder extends Seeder
             PublishersTableSeeder::class,
             BooksTableSeeder::class,
         ]);
+
+        $this->call([
+            CategoriesTableSeeder::class,
+        ]);
     }
 }

@@ -1,8 +1,8 @@
 @php
-$current_route = request()->route()->getName();
+$currentRoute = request()->route()->getName();
 @endphp
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordion_sidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -16,7 +16,7 @@ $current_route = request()->route()->getName();
     <hr class="sidebar-divider my-0">
 
     <!-- Nav Item - Dashboard -->
-    <li class="nav-item {{ $current_route=='dashboard' ? 'active':'' }}">
+    <li class="nav-item {{ $currentRoute=='dashboard' ? 'active':'' }}">
         <a class="nav-link" href="{{ route('dashboard') }}">
             <i class="fas fa-fw fa-tachometer-alt"></i>
             <span>Dashboard</span></a>
@@ -26,13 +26,13 @@ $current_route = request()->route()->getName();
     <hr class="sidebar-divider">
 
     <!-- Nav Item - Tables -->
-    <li class="nav-item {{ $current_route=='users.index' ? 'active':'' }}" href="{{ route('users.index') }}">
+    <li class="nav-item {{ $currentRoute=='users.index' ? 'active':'' }}" href="{{ route('users.index') }}">
         <a class="nav-link" href="{{ route('users.index') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Users</span></a>
     </li>
 
-    <li class="nav-item {{ $current_route=='books.index' ? 'active':'' }}" href="{{ route('books.index') }}">
+    <li class="nav-item {{ $currentRoute=='books.index' ? 'active':'' }}" href="{{ route('books.index') }}">
         <a class="nav-link" href="{{ route('books.index') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Books</span></a>
@@ -40,7 +40,7 @@ $current_route = request()->route()->getName();
 
 
 
-    <li class="nav-item {{ $current_route=='categories.index' ? 'active':'' }}" href="{{ route('categories.index') }}">
+    <li class="nav-item {{ $currentRoute=='categories.index' ? 'active':'' }}" href="{{ route('categories.index') }}">
         <a class="nav-link" href="{{ route('categories.index') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Categories</span></a>
@@ -52,7 +52,7 @@ $current_route = request()->route()->getName();
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        <button class="rounded-circle border-0" id="sidebar_toggle"></button>
     </div>
 
 </ul>
