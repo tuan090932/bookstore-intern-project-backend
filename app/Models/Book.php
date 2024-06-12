@@ -9,7 +9,6 @@ class Book extends Model
 {
     use HasFactory;
 
-    // Custom primary key for the Book model
     protected $primaryKey = 'book_id';
 
     // Fields that are mass assignable
