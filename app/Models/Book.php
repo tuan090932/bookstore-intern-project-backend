@@ -59,20 +59,4 @@ class Book extends Model
     {
         return $this->belongsTo(Author::class, 'author_id', 'author_id');
     }
-=========
-    protected $primaryKey = 'book_id';
-
-    protected $fillable = [
-        'title',
-        'language_id',
-        'num_pages',
-        'publisher_id',
-        'category_id',
-        'image',
-        'description',
-        'price',
-        'stock',
-        'author_id',
-    ];
->>>>>>>>> Temporary merge branch 2
 }
