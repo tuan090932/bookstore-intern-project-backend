@@ -38,7 +38,7 @@ $currentRoute = request()->route()->getName();
             <span>Books</span></a>
     </li>
 
-    <li class="nav-item {{ $current_route=='languages.index' ? 'active':'' }}" href="{{ route('languages.index') }}">
+    <li class="nav-item {{ $currentRoute=='languages.index' ? 'active':'' }}" href="{{ route('languages.index') }}">
         <a class="nav-link" href="{{ route('languages.index') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Languages</span></a>
