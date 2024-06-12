@@ -66,6 +66,17 @@ class Handler extends ExceptionHandler
             }
         }
 
+        if ($exception instanceof MethodNotAllowedHttpException)
+        {
+            if ($request->is('api/*'))
+            {
+                return response()->json([
+                    'error' => 'Method Not Allowed',
+                    'message' => 'The ' . $request->method() . ' method is not supported for this route.'
+                ], 405);
+            }
+        }
+
         return parent::render($request, $exception);
     }
 }
