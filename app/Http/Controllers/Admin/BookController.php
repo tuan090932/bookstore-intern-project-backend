@@ -45,7 +45,7 @@ class BookController extends Controller
     public function store(BookRequest $request)
     {
         try{
-            Book::create($request->validated    ());
+            Book::create($request->validated());
             return redirect()->route('books.index')->with('success', 'Book added successfully.');
         }catch(\Exception $e){
             return redirect()->route('books.index')->with('error', 'Failed to add book.');
