@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\QueryException;
 use Exception;
 
 class UserController extends Controller
@@ -24,7 +25,7 @@ class UserController extends Controller
             $user = User::findOrFail($id);
             return response()->json($user);
         } catch (ModelNotFoundException $ex) {
-            return response()->json(['error' => 'Không tìm thấy người dùng', 'message' => $ex->getMessage()  ], 404);
+            return response()->json(['error' => 'Không tìm thấy người dùng', 'message' => $ex->getMessage() ], 404);
         }
     }
 
@@ -76,11 +77,13 @@ class UserController extends Controller
 
             return response()->json($user);
         } catch (ModelNotFoundException $ex) {
-            return response()->json(['error' => 'Không tìm thấy người dùng'], 404);
+            return response()->json(['error' => 'Không tìm thấy người dùng', 'message' => $ex->getMessage()], 404);
         } catch (ValidationException $ex) {
-            return response()->json(['error' => $ex->getMessage()], 400);
+            return response()->json(['error' => 'Lỗi xác thực', 'messages' => $ex->errors()], 400);
+        } catch (QueryException $ex) {
+            return response()->json(['error' => 'Lỗi cơ sở dữ liệu', 'message' => $ex->getMessage()], 500);
         } catch (Exception $ex) {
-            return response()->json(['error' => 'Đã xảy ra lỗi không mong muốn'], 500);
+            return response()->json(['error' => 'Đã xảy ra lỗi không mong muốn', 'message' => $ex->getMessage()], 500);
         }
     }
 }
