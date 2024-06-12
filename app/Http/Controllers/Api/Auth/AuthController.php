@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Tymon\JWTAuth\JWT;
 
 class AuthController extends Controller
 {
@@ -60,7 +59,7 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth('api')->attempt($credentials)) {
+        if (!$token = auth('api')->attempt($credentials)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
@@ -111,7 +110,7 @@ class AuthController extends Controller
         try {
             $decodeToken = JWTAuth::getJWTProvider()->decode($refreshToken);
             $user = User::find($decodeToken['user_id']);
-            if (! $user) {
+            if (!$user) {
                 return response()->json(['error', 'User not found'], 404);
             }
             auth('api')->invalidate();
@@ -136,7 +135,7 @@ class AuthController extends Controller
     {
         $data = [
             'user_id' => auth('api')->user()->id,
-            'random' => rand().time(),
+            'random' => rand() . time(),
             'exp' => time() + config('jwt.refresh_ttl'),
         ];
 

@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -60,6 +61,15 @@ class Handler extends ExceptionHandler
                 return response()->json([
                     'error' => 'Not Found',
                 ], 404);
+            }
+        }
+
+        if ($exception instanceof MethodNotAllowedHttpException) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'error' => 'Method Not Allowed',
+                    'message' => 'The ' . $request->method() . ' method is not supported for this route.'
+                ], 405);
             }
         }
 
