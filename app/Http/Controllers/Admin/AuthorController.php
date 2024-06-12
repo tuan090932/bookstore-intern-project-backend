@@ -6,10 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Author;
 use Carbon\Carbon;
-use App\Rules\ValidBirthDate;
-use App\Rules\ValidDeathDate;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\AuthorRequest;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
@@ -44,37 +41,8 @@ class AuthorController extends Controller
      * @param // \Illuminate\Http\Request  $request
      * @return // \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AuthorRequest $request)
     {
-        $messages = [
-            'author_name.required' => 'Họ tên tác giả là bắt buộc.',
-            'author_name.string' => 'Họ tên tác giả phải là một chuỗi ký tự.',
-            'author_name.max' => 'Họ tên tác giả không được vượt quá 255 ký tự.',
-            'author_name.unique' => 'Tên tác giả đã tồn tại. Vui lòng nhập tên khác.',
-            'birth_date.required' => 'Ngày sinh là bắt buộc.',
-            'birth_date.date_format' => 'Ngày sinh phải có định dạng DD/MM/YYYY.',
-            'death_date.date_format' => 'Ngày mất phải có định dạng DD/MM/YYYY.',
-        ];
-
-        $request->validate([
-            'author_name' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('authors', 'author_name'),
-            ],
-            'birth_date' => [
-                'required',
-                'date_format:d/m/Y',
-                new ValidBirthDate
-            ],
-            'death_date' => [
-                'nullable',
-                'date_format:d/m/Y',
-                new ValidDeathDate($request->input('birth_date'))
-            ],
-        ], $messages);
-
         try
         {
             $authorName = $request->input('author_name');
@@ -86,7 +54,7 @@ class AuthorController extends Controller
             Author::create([
                 'author_name' => $authorName,
                 'birth_date' => $birthDate,
-                'death_date' => $deathDate ? $deathDate: null,
+                'death_date' => $deathDate,
                 'age' => $age,
             ]);
 
@@ -136,37 +104,8 @@ class AuthorController extends Controller
      * @param int $id The ID of the author to be updated.
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(AuthorRequest $request, $id)
     {
-        $messages = [
-            'author_name.required' => 'Họ tên tác giả là bắt buộc.',
-            'author_name.string' => 'Họ tên tác giả phải là một chuỗi ký tự.',
-            'author_name.max' => 'Họ tên tác giả không được vượt quá 255 ký tự.',
-            'author_name.unique' => 'Tên tác giả đã tồn tại. Vui lòng nhập tên khác.',
-            'birth_date.required' => 'Ngày sinh là bắt buộc.',
-            'birth_date.date_format' => 'Ngày sinh phải có định dạng DD/MM/YYYY.',
-            'death_date.date_format' => 'Ngày mất phải có định dạng DD/MM/YYYY.',
-        ];
-
-        $request->validate([
-            'author_name' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('authors', 'author_name')->ignore($id, 'author_id'),
-            ],
-            'birth_date' => [
-                'required',
-                'date_format:d/m/Y',
-                new ValidBirthDate
-            ],
-            'death_date' => [
-                'nullable',
-                'date_format:d/m/Y',
-                new ValidDeathDate($request->input('birth_date'))
-            ],
-        ], $messages);
-
         try
         {
             $authorName = $request->input('author_name');
