@@ -1,43 +1,16 @@
 @extends('admin.layouts.base')
-@section('title', 'authors')
+@section('title', 'Authors')
 @section('content')
 <link href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.4/nouislider.min.css" rel="stylesheet">
+<link rel="stylesheet" href="{{ asset('/assets/css/index.css') }}">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.4/nouislider.min.js"></script>
-
-<!-- Custom CSS for noUiSlider -->
-<style>
-    .noUi-target, .noUi-lower, .noUi-upper {
-        background: #f8f9fc;
-    }
-    .noUi-handle {
-        width: 10px;
-        height: 10px;
-        background: #4e73df;
-        border: 1px solid #fff;
-        border-radius: 10px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    }
-    .noUi-tooltip {
-        display: none;
-    }
-    .age_range {
-        width: 100%;
-    }
-    .filter-form {
-        max-width: 30%;
-        margin-left: 20px;
-    }
-    .age_range_text {
-        margin-right: 30px;
-    }
-</style>
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
     <!-- Page Heading -->
     <div class="d-grid d-flex justify-content-between mb-3">
-        <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">authors</h1>
+        <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">Authors</h1>
         <a href="{{route('authors.create')}}" class="btn btn-primary btn-icon-split">
             <span class="icon text-white-50">
                 <i class="fas fa-plus"></i>
@@ -46,10 +19,10 @@
         </a>
     </div>
 
-    <!-- Filter by Age Range -->
+    <!-- Filter Form -->
     <div class="mb-4">
         <form action="{{ route('authors.index') }}" method="GET" class="form-inline w-100 filter-form">
-            <label for="age_range" class="age_range_text">Tuổi: </label>
+            <label for="age_range" class="age_range_text">Age: </label>
             <div class="form-group mr-2 flex-grow-1">
                 <div class="age_range" id="age_range"></div>
                 <input type="hidden" name="min_age" id="min_age" value="{{ request()->get('min_age', 0) }}">
@@ -58,30 +31,56 @@
             <div class="form-group mr-2 age_range_values">
                 <span id="age_range_values" class="ml-3"></span>
             </div>
-            <button type="submit" class="btn btn-primary ml-2 filter">Filter</button>
+
+            <!-- Death Status Filter -->
+            <div class="form-group mr-2 mt-3">
+                <label for="death_status" class="mr-2">Death Status: </label>
+                <select name="death_status" id="death_status" class="form-control">
+                    <option value="">All</option>
+                    <option value="alive" {{ request()->get('death_status') == 'alive' ? 'selected' : '' }}>Những tác giả chưa mất</option>
+                    <option value="deceased" {{ request()->get('death_status') == 'deceased' ? 'selected' : '' }}>Những tác giả đã mất</option>
+                </select>
+            </div>
+
+            <!-- Sorting Options -->
+            <div class="form-group mr-2 mt-3">
+                <label for="sort_by" class="mr-2">Sort By: </label>
+                <select name="sort_by" id="sort_by" class="form-control">
+                    <option value="">Default</option>
+                    <option value="name_asc" {{ request()->get('sort_by') == 'name_asc' ? 'selected' : '' }}>Tên từ A -- Z</option>
+                    <option value="age_asc" {{ request()->get('sort_by') == 'age_asc' ? 'selected' : '' }}>Tuổi tăng dần</option>
+                    <option value="age_desc" {{ request()->get('sort_by') == 'age_desc' ? 'selected' : '' }}>Tuổi giảm dần</option>
+                    <option value="birth_date_asc" {{ request()->get('sort_by') == 'birth_date_asc' ? 'selected' : '' }}>Ngày sinh tăng dần</option>
+                    <option value="birth_date_desc" {{ request()->get('sort_by') == 'birth_date_desc' ? 'selected' : '' }}>Ngày sinh giảm dần</option>
+                    <option value="death_date_asc" {{ request()->get('sort_by') == 'death_date_asc' ? 'selected' : '' }}>Ngày mất tăng dần</option>
+                    <option value="death_date_desc" {{ request()->get('sort_by') == 'death_date_desc' ? 'selected' : '' }}>Ngày mất giảm dần</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary ml-2 mt-3 filter">Filter</button>
         </form>
     </div>
 
-    <!-- DataTales Example -->
+    <!-- Data Table -->
     <div class="card shadow mb-4">
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Tên tác giả</th>
-                            <th>Tuổi</th>
-                            <th>Ngày sinh</th>
-                            <th>Ngày mất</th>
+                            <th>Author Name</th>
+                            <th>Age</th>
+                            <th>Birth Date</th>
+                            <th>Death Date</th>
                             <th>Options</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>Tên tác giả</th>
-                            <th>Tuổi</th>
-                            <th>Ngày sinh</th>
-                            <th>Ngày mất</th>
+                            <th>Author Name</th>
+                            <th>Age</th>
+                            <th>Birth Date</th>
+                            <th>Death Date</th>
                             <th>Options</th>
                         </tr>
                     </tfoot>
@@ -113,7 +112,7 @@
                 </table>
                 <div class="d-flex">
                     <nav>
-                        {{ $authors->links('vendor.pagination.bootstrap-4') }}
+                        {{ $authors->appends(request()->query())->links('vendor.pagination.bootstrap-4') }}
                     </nav>
                 </div>
             </div>
@@ -130,42 +129,6 @@
 <script src="{{ asset('/assets/js/demo/datatables-demo.js') }}"></script>
 
 <!-- noUiSlider initialization -->
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var ageRangeSlider = document.getElementById('age_range');
-        var minAgeInput = document.getElementById('min_age');
-        var maxAgeInput = document.getElementById('max_age');
-        var ageRangeValues = document.getElementById('age_range_values');
-
-        noUiSlider.create(ageRangeSlider, {
-            start: [minAgeInput.value || 0, maxAgeInput.value || 100],
-            connect: true,
-            range: {
-                'min': 0,
-                'max': 100
-            },
-            tooltips: [true, true],
-            format: {
-                to: function (value) {
-                    return Math.round(value);
-                },
-                from: function (value) {
-                    return Number(value);
-                }
-            }
-        });
-
-        ageRangeSlider.noUiSlider.on('update', function (values, handle) {
-            minAgeInput.value = values[0];
-            maxAgeInput.value = values[1];
-            ageRangeValues.innerHTML = values.join(' - ');
-        });
-
-        ageRangeSlider.noUiSlider.on('set', function (values, handle) {
-            minAgeInput.value = values[0];
-            maxAgeInput.value = values[1];
-        });
-    });
-</script>
+<script src="{{ asset('/assets/js/index.js') }}"></script>
 
 @endsection
