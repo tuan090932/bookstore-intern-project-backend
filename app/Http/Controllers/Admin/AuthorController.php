@@ -6,13 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Author;
 use Carbon\Carbon;
-use App\Rules\ValidBirthDate;
-use App\Rules\ValidDeathDate;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\AuthorRequest;
 
 class AuthorController extends Controller
 {
@@ -70,37 +67,8 @@ class AuthorController extends Controller
      * @param \Illuminate\Http\Request $request The request object containing the search query.
      * @return \Illuminate\View\View
      */
-    public function store(Request $request): RedirectResponse
+    public function store(AuthorRequest $request): RedirectResponse
     {
-        $messages = [
-            'author_name.required' => 'Họ tên tác giả là bắt buộc.',
-            'author_name.string' => 'Họ tên tác giả phải là một chuỗi ký tự.',
-            'author_name.max' => 'Họ tên tác giả không được vượt quá 255 ký tự.',
-            'author_name.unique' => 'Tên tác giả đã tồn tại. Vui lòng nhập tên khác.',
-            'birth_date.required' => 'Ngày sinh là bắt buộc.',
-            'birth_date.date_format' => 'Ngày sinh phải có định dạng DD/MM/YYYY.',
-            'death_date.date_format' => 'Ngày mất phải có định dạng DD/MM/YYYY.',
-        ];
-
-        $request->validate([
-            'author_name' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('authors', 'author_name'),
-            ],
-            'birth_date' => [
-                'required',
-                'date_format:d/m/Y',
-                new ValidBirthDate
-            ],
-            'death_date' => [
-                'nullable',
-                'date_format:d/m/Y',
-                new ValidDeathDate($request->input('birth_date'))
-            ],
-        ], $messages);
-
         try
         {
             $authorName = $request->input('author_name');
@@ -112,7 +80,7 @@ class AuthorController extends Controller
             Author::create([
                 'author_name' => $authorName,
                 'birth_date' => $birthDate,
-                'death_date' => $deathDate ? $deathDate: null,
+                'death_date' => $deathDate,
                 'age' => $age,
             ]);
 
@@ -120,7 +88,6 @@ class AuthorController extends Controller
         }
         catch (Exception $e)
         {
-            // Logging the exception can be useful for debugging purposes
             Log::error('Error creating author: '.$e->getMessage());
 
             return redirect()->back()->with('error', 'Đã xảy ra lỗi khi tạo tác giả. Vui lòng thử lại.');
@@ -162,37 +129,8 @@ class AuthorController extends Controller
      * @param int $id The ID of the author to be updated.
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(AuthorRequest $request, $id)
     {
-        $messages = [
-            'author_name.required' => 'Họ tên tác giả là bắt buộc.',
-            'author_name.string' => 'Họ tên tác giả phải là một chuỗi ký tự.',
-            'author_name.max' => 'Họ tên tác giả không được vượt quá 255 ký tự.',
-            'author_name.unique' => 'Tên tác giả đã tồn tại. Vui lòng nhập tên khác.',
-            'birth_date.required' => 'Ngày sinh là bắt buộc.',
-            'birth_date.date_format' => 'Ngày sinh phải có định dạng DD/MM/YYYY.',
-            'death_date.date_format' => 'Ngày mất phải có định dạng DD/MM/YYYY.',
-        ];
-
-        $request->validate([
-            'author_name' => [
-                'required',
-                'string',
-                'max:255',
-                Rule::unique('authors', 'author_name')->ignore($id, 'author_id'),
-            ],
-            'birth_date' => [
-                'required',
-                'date_format:d/m/Y',
-                new ValidBirthDate
-            ],
-            'death_date' => [
-                'nullable',
-                'date_format:d/m/Y',
-                new ValidDeathDate($request->input('birth_date'))
-            ],
-        ], $messages);
-
         try
         {
             $authorName = $request->input('author_name');
@@ -418,8 +356,7 @@ class AuthorController extends Controller
     {
         $query = $request->input('query');
 
-        $authors = Author::where('author_name', 'LIKE', "%{$query}%")
-                        ->paginate(15);
+        $authors = Author::where('author_name', 'LIKE', "%{$query}%")->paginate(15);
 
         return view('admin.pages.authors.index', ['authors' => $authors, 'query' => $query, 'searchRoute' => $this->searchRoute]);
     }
