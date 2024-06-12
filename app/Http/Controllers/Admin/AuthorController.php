@@ -110,19 +110,88 @@ class AuthorController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified author resource.
+     *
+     * This method is responsible for retrieving the author data based on the provided author ID
+     * and displaying the edit form with the current author information pre-filled.
+     *
+     * @param int $id The ID of the author to be edited.
+     * @return \Illuminate\View\View
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        $author = Author::findOrFail($id);
+        return view('admin.pages.authors.edit', compact('author'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified author resource in the database.
+     *
+     * This method is responsible for updating an existing author record in the database based on the input data provided in the $request object.
+     * It first validates the input data, ensuring that the required fields (author_name, birth_date) are provided and that the death_date field is a valid date if present.
+     * It then calculates the author's age based on the birth_date and either the death_date or the current date if the death_date is not provided.
+     * Finally, it updates the Author record in the database and redirects the user back to the edit page with a success or error message depending on the outcome of the operation.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id The ID of the author to be updated.
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $messages = [
+            'author_name.required' => 'Họ tên tác giả là bắt buộc.',
+            'author_name.string' => 'Họ tên tác giả phải là một chuỗi ký tự.',
+            'author_name.max' => 'Họ tên tác giả không được vượt quá 255 ký tự.',
+            'author_name.unique' => 'Tên tác giả đã tồn tại. Vui lòng nhập tên khác.',
+            'birth_date.required' => 'Ngày sinh là bắt buộc.',
+            'birth_date.date_format' => 'Ngày sinh phải có định dạng DD/MM/YYYY.',
+            'death_date.date_format' => 'Ngày mất phải có định dạng DD/MM/YYYY.',
+        ];
+
+        $request->validate([
+            'author_name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('authors', 'author_name')->ignore($id, 'author_id'),
+            ],
+            'birth_date' => [
+                'required',
+                'date_format:d/m/Y',
+                new ValidBirthDate
+            ],
+            'death_date' => [
+                'nullable',
+                'date_format:d/m/Y',
+                new ValidDeathDate($request->input('birth_date'))
+            ],
+        ], $messages);
+
+        try
+        {
+            $authorName = $request->input('author_name');
+            $birthDate = Carbon::createFromFormat('d/m/Y', $request->input('birth_date'));
+            $deathDate = $request->input('death_date') ? Carbon::createFromFormat('d/m/Y', $request->input('death_date')) : null;
+
+            $age = $deathDate ? $deathDate->year - $birthDate->year : Carbon::now()->year - $birthDate->year;
+
+            $author = Author::findOrFail($id);
+            $author->update([
+                'author_name' => $authorName,
+                'birth_date' => $birthDate->format('Y-m-d'),
+                'death_date' => $deathDate ? $deathDate->format('Y-m-d') : null,
+                'age' => $age,
+            ]);
+
+            return redirect()->back()->with('success', 'Cập nhật tác giả thành công.');
+        }
+        catch (Exception $e)
+        {
+            // Logging the exception can be useful for debugging purposes
+            Log::error('Error updating author: '.$e->getMessage());
+
+            return redirect()->back()->with('error', 'Đã xảy ra lỗi khi cập nhật tác giả. Vui lòng thử lại.');
+        }
     }
 
     /**

@@ -18,7 +18,7 @@
                 </span>
                 <span class="text">Restore All</span>
             </button>
-            <a href="{{ route('authors.index') }}" class="btn btn-primary btn-icon-split">
+            <a href="{{ route('authors.index') }}" class="btn btn-secondary btn-icon-split">
                 <span class="icon text-white-50">
                     <i class="fas fa-arrow-left"></i>
                 </span>
