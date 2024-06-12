@@ -24,8 +24,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
 
-Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
-
 Route::get('/login', function () {
     return view('admin.pages.auth.login');
 })->name('login');
