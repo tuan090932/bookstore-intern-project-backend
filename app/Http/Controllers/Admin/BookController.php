@@ -42,36 +42,36 @@ class BookController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:250',
-            'language_id' => 'required|integer',
-            'num_pages' => 'required|integer',
-            'publisher_id' => 'required|integer',
-            'category_id' => 'required|integer',
-            'image' => 'required|string|max:250|unique:books,image',
-            'description' => 'required|string|max:250',
-            'price' => 'required|numeric',
-            'stock' => 'required|integer',
-            'author_id' => 'required|integer',
-        ], [
-            'title.required' => 'Title is required.',
-            'language_id.required' => 'Language is required.',
-            'num_pages.required' => 'Number of pages is required.',
-            'publisher_id.required' => 'Publisher is required.',
-            'category_id.required' => 'Category is required.',
-            'image.required' => 'Image is required.',
-            'description.required' => 'Description is required.',
-            'price.required' => 'Price is required.',
-            'stock.required' => 'Stock is required.',
-            'author_id.required' => 'Author is required.',
-        ]);
+{
+    $request->validate([
+        'title' => 'required|string|max:250',
+        'language_id' => 'required|integer',
+        'num_pages' => 'required|integer',
+        'publisher_id' => 'required|integer',
+        'category_id' => 'required|integer',
+        'image' => 'required|string|max:250|unique:books,image',
+        'description' => 'required|string|max:250',
+        'price' => 'required|numeric',
+        'stock' => 'required|integer',
+        'author_id' => 'required|integer',
+    ], [
+        'title.required' => 'Title is required.',
+        'language_id.required' => 'Language is required.',
+        'num_pages.required' => 'Number of pages is required.',
+        'publisher_id.required' => 'Publisher is required.',
+        'category_id.required' => 'Category is required.',
+        'image.required' => 'Image is required.',
+        'description.required' => 'Description is required.',
+        'price.required' => 'Price is required.',
+        'stock.required' => 'Stock is required.',
+        'author_id.required' => 'Author is required.',
+    ]);
 
-        Book::create($request->all());
+    Book::create($request->all());
 
-        return redirect()->route('books.index')->with('success', 'Book added successfully.');
-    }
-    
+    return redirect()->route('books.index')->with('success', 'Book added successfully.');
+}
+
 
     /**
      * Display the specified resource.
@@ -86,46 +86,15 @@ class BookController extends Controller
      */
     public function edit(string $id)
     {
-        $books = Book::findOrFail($id);  
-        $categories = Category::all();
-        $authors = Author::all();
-        $languages = Language::all();
-        $publishers = Publisher::all();
-        return view('admin.pages.books.edit', compact('books','categories','authors', 'languages','publishers'));
+        //
     }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {   
-        $request->validate([
-            'title' => 'required|string|max:250',
-            'language_id' => 'required|integer',
-            'num_pages' => 'required|integer',
-            'publisher_id' => 'required|integer',
-            'category_id' => 'required|integer',
-            'image' => 'required|string|max:250|unique:books,image',
-            'description' => 'required|string|max:250',
-            'price' => 'required|numeric',
-            'stock' => 'required|integer',
-            'author_id' => 'required|integer',
-        ], [
-            'title.required' => 'Title is required.',
-            'language_id.required' => 'Language is required.',
-            'num_pages.required' => 'Number of pages is required.',
-            'publisher_id.required' => 'Publisher is required.',
-            'category_id.required' => 'Category is required.',
-            'image.required' => 'Image is required.',
-            'description.required' => 'Description is required.',
-            'price.required' => 'Price is required.',
-            'stock.required' => 'Stock is required.',
-            'author_id.required' => 'Author is required.',
-        ]);
-
-        $books = Book::findOrFail($id);
-        $books->update($request->all());
-        return redirect()->route('books.index')->with('succes', 'Product updated successfully');
+    {
+        //
     }
 
     /**

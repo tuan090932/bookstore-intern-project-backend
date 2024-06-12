@@ -70,7 +70,6 @@
                                 <td>{{ $book->book_id }}</td>
                                 <td>{{ $book->title }}</td>
                                 <td>{{ $book->categories->category_name }}</td>
-                                <td>{{ $book->categories->category_name }}</td>
                                 <td>{{ $book->price }}</td>
                                 <td>{{ $book->stock }}</td>
                                 <td>{{ $book->num_pages }}</td>
