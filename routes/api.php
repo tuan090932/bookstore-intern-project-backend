@@ -46,7 +46,7 @@ use Illuminate\Support\Facades\Route;
  Route::group([
 
     'middleware' => 'api',
-    'prefix' => 'auth',
+    'prefix' => 'auth'
 
 ], function ()
 {
