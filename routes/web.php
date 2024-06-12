@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', function () {
     return view('admin.pages.auth.login');
 })->name('login');
-})->name('login');
 Route::get('/register', function () {
     return view('admin.pages.auth.register');
 })->name('register');
