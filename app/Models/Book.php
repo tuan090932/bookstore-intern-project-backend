@@ -36,25 +36,40 @@ class Book extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function language()
+    public function languages()
     {
         return $this->belongsTo(Language::class, 'language_id', 'language_id');
     }
 
-    public function publisher()
+    public function publishers()
     {
         return $this->belongsTo(Publisher::class, 'publisher_id', 'publisher_id');
     }
 
-    public function category()
+    public function categories()
     {
         return $this->belongsTo(Category::class, 'category_id', 'category_id');
     }
 
-    public function author()
+    public function authors()
     {
         return $this->belongsTo(Author::class, 'author_id', 'author_id');
     }
+=========
 
-    
+    protected $primaryKey = 'book_id';
+
+    protected $fillable = [
+        'title',
+        'language_id',
+        'num_pages',
+        'publisher_id',
+        'category_id',
+        'image',
+        'description',
+        'price',
+        'stock',
+        'author_id',
+    ];
+>>>>>>>>> Temporary merge branch 2
 }
