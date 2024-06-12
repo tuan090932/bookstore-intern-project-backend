@@ -64,7 +64,6 @@ class Handler extends ExceptionHandler
             ], 404);
         }
 
-
         if ($exception instanceof MethodNotAllowedHttpException && $request->is('api/*'))
         {
             return response()->json([
