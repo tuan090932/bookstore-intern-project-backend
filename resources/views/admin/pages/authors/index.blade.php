@@ -72,7 +72,7 @@
                                     <td>{{ $author->author_name }}</td>
                                     <td>{{ $author->age }}</td>
                                     <td>{{ $author->birth_date }}</td>
-                                    <td>{{ $author->death_date }}</td>
+                                    <td>{{ $author->death_date ? $author->death_date : 'X' }}</td>
                                     <td>{{ $author->updated_at }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
