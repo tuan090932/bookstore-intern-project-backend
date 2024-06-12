@@ -79,7 +79,8 @@ class AuthController extends Controller
      */
     public function profile()
     {
-        try {
+        try
+        {
             return response()->json(auth('api')->user());
         }
         catch (JWTException $e)
@@ -114,6 +115,7 @@ class AuthController extends Controller
         try {
             $decodeToken = JWTAuth::getJWTProvider()->decode($refreshToken);
             $user = User::find($decodeToken['user_id']);
+
             if (! $user)
             {
                 return response()->json(['error', 'User not found'], 404);
@@ -147,11 +149,8 @@ class AuthController extends Controller
         $refreshToken = JWTAuth::getJWTProvider()->encode($data);
 
         return $refreshToken;
-
-        return $refreshToken;
     }
 
-    /**
     /**
      * Responds with the access token and refresh token.
      *
