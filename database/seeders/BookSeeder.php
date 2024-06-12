@@ -79,7 +79,7 @@ class BookSeeder extends Seeder
         // ];
 
         // Add more languages
-        for ($i = 56; $i <= 200; $i++) {
+        for ($i = 1; $i <= 200; $i++) {
             $languages[] = [
                 'language_name' => 'Language ' . $i,
                 'created_at' => now(),
@@ -88,7 +88,7 @@ class BookSeeder extends Seeder
         }
 
         // Add more publishers
-        for ($i = 56; $i <= 200; $i++) {
+        for ($i = 1; $i <= 200; $i++) {
             $publishers[] = [
                 'publisher_name' => 'Publisher ' . $i,
                 'created_at' => now(),
@@ -97,7 +97,7 @@ class BookSeeder extends Seeder
         }
 
         // Add more authors
-        for ($i = 56; $i <= 200; $i++) {
+        for ($i = 1; $i <= 200; $i++) {
             $authors[] = [
                 'author_name' => 'Author ' . $i,
                 'created_at' => now(),
@@ -106,7 +106,7 @@ class BookSeeder extends Seeder
         }
 
         // Add more categories
-        for ($i = 56; $i <= 200; $i++) {
+        for ($i = 1; $i <= 200; $i++) {
             $categories[] = [
                 'category_name' => 'Category ' . $i,
                 'created_at' => now(),
@@ -119,18 +119,18 @@ class BookSeeder extends Seeder
         DB::table('authors')->insert($authors);
         DB::table('categories')->insert($categories);
 
-        for ($i = 56; $i <= 200; $i++) {
+        for ($i = 1; $i <= 200; $i++) {
             $books[] = [
                 'title' => 'Book ' . $i,
-                'language_id' => rand(1, 3),
+                'language_id' => rand(1, 200),
                 'num_pages' => rand(100, 500),
-                'publisher_id' => rand(1, 3),
-                'category_id' => rand(1, 3),
+                'publisher_id' => rand(1, 200),
+                'category_id' => rand(1, 200),
                 'image' => 'https://example.com/book' . $i . '.jpg',
                 'description' => 'Description for Book ' . $i,
-                'price' => rand(10, 50) + 0.99,
+                'price' => rand(10, 50) * 10000,
                 'stock' => rand(50, 200),
-                'author_id' => rand(1, 3),
+                'author_id' => rand(1, 200),
             ];
         }
 

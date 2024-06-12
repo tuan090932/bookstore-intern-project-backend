@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
+Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
+
 Route::get('/login', function () {
     return view('admin.pages.auth.login');
 })->name('login');
@@ -31,6 +33,9 @@ Route::get('/forgot-password', function () {
     return view('admin.pages.auth.forgot-password');
 })->name('forgot-password');
 
+Route::resource('admin/users', UserController::class);
+
+Route::resource('admin/books', BookController::class);
 Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('dashboard');
 Route::get('admin/users', [UserController::class, 'index'])->name('users.index');
 Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
@@ -38,4 +43,4 @@ Route::resource('admin/books', BookController::class);
 Route::resource('admin/languages', LanguageController::class);
 
 Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
-;
+

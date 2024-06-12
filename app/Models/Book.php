@@ -17,10 +17,14 @@ class Book extends Model
     // Fields that are mass assignable
     protected $fillable = [
         'title',
+        'language_id',
+        'num_pages',
+        'publisher_id',
         'category_id',
+        'image',
+        'description',
         'price',
         'stock',
-        'num_pages',
         'author_id',
         'publisher_id',
         'language_id',
