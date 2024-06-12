@@ -41,9 +41,9 @@ class UserController extends Controller
             $user = User::findOrFail($id);
 
             $request->validate([
-                'name' => 'sometimes|required|string|max:255',
-                'user_name' => 'sometimes|required|string|max:255',
-                'email' => 'sometimes|required|string|email|max:255|unique:users,email,'.$user->id.',id',
+                'name' => 'sometimes|string|max:255',
+                'user_name' => 'sometimes|string|max:255',
+                'email' => 'sometimes|string|email|max:255|unique:users,email,'.$user->id.',id',
                 'phone_number' => 'nullable|string|max:20',
                 'password' => 'sometimes|required_with:old_password|string|min:6',
                 'old_password' => 'required_with:password|string|min:6',
