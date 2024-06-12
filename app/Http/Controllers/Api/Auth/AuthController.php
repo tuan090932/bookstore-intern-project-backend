@@ -126,9 +126,7 @@ class AuthController extends Controller
             'exp' => time() + config('jwt.refresh_ttl'),
         ];
 
-        $refreshToken = JWTAuth::getJWTProvider()->encode($data);
-
-        return $refreshToken;
+        return JWTAuth::getJWTProvider()->encode($data);
     }
 
     /**
