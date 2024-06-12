@@ -54,13 +54,13 @@
                         @foreach($books as $book)
                             <tr>
                                 <td>{{ $book->title }}</td>
-                                <td>{{ $book->category->category_name }}</td>
+                                <td>{{ $book->categories->category_name }}</td>
                                 <td>{{ $book->price }}</td>
                                 <td>{{ $book->stock }}</td>
                                 <td>{{ $book->num_pages }}</td>
-                                <td>{{ $book->author->author_name }}</td>
-                                <td>{{ $book->publisher->publisher_name }}</td>
-                                <td>{{ $book->language->language_name}}</td>
+                                <td>{{ $book->authors->author_name }}</td>
+                                <td>{{ $book->publishers->publisher_name }}</td>
+                                <td>{{ $book->languages->language_name}}</td>
                                 <td>
                                     <div class="d-flex  justify-content-center">
                                         <a href="#" class="mr-2 text-success">

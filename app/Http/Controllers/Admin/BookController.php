@@ -20,7 +20,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::with(['author', 'category', 'language', 'publisher'])->get();
+        $books = Book::with(['authors', 'categories', 'languages', 'publishers'])->get();
         // $books = Book::all();
 
         return view('admin.pages.books.index', compact('books'));
@@ -101,14 +101,8 @@ class BookController extends Controller
      * Remove the specified resource from storage.
      */
    public function destroy(string $id)
-{
-    try {
-        $book = Book::findOrFail($id);
-        $book->delete();
-        return redirect()->route('books.index')->with('success', 'Book deleted successfully.');
-    } catch (\Exception $e) {
-        return redirect()->route('books.index')->with('error', 'Failed to delete the book.');
+    {
+        //
     }
-}
 
 }
