@@ -51,15 +51,18 @@ Route::resource('/admin/users', UserController::class)->names([
 
 Route::resource('admin/books', BookController::class);
 
-
-
 Route::group([
 
     'prefix' => 'admin'
 
 ], function ()
 {
+
     Route::get('authors/trashed', [AuthorController::class, 'trashed'])->name('authors.trashed');
+    Route::delete('authors/deleteSelected', [AuthorController::class, 'deleteSelected'])->name('authors.deleteSelected');
+    Route::get('authors/delete-all', [AuthorController::class, 'deleteAll'])->name('authors.delete-all');
+    Route::patch('authors/restore-selected', [AuthorController::class, 'restoreSelected'])->name('authors.restore-selected');
+    Route::patch('authors/restore-all', [AuthorController::class, 'restoreAll'])->name('authors.restore-all');
     Route::resource('authors', AuthorController::class);
     Route::patch('authors/{id}/restore', [AuthorController::class, 'restore'])->name('authors.restore');
 
