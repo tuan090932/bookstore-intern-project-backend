@@ -32,7 +32,6 @@ Route::get('/forgot-password', function () {
     return view('admin.pages.auth.forgot-password');
 })->name('forgot-password');
 
-
 // Route::get('admin/users', [UserController::class, 'index'])->name('users.index');
 // Route::get('admin/users/create', [UserController::class, 'create'])->name('users.create');
 Route::resource('/admin/users', UserController::class)->names([
@@ -46,3 +45,9 @@ Route::resource('/admin/users', UserController::class)->names([
 ]);
 
 Route::resource('admin/books', BookController::class);
+Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('dashboard');
+Route::get('admin/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
+Route::resource('admin/books', BookController::class);
+
+Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
