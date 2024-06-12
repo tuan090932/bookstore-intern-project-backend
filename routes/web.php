@@ -34,15 +34,7 @@ Route::get('/forgot-password', function () {
 
 // Route::get('admin/users', [UserController::class, 'index'])->name('users.index');
 // Route::get('admin/users/create', [UserController::class, 'create'])->name('users.create');
-Route::resource('/admin/users', UserController::class)->names([
-    'index' => 'users.index',
-    'create' => 'users.create',
-    'store' => 'users.store',
-    'show' => 'users.show',
-    'edit' => 'users.edit',
-    'update' => 'users.update',
-    'destroy' => 'users.destroy',
-]);
+Route::resource('/admin/users', UserController::class);
 
 Route::resource('admin/books', BookController::class);
 Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('dashboard');
