@@ -25,7 +25,10 @@ class UserController extends Controller
             $user = User::findOrFail($id);
             return response()->json($user);
         } catch (ModelNotFoundException $ex) {
-            return response()->json(['error' => 'Không tìm thấy người dùng', 'message' => $ex->getMessage() ], 404);
+            return response()->json([
+                'error' => 'Không tìm thấy người dùng',
+                'message' => $ex->getMessage()
+            ], 404);
         }
     }
 
@@ -37,54 +40,66 @@ class UserController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function update(Request $request, $id)
-{
-    try {
-        $user = User::findOrFail($id);
+    {
+        try {
+            $user = User::findOrFail($id);
 
-        $request->validate([
-            'name' => 'sometimes|string|max:255',
-            'user_name' => 'sometimes|string|max:255|unique:users,user_name,'.$user->id.',id',
-            'email' => 'sometimes|string|email|max:255|unique:users,email,'.$user->id.',id',
-            'phone_number' => 'nullable|string|max:20',
-            'password' => 'sometimes|required_with:old_password|string|min:6',
-            'old_password' => 'required_with:password|string|min:6',
-        ]);
+            $request->validate([
+                'name' => 'sometimes|string|max:255',
+                'user_name' => 'sometimes|string|max:255|unique:users,user_name,'.$user->id.',id',
+                'email' => 'sometimes|string|email|max:255|unique:users,email,'.$user->id.',id',
+                'phone_number' => 'nullable|string|max:20',
+                'password' => 'sometimes|required_with:old_password|string|min:6',
+                'old_password' => 'required_with:password|string|min:6',
+            ]);
 
-        if ($request->has('user_name')) {
-            $user->user_name = $request->user_name;
-        }
+            if ($request->has('user_name')) {
+                $user->user_name = $request->user_name;
+            }
 
-        if ($request->has('email')) {
-            $user->email = $request->email;
-        }
+            if ($request->has('email')) {
+                $user->email = $request->email;
+            }
 
-        if ($request->has('name')) {
-            $user->name = $request->name;
-        }
-        if ($request->has('phone_number')) {
-            $user->phone_number = $request->phone_number;
-        }
+            if ($request->has('name')) {
+                $user->name = $request->name;
+            }
 
-        if ($request->filled('password')) {
-            if (!Hash::check($request->old_password, $user->password)) {
-                return response()->json(['old_password' => 'Mật khẩu cũ không đúng'], 400);
+            if ($request->has('phone_number')) {
+                $user->phone_number = $request->phone_number;
+            }
+
+            if ($request->filled('password')) {
+                if (!Hash::check($request->old_password, $user->password)) {
+                    return response()->json(['old_password' => 'Mật khẩu cũ không đúng'], 400);
+                }
+                
+                $user->password = Hash::make($request->password);
             }
             
-            $user->password = Hash::make($request->password);
+            $user->save();
+
+            return response()->json($user);
+        } catch (ModelNotFoundException $ex) {
+            return response()->json([
+                'error' => 'Không tìm thấy người dùng',
+                'message' => $ex->getMessage()
+            ], 404);
+        } catch (ValidationException $ex) {
+            return response()->json([
+                'error' => 'Lỗi xác thực',
+                'messages' => $ex->errors()
+            ], 400);
+        } catch (QueryException $ex) {
+            return response()->json([
+                'error' => 'Lỗi cơ sở dữ liệu',
+                'message' => $ex->getMessage()
+            ], 500);
+        } catch (Exception $ex) {
+            return response()->json([
+                'error' => 'Đã xảy ra lỗi không mong muốn',
+                'message' => $ex->getMessage()
+            ], 500);
         }
-        
-        $user->save();
-
-        return response()->json($user);
-    } catch (ModelNotFoundException $ex) {
-        return response()->json(['error' => 'Không tìm thấy người dùng', 'message' => $ex->getMessage()], 404);
-    } catch (ValidationException $ex) {
-        return response()->json(['error' => 'Lỗi xác thực', 'messages' => $ex->errors()], 400);
-    } catch (QueryException $ex) {
-        return response()->json(['error' => 'Lỗi cơ sở dữ liệu', 'message' => $ex->getMessage()], 500);
-    } catch (Exception $ex) {
-        return response()->json(['error' => 'Đã xảy ra lỗi không mong muốn', 'message' => $ex->getMessage()], 500);
     }
-}
-
 }
