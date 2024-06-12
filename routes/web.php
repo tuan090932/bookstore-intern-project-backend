@@ -31,24 +31,9 @@ Route::get('/forgot-password', function () {
     return view('admin.pages.auth.forgot-password');
 })->name('forgot-password');
 
-
+Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('dashboard');
 Route::get('admin/users', [UserController::class, 'index'])->name('users.index');
-Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
-Route::resource('admin/books', BookController::class);
 
-Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
-
-Route::resource('books', BookController::class);
-
-
-/*
-|--------------------------------------------------------------------------
-| Languages Routes
-|--------------------------------------------------------------------------
-|
-|
-*/
-
-Route::get('admin/language', [LanguageController::class, 'index'])->name('languages.index');    
-
-Route::resource('languages', LanguageController::class);
+Route::get('admin/books', [BookController::class, 'index'])->name('books.index');
+Route::get('admin/books/create', [BookController::class, 'create'])->name('books.create');
+Route::get('admin/books/edit', [BookController::class, 'show'])->name('books.edit');
