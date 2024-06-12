@@ -79,11 +79,10 @@ class AuthController extends Controller
      */
     public function profile()
     {
-        try
-        {
+        try {
             return response()->json(auth('api')->user());
         }
-        catch (JWTException $e)
+        catch(JWTException $e)
         {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
@@ -112,11 +111,10 @@ class AuthController extends Controller
     public function refresh()
     {
         $refreshToken = request()->refresh_token;
-        try
-        {
+        try {
             $decodeToken = JWTAuth::getJWTProvider()->decode($refreshToken);
             $user = User::find($decodeToken['user_id']);
-            if (! $user)
+            if(!$user)
             {
                 return response()->json(['error', 'User not found'], 404);
             }
@@ -127,9 +125,7 @@ class AuthController extends Controller
             $refreshToken = $this->createRefreshToken();
 
             return $this->respondWithToken($token, $refreshToken);
-        }
-        catch (JWTException $e)
-        {
+        } catch (JWTException $e) {
             return response()->json(['error' => 'Refresh Token Invalid'], 500);
         }
     }

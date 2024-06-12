@@ -15,6 +15,7 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::all();
+
         return response()->json($books);
     }
 
@@ -24,10 +25,10 @@ class BookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-
     public function show($id)
     {
         $book = Book::find($id);
+
         return response()->json($book);
     }
 }

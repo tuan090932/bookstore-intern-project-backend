@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', function () {
     return view('admin.pages.auth.login');
 })->name('login');
+})->name('login');
 Route::get('/register', function () {
     return view('admin.pages.auth.register');
 })->name('register');
@@ -30,9 +31,7 @@ Route::get('/forgot-password', function () {
     return view('admin.pages.auth.forgot-password');
 })->name('forgot-password');
 
-
+Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('dashboard');
 Route::get('admin/users', [UserController::class, 'index'])->name('users.index');
-Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
-Route::resource('admin/books', BookController::class);
 
 Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
