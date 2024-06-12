@@ -1,12 +1,12 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CategoryController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,11 +42,15 @@ use Illuminate\Support\Facades\Route;
  * 127.0.0.1/api/auth/{action}
  * Example: 127.0.0.1/api/auth/login
  */
-
+<<<<<<<<< Temporary merge branch 1
 Route::group([
+=========
+
+ Route::group([
+>>>>>>>>> Temporary merge branch 2
 
     'middleware' => 'api',
-    'prefix' => 'auth',
+    'prefix' => 'auth'
 
 ], function ()
 {

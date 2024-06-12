@@ -9,6 +9,8 @@ class Publisher extends Model
 {
     use HasFactory;
 
+    protected $table = "publishers";
+
     protected $primaryKey = 'publisher_id';
 
     protected $fillable = ['publisher_name'];
