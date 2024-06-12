@@ -21,6 +21,12 @@ class Author extends Model
         'death_date' => 'date',
     ];
 
+    /**
+     * Format the birth date attribute.
+     *
+     * @param string|null $value The birth date value.
+     * @return string|null The formatted birth date or null if the value is null.
+     */
     public function getBirthDateAttribute($value)
     {
         if ($value)
@@ -34,6 +40,12 @@ class Author extends Model
         }
     }
 
+    /**
+     * Format the death date attribute.
+     *
+     * @param string|null $value The death date value.
+     * @return string|null The formatted death date or null if the value is null.
+     */
     public function getDeathDateAttribute($value)
     {
         if ($value)
