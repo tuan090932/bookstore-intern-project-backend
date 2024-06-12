@@ -38,16 +38,21 @@ use Illuminate\Support\Facades\Route;
  * 127.0.0.1/api/auth/{action}
  * Example: 127.0.0.1/api/auth/login
  */
-Route::group([
+
+ Route::group([
 
     'middleware' => 'api',
-    'prefix' => 'auth',
+    'prefix' => 'auth'
 
-], function () {
+], function ()
+{
+
+    Route::post('register', [RegisterController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
     Route::get('profile', [AuthController::class, 'profile']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
+
 });
 
 /**
