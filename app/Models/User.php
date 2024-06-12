@@ -16,8 +16,6 @@ class User extends Authenticatable implements JWTSubject
 
     protected $table = 'users';
 
-    // Custom primary key for the User model
-    protected $primaryKey = 'user_id';
 
     // Fields that are mass assignable
     protected $fillable = [
