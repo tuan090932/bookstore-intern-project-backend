@@ -65,14 +65,19 @@
                                 <th>Options</th>
                             </tr>
                         </tfoot>
+                        @if(isset($query))
+                            <div class="alert alert-info">
+                                Kết quả tìm kiếm cho: <strong>{{ $query }}</strong>
+                            </div>
+                        @endif
                         <tbody>
-                            @foreach($authors as $author)
+                            @forelse($authors as $author)
                                 <tr>
                                     <td><input type="checkbox" name="author_ids[]" value="{{ $author->author_id }}"></td>
                                     <td>{{ $author->author_name }}</td>
                                     <td>{{ $author->age }}</td>
                                     <td>{{ $author->birth_date }}</td>
-                                    <td>{{ $author->death_date ? $author->death_date : 'X' }}</td>
+                                    <td>{{ $author->death_date ? $author->death_date : '-------------' }}</td>
                                     <td>{{ $author->updated_at }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
@@ -115,7 +120,11 @@
                                         </div>
                                     </td>
                                 </tr>
-                            @endforeach
+                                @empty
+                                <tr>
+                                    <td colspan="7" class="text-center">Không có tác giả nào phù hợp với tìm kiếm của bạn.</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </form>

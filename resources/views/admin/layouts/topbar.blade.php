@@ -7,13 +7,19 @@
 </button>
 
 <!-- Topbar Search -->
-<form
-    class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+<!--
+    This form is used for searching content on the webpage and is styled to be responsive and inline with the navigation bar.
+    The form uses the GET method to submit the search query to a specified route, defined by the $searchRoute variable.
+    The $searchRoute variable determines which controller and action will handle the search request.
+    This allows the search input to be dynamically directed to different controllers depending on the context of the page.
+    The input field captures the search query, and the current value of the query is preserved across requests using the request('query') helper.
+    The search button includes a FontAwesome search icon for better user experience.
+-->
+<form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" method="GET" action="{{ $searchRoute }}">
     <div class="input-group">
-        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-            aria-label="Search" aria-describedby="basic-addon2">
+        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" name="query" value="{{ request('query') }}">
         <div class="input-group-append">
-            <button class="btn btn-primary" type="button">
+            <button class="btn btn-primary" type="submit">
                 <i class="fas fa-search fa-sm"></i>
             </button>
         </div>
@@ -29,7 +35,7 @@
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-search fa-fw"></i>
         </a>
-        
+
     </li>
 
     <div class="topbar-divider d-none d-sm-block"></div>

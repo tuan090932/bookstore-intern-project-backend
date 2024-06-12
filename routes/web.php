@@ -63,6 +63,7 @@ Route::group([
     Route::get('authors/delete-all', [AuthorController::class, 'deleteAll'])->name('authors.delete-all');
     Route::patch('authors/restore-selected', [AuthorController::class, 'restoreSelected'])->name('authors.restore-selected');
     Route::patch('authors/restore-all', [AuthorController::class, 'restoreAll'])->name('authors.restore-all');
+    Route::get('authors/search', [AuthorController::class, 'search'])->name('authors.search');
     Route::resource('authors', AuthorController::class);
     Route::patch('authors/{id}/restore', [AuthorController::class, 'restore'])->name('authors.restore');
 
