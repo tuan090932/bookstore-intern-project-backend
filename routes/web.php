@@ -36,3 +36,4 @@ Route::get('/books/search', [BookController::class, 'search'])->name('books.sear
 Route::resource('admin/books', BookController::class);
 
 Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
+
