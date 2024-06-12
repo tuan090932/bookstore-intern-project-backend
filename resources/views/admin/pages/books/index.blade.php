@@ -30,9 +30,6 @@
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
-        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -69,13 +66,13 @@
                             <tr>
                                 <td>{{ $book->book_id }}</td>
                                 <td>{{ $book->title }}</td>
-                                <td>{{ $book->categories->category_name }}</td>
-                                <td>{{ $book->price }}</td>
+                                <td>{{ optional($book->category)->category_name }}</td>
+                                <td>{{ formatVND($book->price) }}</td>
                                 <td>{{ $book->stock }}</td>
                                 <td>{{ $book->num_pages }}</td>
-                                <td>{{ $book->authors->author_name }}</td>
-                                <td>{{ $book->publishers->publisher_name }}</td>
-                                <td>{{ $book->languages->language_name }}</td>
+                                <td>{{ optional($book->author)->author_name }}</td>
+                                <td>{{ optional($book->publisher)->publisher_name }}</td>
+                                <td>{{ optional($book->language)->language_name }}</td>
                                 <td>
                                     <div class="d-flex  justify-content-center">
                                         <a button type="button" class="btn btn-success">
@@ -97,10 +94,14 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="d-flex">
+                    <nav>
+                        {{ $books->links('vendor.pagination.bootstrap-4') }}
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
-
 </div>
 <!-- /.container-fluid -->
 
