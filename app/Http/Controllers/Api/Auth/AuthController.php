@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Tymon\JWTAuth\JWT;
 
 class AuthController extends Controller
 {
@@ -112,10 +111,10 @@ class AuthController extends Controller
     public function refresh()
     {
         $refreshToken = request()->refresh_token;
-        try {
+        try
+        {
             $decodeToken = JWTAuth::getJWTProvider()->decode($refreshToken);
             $user = User::find($decodeToken['user_id']);
-
             if (! $user)
             {
                 return response()->json(['error', 'User not found'], 404);
@@ -127,7 +126,9 @@ class AuthController extends Controller
             $refreshToken = $this->createRefreshToken();
 
             return $this->respondWithToken($token, $refreshToken);
-        } catch (JWTException $e) {
+        }
+        catch (JWTException $e)
+        {
             return response()->json(['error' => 'Refresh Token Invalid'], 500);
         }
     }
