@@ -24,8 +24,7 @@ class UserController extends Controller
             $user = User::findOrFail($id);
             return response()->json($user);
         } catch (ModelNotFoundException $ex) {
-            return response()->json(['error' => 'Không tìm thấy người dùng', 
-        'message' => $ex->getMessage()  ], 404);
+            return response()->json(['error' => 'Không tìm thấy người dùng', 'message' => $ex->getMessage()  ], 404);
         }
     }
 
