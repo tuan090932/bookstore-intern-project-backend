@@ -1,10 +1,12 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\BookController;
+use App\Http\Controllers\Api\CategoryController;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +22,6 @@ use App\Http\Controllers\Api\BookController;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
-
 
 /**
  * API Routes for Authentication
@@ -45,7 +46,7 @@ use App\Http\Controllers\Api\BookController;
  Route::group([
 
     'middleware' => 'api',
-    'prefix' => 'auth'
+    'prefix' => 'auth',
 
 ], function ()
 {
@@ -58,8 +59,6 @@ use App\Http\Controllers\Api\BookController;
 
 });
 
-
-
 /**
  * API Routes for Books
  *
@@ -68,7 +67,8 @@ use App\Http\Controllers\Api\BookController;
  *
  * Endpoints:
  * - GET /api/books: Retrieves a list of all books.
- *
+ * - GET /api/books/{id}: Retrieves a specific book by its ID.
+
  * These endpoints use the `BookController` to handle the corresponding logic.
  *
  * The following api with API routes bellow:
@@ -76,9 +76,55 @@ use App\Http\Controllers\Api\BookController;
  * 127.0.0.1/api/books
  * Example: 127.0.0.1/api/books/
  */
-
 Route::group([
-    'prefix' => 'books'
+    'prefix' => 'books',
 ], function () {
     Route::get('/', [BookController::class, 'index']);
+    Route::get('/{id}', [BookController::class, 'show']);
+});
+
+/**
+ * API Routes for Categories
+ *
+ * This route group handles all category-related API endpoints.
+ * The group is prefixed with 'api/categories'.
+ *
+ * Endpoints:
+ * - GET /api/categories: Retrieves a list of all categories.
+ *
+ * These endpoints use the `CategoryController` to handle the corresponding logic.
+ *
+ * The following api with API routes bellow:
+ *
+ * 127.0.0.1/api/categories
+ * Example: 127.0.0.1/api/categories/
+ */
+Route::group([
+    'prefix' => 'categories',
+], function () {
+    Route::get('/', [CategoryController::class, 'index']);
+});
+
+/**
+ * API Routes for Address
+ *
+ * This route group handles all address-related API endpoints.
+ * The group is prefixed with 'api/address'.
+ *
+ * Endpoints:
+ * - GET /api/address: Retrieves a list of all addresses.
+ * - POST /api/address: Creates a new address.
+ * - GET /api/address/{id}: Retrieves a specific address by ID.
+ * - PUT /api/address/{id}: Updates a specific address by ID.
+ *
+ * These endpoints use the `AddressController` to handle the corresponding logic.
+ *
+ * The following api with API routes bellow:
+ */
+Route::prefix('address')->group(function () {
+    Route::get('/', [AddressController::class, 'index']);
+    Route::post('/', [AddressController::class, 'store']);
+    Route::get('/{id}', [AddressController::class, 'show']);
+    Route::put('/{id}', [AddressController::class, 'update']);
+    Route::delete('/{id}', [AddressController::class, 'destroy']);
 });
