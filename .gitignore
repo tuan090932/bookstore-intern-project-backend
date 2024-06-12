@@ -17,5 +17,3 @@ yarn-error.log
 /.idea
 /.vscode
 /docker/mysql_data/
-/resources/lang
-
