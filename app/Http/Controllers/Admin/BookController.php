@@ -10,7 +10,6 @@ use App\Models\Language;
 use App\Models\Author;
 use App\Models\Publisher;
 
-
 class BookController extends Controller
 {
     /**
@@ -35,7 +34,7 @@ class BookController extends Controller
         $authors = Author::all();
         $languages = Language::all();
         $publishers = Publisher::all();
-        return view('admin.pages.books.create', compact('categories','authors', 'languages','publishers'));
+        return view('admin.pages.books.create', compact('categories', 'authors', 'languages', 'publishers'));
     }
 
     /**
@@ -71,7 +70,6 @@ class BookController extends Controller
 
         return redirect()->route('books.index')->with('success', 'Book added successfully.');
     }
-    
 
     /**
      * Display the specified resource.
@@ -86,12 +84,12 @@ class BookController extends Controller
      */
     public function edit(string $id)
     {
-        $books = Book::findOrFail($id);  
+        $books = Book::findOrFail($id);
         $categories = Category::all();
         $authors = Author::all();
         $languages = Language::all();
         $publishers = Publisher::all();
-        return view('admin.pages.books.edit', compact('books','categories','authors', 'languages','publishers'));
+        return view('admin.pages.books.edit', compact('books', 'categories', 'authors', 'languages', 'publishers'));
     }
 
     /**
@@ -132,15 +130,14 @@ class BookController extends Controller
         }
     }
 
-
     /**
      * Remove the specified resource from storage.
      */
-   public function destroy(string $id)
+    public function destroy(string $id)
     {
         $books = Book::findOrFail($id);
         $books->delete();
-        return redirect()->route('books.index')->with('success','Delete Product Successfully');      
+        return redirect()->route('books.index')->with('success', 'Delete Product Successfully');
     }
 
     /**
@@ -152,5 +149,4 @@ class BookController extends Controller
         $books = Book::where('title', 'like', '%' . $search . '%')->with(['authors', 'categories', 'languages', 'publishers'])->get();
         return view('admin.pages.books.index', compact('books'));
     }
-
 }
