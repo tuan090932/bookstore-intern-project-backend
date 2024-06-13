@@ -6,11 +6,9 @@ use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Database\QueryException;
+use App\Exceptions\ApiUserExceptionHandler;
+use App\Http\Requests\User\UpdateUserRequest;
 use Exception;
-
 class UserController extends Controller
 {
     /**
@@ -24,34 +22,22 @@ class UserController extends Controller
         try {
             $user = User::findOrFail($id);
             return response()->json($user);
-        } catch (ModelNotFoundException $ex) {
-            return response()->json([
-                'error' => 'Không tìm thấy người dùng',
-                'message' => $ex->getMessage()
-            ], 404);
+        } catch (Exception $ex) {
+            return ApiUserExceptionHandler::handle($ex);
         }
     }
 
     /**
      * Update the specified user in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\User\UpdateUserRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(UpdateUserRequest $request, $id)
     {
         try {
             $user = User::findOrFail($id);
-
-            $request->validate([
-                'name' => 'sometimes|string|max:255',
-                'user_name' => 'sometimes|string|max:255|unique:users,user_name,'.$user->id.',id',
-                'email' => 'sometimes|string|email|max:255|unique:users,email,'.$user->id.',id',
-                'phone_number' => 'nullable|string|max:20',
-                'password' => 'sometimes|required_with:old_password|string|min:6',
-                'old_password' => 'required_with:password|string|min:6',
-            ]);
 
             if ($request->has('user_name')) {
                 $user->user_name = $request->user_name;
@@ -80,26 +66,8 @@ class UserController extends Controller
             $user->save();
 
             return response()->json($user);
-        } catch (ModelNotFoundException $ex) {
-            return response()->json([
-                'error' => 'Không tìm thấy người dùng',
-                'message' => $ex->getMessage()
-            ], 404);
-        } catch (ValidationException $ex) {
-            return response()->json([
-                'error' => 'Lỗi xác thực',
-                'messages' => $ex->errors()
-            ], 400);
-        } catch (QueryException $ex) {
-            return response()->json([
-                'error' => 'Lỗi cơ sở dữ liệu',
-                'message' => $ex->getMessage()
-            ], 500);
         } catch (Exception $ex) {
-            return response()->json([
-                'error' => 'Đã xảy ra lỗi không mong muốn',
-                'message' => $ex->getMessage()
-            ], 500);
+            return ApiUserExceptionHandler::handle($ex);
         }
     }
 }
