@@ -82,9 +82,9 @@ class BookController extends Controller
         try{
             $books = Book::findOrFail($id);
             $books->update($request->validated());
-            return redirect()->route('books.index')->with('success', 'Product updated successfully');
+            return redirect()->route('books.index')->with('success', 'Book updated successfully');
         }catch(\Exception $e){
-            return redirect()->route('books.index')->with('error', 'Failed to add book.');
+            return redirect()->route('books.index')->with('error', 'Failed to update book.');
         }
     }
 
