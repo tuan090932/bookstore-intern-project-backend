@@ -11,6 +11,7 @@ use App\Models\Author;
 use App\Models\Publisher;
 use app\Http\Requests\BookRequest;
 
+
 class BookController extends Controller
 {
     /**
@@ -65,7 +66,7 @@ class BookController extends Controller
      */
     public function edit(string $id)
     {
-       //
+        //
     }
 
     /**
@@ -73,15 +74,16 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {   
-       //
-    }
+        //
+    }  
+
 
     /**
      * Remove the specified resource from storage.
      */
    public function destroy(string $id)
     {
-        //
+       //
     }
 
 }
