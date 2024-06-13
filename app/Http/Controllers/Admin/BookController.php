@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BookRequest;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Language;
 use App\Models\Author;
 use App\Models\Publisher;
-
 
 class BookController extends Controller
 {
@@ -41,37 +41,15 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:250',
-            'language_id' => 'required|integer',
-            'num_pages' => 'required|integer',
-            'publisher_id' => 'required|integer',
-            'category_id' => 'required|integer',
-            'image' => 'required|string|max:250|unique:books,image',
-            'description' => 'required|string|max:250',
-            'price' => 'required|numeric',
-            'stock' => 'required|integer',
-            'author_id' => 'required|integer',
-        ], [
-            'title.required' => 'Title is required.',
-            'language_id.required' => 'Language is required.',
-            'num_pages.required' => 'Number of pages is required.',
-            'publisher_id.required' => 'Publisher is required.',
-            'category_id.required' => 'Category is required.',
-            'image.required' => 'Image is required.',
-            'description.required' => 'Description is required.',
-            'price.required' => 'Price is required.',
-            'stock.required' => 'Stock is required.',
-            'author_id.required' => 'Author is required.',
-        ]);
-
-        Book::create($request->all());
-
-        return redirect()->route('books.index')->with('success', 'Book added successfully.');
+        try{
+            Book::create($request->validated());
+            return redirect()->route('books.index')->with('success', 'Book added successfully.');
+        }catch(\Exception $e){
+            return redirect()->route('books.index')->with('error', 'Failed to add book.');
+        }
     }
-    
 
     /**
      * Display the specified resource.
@@ -97,41 +75,16 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(BookRequest $request, string $id)
     {
-        try {
-            $request->validate([
-                'title' => 'required|string|max:250',
-                'language_id' => 'required|integer',
-                'num_pages' => 'required|integer',
-                'publisher_id' => 'required|integer',
-                'category_id' => 'required|integer',
-                'image' => 'required|string|max:250|unique:books,image,' . $id,
-                'description' => 'required|string|max:250',
-                'price' => 'required|numeric',
-                'stock' => 'required|integer',
-                'author_id' => 'required|integer',
-            ], [
-                'title.required' => 'Title is required.',
-                'language_id.required' => 'Language is required.',
-                'num_pages.required' => 'Number of pages is required.',
-                'publisher_id.required' => 'Publisher is required.',
-                'category_id.required' => 'Category is required.',
-                'image.required' => 'Image is required.',
-                'description.required' => 'Description is required.',
-                'price.required' => 'Price is required.',
-                'stock.required' => 'Stock is required.',
-                'author_id.required' => 'Author is required.',
-            ]);
-
-            $book = Book::findOrFail($id);
-            $book->update($request->all());
-            return redirect()->route('books.index')->with('success', 'Book updated successfully.');
-        } catch (\Exception $e) {
-            return redirect()->route('books.index')->with('error', 'Book updated fail.');
+        try{
+            $books = Book::findOrFail($id);
+            $books->update($request->validated());
+            return redirect()->route('books.index')->with('success', 'Product updated successfully');
+        }catch(\Exception $e){
+            return redirect()->route('books.index')->with('error', 'Failed to add book.');
         }
     }
-
 
     /**
      * Remove the specified resource from storage.
