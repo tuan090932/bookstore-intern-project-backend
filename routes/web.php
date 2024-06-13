@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,9 +26,10 @@ Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
 Route::get('/login', function () {
     return view('admin.pages.auth.login');
 })->name('login');
-Route::get('/register', function () {
-    return view('admin.pages.auth.register');
-})->name('register');
+
+Route::get('/admin/register', [AuthController::class, 'register'])->name('admin.register');
+Route::post('/admin/register', [AuthController::class, 'store'])->name('admin.store');
+
 Route::get('/forgot-password', function () {
     return view('admin.pages.auth.forgot-password');
 })->name('forgot-password');
