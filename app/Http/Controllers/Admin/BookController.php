@@ -10,6 +10,7 @@ use App\Models\Language;
 use App\Models\Author;
 use App\Models\Publisher;
 
+
 class BookController extends Controller
 {
     /**
@@ -19,7 +20,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::with(['authors', 'categories', 'languages', 'publishers'])->get();
+        $books = Book::with(['authors', 'categories', 'languages', 'publishers'])->paginate(15);
         // $books = Book::all();
 
         return view('admin.pages.books.index', compact('books'));
@@ -34,7 +35,7 @@ class BookController extends Controller
         $authors = Author::all();
         $languages = Language::all();
         $publishers = Publisher::all();
-        return view('admin.pages.books.create', compact('categories', 'authors', 'languages', 'publishers'));
+        return view('admin.pages.books.create', compact('categories','authors', 'languages','publishers'));
     }
 
     /**
@@ -71,6 +72,7 @@ class BookController extends Controller
         return redirect()->route('books.index')->with('success', 'Book added successfully.');
     }
 
+
     /**
      * Display the specified resource.
      */
@@ -89,7 +91,7 @@ class BookController extends Controller
         $authors = Author::all();
         $languages = Language::all();
         $publishers = Publisher::all();
-        return view('admin.pages.books.edit', compact('books', 'categories', 'authors', 'languages', 'publishers'));
+        return view('admin.pages.books.edit', compact('books','categories','authors', 'languages','publishers'));
     }
 
     /**
@@ -97,32 +99,47 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        try {
-            $book = Book::findOrFail($id);
-            $book->update($request->all());
-            return redirect()->route('books.index')->with('success', 'Book updated successfully.');
-        } catch (\Exception $e) {
-            return redirect()->route('books.index')->with('error', 'Book updated fail.');
-        }
+        $request->validate([
+            'title' => 'required|string|max:250',
+            'language_id' => 'required|integer',
+            'num_pages' => 'required|integer',
+            'publisher_id' => 'required|integer',
+            'category_id' => 'required|integer',
+            'image' => 'required|string|max:250|unique:books,image',
+            'description' => 'required|string|max:250',
+            'price' => 'required|numeric',
+            'stock' => 'required|integer',
+            'author_id' => 'required|integer',
+        ], [
+            'title.required' => 'Title is required.',
+            'language_id.required' => 'Language is required.',
+            'num_pages.required' => 'Number of pages is required.',
+            'publisher_id.required' => 'Publisher is required.',
+            'category_id.required' => 'Category is required.',
+            'image.required' => 'Image is required.',
+            'description.required' => 'Description is required.',
+            'price.required' => 'Price is required.',
+            'stock.required' => 'Stock is required.',
+            'author_id.required' => 'Author is required.',
+        ]);
+
+        $books = Book::findOrFail($id);
+        $books->update($request->all());
+        return redirect()->route('books.index')->with('succes', 'Product updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+   public function destroy(string $id)
     {
-        $books = Book::findOrFail($id);
-        $books->delete();
-        return redirect()->route('books.index')->with('success', 'Delete Product Successfully');
+        try {
+            $book = Book::findOrFail($id);
+            $book->delete();
+            return redirect()->route('books.index')->with('success', 'Book deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('books.index')->with('error', 'Failed to delete the book.');
+        }
     }
 
-    /**
-     * Search for books by title.
-     */
-    public function search(Request $request)
-    {
-        $search = $request->input('search');
-        $books = Book::where('title', 'like', '%' . $search . '%')->with(['authors', 'categories', 'languages', 'publishers'])->get();
-        return view('admin.pages.books.index', compact('books'));
-    }
 }
