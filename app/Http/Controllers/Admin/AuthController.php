@@ -7,6 +7,7 @@ use App\Http\Requests\AdminRegisterRequest;
 use App\Http\Requests\AdminLoginRequest;
 use App\Models\AdminUser;
 use App\Exceptions\AdminException;
+use App\Exceptions\AdminLoginException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
@@ -94,7 +95,7 @@ class AuthController extends Controller
         }
         catch (Exception $e)
         {
-            return AdminException::handle($e);
+            return AdminLoginException::handle($e);
         }
     }
 
