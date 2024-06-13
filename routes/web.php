@@ -38,7 +38,7 @@ Route::prefix('admin')->group(function(){
     Route::resource('users', UserController::class);
 
     //Dashboard
-    Route::get('', [DashboardController::class, 'indexPage'])->name('dashboard');
+    Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
 
     //Books
     Route::resource('books', BookController::class);
