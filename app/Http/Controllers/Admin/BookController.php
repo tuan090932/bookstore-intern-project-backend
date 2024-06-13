@@ -9,7 +9,7 @@ use App\Models\Category;
 use App\Models\Language;
 use App\Models\Author;
 use App\Models\Publisher;
-use app\Http\Requests\BookRequest;
+use App\Http\Requests\BookRequest;
 
 
 class BookController extends Controller
