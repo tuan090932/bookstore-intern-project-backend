@@ -35,17 +35,17 @@ Route::get('/forgot-password', function () {
 
 Route::prefix('admin')->group(function(){
     //Users
-    Route::resource('admin/users', UserController::class);
+    Route::resource('users', UserController::class);
 
     //Dashboard
-    Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
+    Route::get('', [DashboardController::class, 'indexPage'])->name('dashboard');
 
     //Books
-    Route::resource('admin/books', BookController::class);
-    Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
+    Route::resource('books', BookController::class);
+    Route::get('books/search', [BookController::class, 'search'])->name('books.search');
 
     //Languages
-    Route::resource('admin/languages', LanguageController::class);
+    Route::resource('languages', LanguageController::class);
 });
 
 
