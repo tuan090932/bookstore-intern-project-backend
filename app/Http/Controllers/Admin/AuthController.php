@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Exception;
-use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -66,53 +65,35 @@ class AuthController extends Controller
      * @param  \App\Http\Requests\AdminLoginRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    // public function login(AdminLoginRequest $request)
-    // {
-    //     try
-    //     {
-    //         // Lấy thông tin người dùng dựa trên email
-    //         $adminUser = AdminUser::where('email', $request->email)->first();
-
-    //         // Kiểm tra xem người dùng có tồn tại không
-    //         if (!$adminUser)
-    //         {
-    //             return back()->withErrors(['email' => 'Thông tin email không chính xác.'])->onlyInput('email');
-    //         }
-
-
-
-    //         // Sử dụng Hash::check để kiểm tra mật khẩu
-    //         if (Hash::check($request->password, $adminUser->password))
-    //         {
-    //             dd($adminUser);
-    //             // Đăng nhập người dùng
-    //             Auth::guard('admin')->login($adminUser);
-    //             // Lưu tên admin vào session
-    //             Session::put('adminName', $adminUser->admin_name);
-    //             return redirect()->route('admin.dashboard');
-    //         }
-
-    //         return back()->withErrors(['password' => 'Thông tin mật khẩu không chính xác.'])->onlyInput('email');
-    //     }
-    //     catch (Exception $e)
-    //     {
-    //         return AdminException::handle($e);
-    //     }
-    // }
-
     public function login(AdminLoginRequest $request)
     {
-        try {
-            $credentials = $request->only('email', 'password');
+        try
+        {
+            $credentials = [
+                'email' => $request->email,
+                'password' => $request->password,
+            ];
 
-            if (Auth::guard('admin')->attempt($credentials)) {
+            $emailExists = AdminUser::where('email', $request->email)->exists();
+
+            if (!$emailExists)
+            {
+                return back()->withErrors(['email' => 'Thông tin email không chính xác.'])->onlyInput('email');
+            }
+
+            $authenticated = Auth::guard('admin')->attempt($credentials);
+
+            if ($authenticated)
+            {
                 $adminName = Auth::guard('admin')->user()->admin_name;
                 Session::put('adminName', $adminName);
                 return redirect()->route('admin.dashboard');
             }
 
             return back()->withErrors(['password' => 'Thông tin mật khẩu không chính xác.'])->onlyInput('email');
-        } catch (Exception $e) {
+        }
+        catch (Exception $e)
+        {
             return AdminException::handle($e);
         }
     }
