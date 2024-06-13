@@ -16,9 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
 
 Route::get('/login', function () {
     return view('admin.pages.auth.login');
@@ -30,19 +32,12 @@ Route::get('/forgot-password', function () {
     return view('admin.pages.auth.forgot-password');
 })->name('forgot-password');
 
-Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('dashboard');
-// Route::get('admin/users', [UserController::class, 'index'])->name('users.index');
-// Route::get('admin/users/create', [UserController::class, 'create'])->name('users.create');
-Route::resource('/admin/users', UserController::class)->names([
-    'index' => 'users.index',
-    'create' => 'users.create',
-    'store' => 'users.store',
-    'show' => 'users.show',
-    'edit' => 'users.edit',
-    'update' => 'users.update',
-    'destroy' => 'users.destroy',
-]);
+Route::resource('admin/users', UserController::class);
 
-Route::get('admin/books', [BookController::class, 'index'])->name('books.index');
-Route::get('admin/books/create', [BookController::class, 'create'])->name('books.create');
-Route::get('admin/books/edit', [BookController::class, 'show'])->name('books.edit');
+Route::resource('admin/books', BookController::class);
+Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('dashboard');
+Route::get('admin/users', [UserController::class, 'index'])->name('users.index');
+Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
+Route::resource('admin/books', BookController::class);
+
+Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
