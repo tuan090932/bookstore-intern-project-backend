@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BookRequest;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Language;
 use App\Models\Author;
 use App\Models\Publisher;
-use app\Http\Requests\BookRequest;
+
 
 class BookController extends Controller
 {
@@ -65,23 +66,15 @@ class BookController extends Controller
      */
     public function edit(string $id)
     {
-<<<<<<< HEAD
-        //
-=======
        //
->>>>>>> add/HCM_PHP_06_05_2024_10_admin_create_book
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {   
-<<<<<<< HEAD
-        //
-=======
+    public function update(BookRequest $request, string $id)
+    {
        //
->>>>>>> add/HCM_PHP_06_05_2024_10_admin_create_book
     }
 
     /**
@@ -89,7 +82,13 @@ class BookController extends Controller
      */
    public function destroy(string $id)
     {
-        //
+        try {
+            $book = Book::findOrFail($id);
+            $book->delete();
+            return redirect()->route('books.index')->with('success', 'Book deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('books.index')->with('error', 'Failed to delete the book.');
+        }
     }
 
 }
