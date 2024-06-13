@@ -8,6 +8,7 @@ use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -119,7 +120,8 @@ class UserController extends Controller
             $user->delete();
             return redirect()->route('users.index')->with('success', 'User deleted successfully');
         } catch (\Exception $e) {
-            return redirect()->route('users.index')->with('error', $e);
+            Log::error('Error deleting user: '.$e->getMessage());
+            return redirect()->route('users.index')->with('error', 'Failed to delete the user. Please try again.');
         }
     }
 }
