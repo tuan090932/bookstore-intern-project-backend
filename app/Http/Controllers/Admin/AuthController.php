@@ -99,8 +99,6 @@ class AuthController extends Controller
         }
     }
 
-
-
     /**
      * Log the admin out of the application.
      *

@@ -37,6 +37,14 @@ Route::prefix('admin')->group(function ()
     Route::post('login', [AuthController::class, 'login'])->name('admin.login.submit');
     Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
+    // // Apply middleware to routes that require session handling
+    // Route::middleware(['auth:admin', 'store.admin.session'])->group(function ()
+    // {
+
+    //     Route::get('/', [DashboardController::class, 'indexPage'])->name('admin.dashboard');
+    //     // Other routes that require admin authentication and session handling
+    // });
+
 });
 
 Route::resource('admin/users', UserController::class);
