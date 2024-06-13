@@ -66,8 +66,8 @@
                             <tr>
                                 <td>{{ $book->book_id }}</td>
                                 <td>{{ $book->title }}</td>
-                                <td>{{ optional($book->category)->category_name }}</td>
-                                <td>{{ formatVND($book->price) }}</td>
+                                <td>{{ $book->categories->category_name }}</td>
+                                <td>{{ $book->price }}</td>
                                 <td>{{ $book->stock }}</td>
                                 <td>{{ $book->num_pages }}</td>
                                 <td>{{ $book->authors->author_name }}</td>
