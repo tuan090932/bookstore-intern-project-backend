@@ -40,7 +40,7 @@
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                                <h1 class="h4 text-gray-900 mb-4">Đăng ký tài khoản</h1>
                             </div>
 
                             @if (session('success'))
@@ -61,29 +61,29 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" name="admin_email" id="exampleInputEmail"
+                                    <input type="email" class="form-control form-control-user" name="email" id="exampleInputEmail"
                                         placeholder="Email Address" value="{{ old('admin_email') }}">
-                                    @error('admin_email')
+                                    @error('email')
                                         <span style="margin: 5px 0 0 10px; font-size: 12px;" class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
                                         <div class="input-group">
-                                            <input type="password" class="form-control form-control-user" name="admin_password" id="admin_password" placeholder="Password">
+                                            <input type="password" class="form-control form-control-user" name="password" id="password" placeholder="Password">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="toggleAdminPassword" style="cursor: pointer;">
                                                     <i class="fas fa-eye"></i>
                                                 </span>
                                             </div>
                                         </div>
-                                        @error('admin_password')
+                                        @error('password')
                                             <span style="margin: 5px 0 0 10px; font-size: 12px;" class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="input-group">
-                                            <input type="password" class="form-control form-control-user" name="admin_password_confirmation" id="admin_password_confirmation" placeholder="Repeat Password">
+                                            <input type="password" class="form-control form-control-user" name="password_confirmation" id="password_confirmation" placeholder="Repeat Password">
                                             <div class="input-group-append">
                                                 <span class="input-group-text" id="toggleAdminPasswordConfirmation" style="cursor: pointer;">
                                                     <i class="fas fa-eye"></i>
@@ -93,15 +93,15 @@
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
-                                    Register Account
+                                    Đăng ký
                                 </button>
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="{{ route('forgot-password') }}">Forgot Password?</a>
+                                <a class="small" href="{{ route('forgot-password') }}">Quên mật khẩu?</a>
                             </div>
                             <div class="text-center">
-                                <a class="small" href="{{ route('admin.login') }}">Already have an account? Login!</a>
+                                <a class="small" href="{{ route('admin.login') }}">Đã có tài khoản? Login!</a>
                             </div>
                         </div>
                     </div>
@@ -124,14 +124,17 @@
     <!-- Show/Hide Password JavaScript-->
     <script>
         document.getElementById('toggleAdminPassword').addEventListener('click', function () {
-            const passwordField = document.getElementById('admin_password');
+            const passwordField = document.getElementById('password');
             const passwordFieldType = passwordField.getAttribute('type');
             const icon = this.querySelector('i');
-            if (passwordFieldType === 'password') {
+            if (passwordFieldType === 'password')
+            {
                 passwordField.setAttribute('type', 'text');
                 icon.classList.remove('fa-eye');
                 icon.classList.add('fa-eye-slash');
-            } else {
+            }
+            else
+            {
                 passwordField.setAttribute('type', 'password');
                 icon.classList.remove('fa-eye-slash');
                 icon.classList.add('fa-eye');
@@ -139,14 +142,17 @@
         });
 
         document.getElementById('toggleAdminPasswordConfirmation').addEventListener('click', function () {
-            const passwordField = document.getElementById('admin_password_confirmation');
+            const passwordField = document.getElementById('password_confirmation');
             const passwordFieldType = passwordField.getAttribute('type');
             const icon = this.querySelector('i');
-            if (passwordFieldType === 'password') {
+            if (passwordFieldType === 'password')
+            {
                 passwordField.setAttribute('type', 'text');
                 icon.classList.remove('fa-eye');
                 icon.classList.add('fa-eye-slash');
-            } else {
+            }
+            else
+            {
                 passwordField.setAttribute('type', 'password');
                 icon.classList.remove('fa-eye-slash');
                 icon.classList.add('fa-eye');

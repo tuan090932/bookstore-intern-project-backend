@@ -18,6 +18,13 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('/assets/css/sb-admin-2.css') }}" rel="stylesheet">
+    <style>
+        input[type=password]::-ms-reveal,
+        input[type=password]::-ms-clear
+        {
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="bg-gradient-primary">
@@ -42,17 +49,18 @@
                                     <form class="user" method="POST" action="{{ route('admin.login.submit') }}">
                                         @csrf
                                         <div class="form-group">
-                                            <input type="email" name="admin_email" class="form-control form-control-user"
+                                            <input type="email" name="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
                                                 placeholder="Nhập địa chỉ email...">
-                                            @error('admin_email')
+                                            @error('email')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
-                                        <div class="form-group">
-                                            <input type="password" name="admin_password" class="form-control form-control-user"
+                                        <div class="form-group position-relative">
+                                            <input type="password" name="password" class="form-control form-control-user"
                                                 id="exampleInputPassword" placeholder="Mật khẩu">
-                                            @error('admin_password')
+                                            <span toggle="#exampleInputPassword" class="fa fa-fw fa-eye field-icon toggle-password" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></span>
+                                            @error('password')
                                                 <span class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
@@ -65,6 +73,9 @@
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Đăng nhập
                                         </button>
+                                        <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary btn-user btn-block">
+                                            Quay về trang Dashboard
+                                        </a>
                                     </form>
                                     <hr>
                                     <div class="text-center">
@@ -94,6 +105,23 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('/assets/js/sb-admin-2.min.js') }}"></script>
+
+    <script>
+        $(document).on('click', '.toggle-password', function()
+        {
+            $(this).toggleClass('fa-eye fa-eye-slash');
+            var input = $($(this).attr('toggle'));
+
+            if (input.attr('type') == 'password')
+            {
+                input.attr('type', 'text');
+            }
+            else
+            {
+                input.attr('type', 'password');
+            }
+        });
+    </script>
 
 </body>
 

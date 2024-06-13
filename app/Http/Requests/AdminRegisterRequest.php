@@ -25,7 +25,7 @@ class AdminRegisterRequest extends FormRequest
     {
         return [
             'admin_name' => 'required|string|max:250',
-            'admin_password' => [
+            'password' => [
                 'required',
                 'string',
                 'min:6',
@@ -35,7 +35,7 @@ class AdminRegisterRequest extends FormRequest
                 'regex:/[@$!%*?&]/',
                 'confirmed'
             ],
-            'admin_email' => 'required|string|email|max:250|unique:admin,admin_email',
+            'email' => 'required|string|email|max:250|unique:admin,email',
         ];
     }
 
@@ -51,17 +51,17 @@ class AdminRegisterRequest extends FormRequest
             'admin_name.string' => '*Tên phải là một chuỗi ký tự.',
             'admin_name.max' => '*Tên không được dài quá 250 ký tự.',
 
-            'admin_password.required' => '*Mật khẩu là bắt buộc.',
-            'admin_password.string' => '*Mật khẩu phải là một chuỗi ký tự.',
-            'admin_password.min' => '*Mật khẩu phải ít nhất 6 ký tự.',
-            'admin_password.regex' => '*Mật khẩu phải chứa ít nhất một chữ thường, một chữ hoa, một chữ số và một ký tự đặc biệt.',
-            'admin_password.confirmed' => '*Xác nhận mật khẩu không khớp.',
+            'password.required' => '*Mật khẩu là bắt buộc.',
+            'password.string' => '*Mật khẩu phải là một chuỗi ký tự.',
+            'password.min' => '*Mật khẩu phải ít nhất 6 ký tự.',
+            'password.regex' => '*Mật khẩu phải chứa ít nhất một chữ thường, một chữ hoa, một chữ số và một ký tự đặc biệt.',
+            'password.confirmed' => '*Xác nhận mật khẩu không khớp.',
 
-            'admin_email.required' => '*Email là bắt buộc.',
-            'admin_email.string' => '*Email phải là một chuỗi ký tự.',
-            'admin_email.email' => '*Email phải là một địa chỉ email hợp lệ.',
-            'admin_email.max' => '*Email không được dài quá 250 ký tự.',
-            'admin_email.unique' => '*Email này đã được sử dụng.',
+            'email.required' => '*Email là bắt buộc.',
+            'email.string' => '*Email phải là một chuỗi ký tự.',
+            'email.email' => '*Email phải là một địa chỉ email hợp lệ.',
+            'email.max' => '*Email không được dài quá 250 ký tự.',
+            'email.unique' => '*Email này đã được sử dụng.',
         ];
     }
 }

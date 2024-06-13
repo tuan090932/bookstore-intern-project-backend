@@ -29,11 +29,13 @@ Route::get('/forgot-password', function () {
 
 Route::prefix('admin')->group(function ()
 {
+
     Route::get('/', [DashboardController::class, 'indexPage'])->name('admin.dashboard');
-    Route::get('login', [AuthController::class, 'loginForm'])->name('admin.login');
-    Route::post('login', [AuthController::class, 'login'])->name('admin.login.submit');
     Route::get('register', [AuthController::class, 'register'])->name('admin.register');
     Route::post('register', [AuthController::class, 'store'])->name('admin.register.submit');
+    Route::get('login', [AuthController::class, 'loginForm'])->name('admin.login');
+    Route::post('login', [AuthController::class, 'login'])->name('admin.login.submit');
+    Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
 
 });
 
