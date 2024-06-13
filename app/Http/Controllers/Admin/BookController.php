@@ -77,12 +77,12 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(BookRequest $request, string $id)
     {
         try{
             $books = Book::findOrFail($id);
             $books->update($request->validated());
-            return redirect()->route('books.index')->with('succes', 'Product updated successfully');
+            return redirect()->route('books.index')->with('success', 'Product updated successfully');
         }catch(\Exception $e){
             return redirect()->route('books.index')->with('error', 'Failed to add book.');
         }
