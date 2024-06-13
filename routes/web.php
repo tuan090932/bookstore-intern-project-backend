@@ -21,8 +21,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
-
 Route::get('/login', function () {
     return view('admin.pages.auth.login');
 })->name('login');
@@ -33,9 +31,10 @@ Route::get('/forgot-password', function () {
     return view('admin.pages.auth.forgot-password');
 })->name('forgot-password');
 
+//Users
+Route::resource('users', UserController::class);
+
 Route::prefix('admin')->group(function(){
-    //Users
-    Route::resource('users', UserController::class);
 
     //Dashboard
     Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
