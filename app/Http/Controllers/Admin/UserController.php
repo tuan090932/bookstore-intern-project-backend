@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Exception;
@@ -110,7 +111,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(string $id)
+    public function destroy(int $id)
     {
         try {
             Address::where('user_id', $id)->delete();
@@ -118,7 +119,7 @@ class UserController extends Controller
             $user->delete();
             return redirect()->route('users.index')->with('success', 'User deleted successfully');
         } catch (\Exception $e) {
-            return redirect()->route('users.index')->with('error', 'Failed to delete the user. Please try again.');
+            return redirect()->route('users.index')->with('error', $e);
         }
     }
 }
