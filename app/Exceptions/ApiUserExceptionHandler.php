@@ -10,6 +10,12 @@ use Illuminate\Http\JsonResponse;
 
 class ApiUserExceptionHandler
 {
+    /**
+     * Handle the exception.
+     *
+     * @param Exception $ex
+     * @return JsonResponse
+     */
     public static function handle(Exception $ex): JsonResponse
     {
         if ($ex instanceof ModelNotFoundException) {
