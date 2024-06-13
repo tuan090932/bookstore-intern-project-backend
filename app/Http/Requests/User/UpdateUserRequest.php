@@ -56,9 +56,9 @@ class UpdateUserRequest extends FormRequest
         return [
             'name.string' => 'Tên phải là một chuỗi ký tự.',
             'name.max' => 'Tên không được vượt quá 255 ký tự.',
-            'user_name.string' => 'Tên người dùng phải là một chuỗi ký tự.',
-            'user_name.max' => 'Tên người dùng không được vượt quá 255 ký tự.',
-            'user_name.unique' => 'Tên người dùng đã được sử dụng.',
+            'user_name.string' => 'user name phải là một chuỗi ký tự.',
+            'user_name.max' => 'user name không được vượt quá 255 ký tự.',
+            'user_name.unique' => 'user name đã được sử dụng.',
             'email.string' => 'Email phải là một chuỗi ký tự.',
             'email.email' => 'Email không hợp lệ.',
             'email.max' => 'Email không được vượt quá 255 ký tự.',
