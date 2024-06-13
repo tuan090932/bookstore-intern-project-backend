@@ -21,18 +21,21 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
 
-Route::get('/login', function () {
-    return view('admin.pages.auth.login');
-})->name('login');
-
-Route::get('/admin/register', [AuthController::class, 'register'])->name('admin.register');
-Route::post('/admin/register', [AuthController::class, 'store'])->name('admin.store');
 
 Route::get('/forgot-password', function () {
     return view('admin.pages.auth.forgot-password');
 })->name('forgot-password');
+
+Route::prefix('admin')->group(function ()
+{
+    Route::get('/', [DashboardController::class, 'indexPage'])->name('admin.dashboard');
+    Route::get('login', [AuthController::class, 'loginForm'])->name('admin.login');
+    Route::post('login', [AuthController::class, 'login'])->name('admin.login.submit');
+    Route::get('register', [AuthController::class, 'register'])->name('admin.register');
+    Route::post('register', [AuthController::class, 'store'])->name('admin.register.submit');
+
+});
 
 Route::resource('admin/users', UserController::class);
 

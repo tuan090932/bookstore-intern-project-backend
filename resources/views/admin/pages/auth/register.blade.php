@@ -19,7 +19,13 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('/assets/css/sb-admin-2.css') }}" rel="stylesheet">
-
+    <style>
+        input[type=password]::-ms-reveal,
+        input[type=password]::-ms-clear
+        {
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="bg-gradient-primary">
@@ -43,14 +49,14 @@
                                 </div>
                             @endif
 
-                            <form class="user" action="{{ route('admin.store') }}" method="POST">
+                            <form class="user" action="{{ route('admin.register.submit') }}" method="POST">
                                 @csrf
                                 <div class="form-group row">
                                     <div class="col-sm-12 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user" name="admin_name" id="exampleName"
                                             placeholder="Name" value="{{ old('admin_name') }}">
                                         @error('admin_name')
-                                            <span style="margin: 5px 0 0 10px; font-size: 12px; " class="text-danger">{{ $message }}</span>
+                                            <span style="margin: 5px 0 0 10px; font-size: 12px;" class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
@@ -58,18 +64,32 @@
                                     <input type="email" class="form-control form-control-user" name="admin_email" id="exampleInputEmail"
                                         placeholder="Email Address" value="{{ old('admin_email') }}">
                                     @error('admin_email')
-                                        <span style="margin: 5px 0 0 10px; font-size: 12px; " class="text-danger">{{ $message }}</span>
+                                        <span style="margin: 5px 0 0 10px; font-size: 12px;" class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user" name="admin_password" id="exampleInputPassword" placeholder="Password">
+                                        <div class="input-group">
+                                            <input type="password" class="form-control form-control-user" name="admin_password" id="admin_password" placeholder="Password">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="toggleAdminPassword" style="cursor: pointer;">
+                                                    <i class="fas fa-eye"></i>
+                                                </span>
+                                            </div>
+                                        </div>
                                         @error('admin_password')
-                                            <span style="margin: 5px 0 0 10px; font-size: 12px; " class="text-danger">{{ $message }}</span>
+                                            <span style="margin: 5px 0 0 10px; font-size: 12px;" class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user" name="admin_password_confirmation" id="exampleRepeatPassword" placeholder="Repeat Password">
+                                        <div class="input-group">
+                                            <input type="password" class="form-control form-control-user" name="admin_password_confirmation" id="admin_password_confirmation" placeholder="Repeat Password">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="toggleAdminPasswordConfirmation" style="cursor: pointer;">
+                                                    <i class="fas fa-eye"></i>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
@@ -81,7 +101,7 @@
                                 <a class="small" href="{{ route('forgot-password') }}">Forgot Password?</a>
                             </div>
                             <div class="text-center">
-                                <a class="small" href="{{ route('login') }}">Already have an account? Login!</a>
+                                <a class="small" href="{{ route('admin.login') }}">Already have an account? Login!</a>
                             </div>
                         </div>
                     </div>
@@ -100,6 +120,39 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('/assets/js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Show/Hide Password JavaScript-->
+    <script>
+        document.getElementById('toggleAdminPassword').addEventListener('click', function () {
+            const passwordField = document.getElementById('admin_password');
+            const passwordFieldType = passwordField.getAttribute('type');
+            const icon = this.querySelector('i');
+            if (passwordFieldType === 'password') {
+                passwordField.setAttribute('type', 'text');
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.setAttribute('type', 'password');
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+
+        document.getElementById('toggleAdminPasswordConfirmation').addEventListener('click', function () {
+            const passwordField = document.getElementById('admin_password_confirmation');
+            const passwordFieldType = passwordField.getAttribute('type');
+            const icon = this.querySelector('i');
+            if (passwordFieldType === 'password') {
+                passwordField.setAttribute('type', 'text');
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.setAttribute('type', 'password');
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+    </script>
 
 </body>
 

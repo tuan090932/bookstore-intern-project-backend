@@ -19,8 +19,8 @@ class AdminUser extends Authenticatable
      */
     protected $fillable = [
         'admin_name',
-        'admin_password',
-        'admin_email',
+        'password',
+        'email',
     ];
 
     /**
@@ -29,7 +29,7 @@ class AdminUser extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'admin_password',
+        'password',
     ];
 
     /**
@@ -49,6 +49,6 @@ class AdminUser extends Authenticatable
      */
     public function setPasswordAttribute($value)
     {
-        $this->attributes['admin_password'] = bcrypt($value);
+        $this->attributes['password'] = bcrypt($value);
     }
 }
