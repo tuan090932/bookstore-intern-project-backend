@@ -21,8 +21,6 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-
-
 Route::get('/forgot-password', function () {
     return view('admin.pages.auth.forgot-password');
 })->name('forgot-password');
@@ -51,8 +49,6 @@ Route::resource('admin/books', BookController::class);
 Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('dashboard');
 Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
 Route::resource('admin/books', BookController::class);
-
-Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
 
 Route::prefix('admin')->group(function () {
     Route::prefix('users')->group(function () {
