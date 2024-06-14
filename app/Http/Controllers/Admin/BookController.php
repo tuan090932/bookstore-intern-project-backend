@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\BookRequest;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Language;
 use App\Models\Author;
 use App\Models\Publisher;
-use App\Http\Requests\BookRequest;
-
 
 class BookController extends Controller
 {
@@ -21,7 +20,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::with(['authors', 'categories', 'languages', 'publishers']);
+        $books = Book::with(['authors', 'categories', 'languages', 'publishers'])->get();
         // $books = Book::all();
 
         return view('admin.pages.books.index', compact('books'));
@@ -36,7 +35,7 @@ class BookController extends Controller
         $authors = Author::all();
         $languages = Language::all();
         $publishers = Publisher::all();
-        return view('admin.pages.books.create', compact('categories', 'authors', 'languages', 'publishers'));
+        return view('admin.pages.books.create', compact('categories','authors', 'languages','publishers'));
     }
 
     /**
@@ -44,14 +43,13 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
-        try {
+        try{
             Book::create($request->validated());
             return redirect()->route('books.index')->with('success', 'Book added successfully.');
-        } catch (\Exception $e) {
+        }catch(\Exception $e){
             return redirect()->route('books.index')->with('error', 'Failed to add book.');
         }
     }
-
 
     /**
      * Display the specified resource.
@@ -66,23 +64,50 @@ class BookController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $books = Book::findOrFail($id);  
+        $categories = Category::all();
+        $authors = Author::all();
+        $languages = Language::all();
+        $publishers = Publisher::all();
+        return view('admin.pages.books.edit', compact('books','categories','authors', 'languages','publishers'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(BookRequest $request, string $id)
     {
-        //
+        try{
+            $books = Book::findOrFail($id);
+            $books->update($request->validated());
+            return redirect()->route('books.index')->with('success', 'Product updated successfully');
+        }catch(\Exception $e){
+            return redirect()->route('books.index')->with('error', 'Failed to add book.');
+        }
     }
-
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+   public function destroy(string $id)
     {
-        //
+        try {
+            $book = Book::findOrFail($id);
+            $book->delete();
+            return redirect()->route('books.index')->with('success', 'Book deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('books.index')->with('error', 'Failed to delete the book.');
+        }
     }
+
+    /**
+    * Search for books by title.
+    */
+    public function search(Request $request)
+    {
+        $search = $request->input('search');
+        $books = Book::where('title', 'like', '%' . $search . '%')->with(['authors', 'categories', 'languages', 'publishers'])->get();
+        return view('admin.pages.books.index', compact('books'));
+    }
+    
 }
