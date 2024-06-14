@@ -24,7 +24,7 @@ class CartController extends Controller
     {
         try {
             $user = User::findOrFail($userId);
-            $cart = Cart::where('user_id', $user->id)->with('cartItems')->firstOrFail();
+            $cart = Cart::where('user_id', $user->user_id)->with('cartItems')->firstOrFail();
             return response()->json($cart->cartItems);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'User or cart not found.', 'exception' => $e->getMessage()], 404);
@@ -43,7 +43,7 @@ class CartController extends Controller
     {
         try {
             $user = User::findOrFail($request->user_id);
-            $cart = Cart::firstOrCreate(['user_id' => $user->id]);
+            $cart = Cart::firstOrCreate(['user_id' => $user->user_id]);
             $cartItem = CartItem::create([
                 'cart_id' => $cart->cart_id,
                 'book_id' => $request->book_id,
