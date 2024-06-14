@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+use App\Exceptions\UpdateProfileException;
 use Exception;
 
 class AuthController extends Controller
@@ -86,8 +87,14 @@ class AuthController extends Controller
 
             if ($authenticated)
             {
-                $adminName = Auth::guard('admin')->user()->admin_name;
-                Session::put('adminName', $adminName);
+                // $request->session()->regenerate();
+                // $adminName = Auth::guard('admin')->user()->admin_name;
+                // Session::put('adminName', $adminName);
+                // dd(Auth::guard('admin')->user(), session()->all());
+                // return redirect()->route('admin.dashboard');
+                $request->session()->regenerate();
+                $adminUser = Auth::guard('admin')->user();
+                session(['adminUser' => $adminUser]);
                 return redirect()->route('admin.dashboard');
             }
 
@@ -114,4 +121,47 @@ class AuthController extends Controller
         return redirect()->route('admin.dashboard');
     }
 
+    /**
+     * Show the admin profile.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showProfile()
+    {
+        $admin = session('adminUser') ?? Auth::guard('admin')->user();
+
+        return view('admin.pages.auth.profile', compact('admin'));
+    }
+
+    /**
+     * Show the form for editing the admin profile.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function editProfile()
+    {
+        $admin = session('adminUser') ?? Auth::guard('admin')->user();
+
+        return view('admin.pages.auth.update', compact('admin'));
+    }
+
+    /**
+     * Update the admin profile in the database.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateProfile(UpdateProfileRequest $request, $id)
+    {
+        try
+        {
+            $admin = AdminUser::findOrFail($id);
+            $admin->update($request->only(['phone', 'address', 'email', 'name']));
+            return redirect()->route('admin.profile')->with('success', 'Profile updated successfully.');
+        }
+        catch (Exception $e)
+        {
+            return redirect()->route('admin.profile')->with('error', 'An error occurred while updating the profile.');
+        }
+    }
 }

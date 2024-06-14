@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AuthController;
+use App\Http\Controllers\Admin\LocationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,21 +35,18 @@ Route::prefix('admin')->group(function ()
     Route::get('login', [AuthController::class, 'loginForm'])->name('admin.login');
     Route::post('login', [AuthController::class, 'login'])->name('admin.login.submit');
     Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
-
-    // // Apply middleware to routes that require session handling
-    // Route::middleware(['auth:admin', 'store.admin.session'])->group(function ()
-    // {
-
-    //     Route::get('/', [DashboardController::class, 'indexPage'])->name('admin.dashboard');
-    //     // Other routes that require admin authentication and session handling
-    // });
+    Route::get('profile', [AuthController::class, 'showProfile'])->name('admin.profile');
+    Route::get('profile/edit', [AuthController::class, 'editProfile'])->name('admin.profile.edit');
+    Route::put('profile/update/{id}', [AuthController::class, 'updateProfile'])->name('admin.profile.update');
 
 });
+
+Route::get('/api/districts/{provinceId}', [LocationController::class, 'getDistricts']);
+Route::get('/api/wards/{districtId}', [LocationController::class, 'getWards']);
 
 Route::resource('admin/books', BookController::class);
 Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('dashboard');
 Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
-Route::resource('admin/books', BookController::class);
 
 Route::prefix('admin')->group(function () {
     Route::prefix('users')->group(function () {
