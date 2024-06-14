@@ -92,8 +92,8 @@ class BookController extends Controller
    public function destroy(string $id)
     {
         try {
-            $book = Book::findOrFail($id);
-            $book->delete();
+            $books = Book::findOrFail($id);
+            $books->delete();
             return redirect()->route('books.index')->with('success', 'Book deleted successfully.');
         } catch (\Exception $e) {
             return redirect()->route('books.index')->with('error', 'Failed to delete the book.');
