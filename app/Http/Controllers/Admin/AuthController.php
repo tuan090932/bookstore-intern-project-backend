@@ -6,13 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRegisterRequest;
 use App\Http\Requests\AdminLoginRequest;
 use App\Models\AdminUser;
-use App\Exceptions\AdminException;
-use App\Exceptions\AdminLoginException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
-use App\Exceptions\UpdateProfileException;
 use Exception;
 
 class AuthController extends Controller
@@ -44,20 +41,9 @@ class AuthController extends Controller
 
             return redirect()->route('admin.login')->with('success', 'Tạo tài khoản thành công vui lòng đăng nhập.');
         } catch (Exception $e) {
-            $message = 'Tạo tài khoản thất bại. Vui lòng thử lại.';
-            $status = 'error';
+            Log::error($e->getMessage());
 
-            if ($e instanceof QueryException) {
-                Log::error('Database error creating admin account: ' . $e->getMessage());
-                $message = 'Có lỗi cơ sở dữ liệu. Vui lòng thử lại.';
-            } elseif ($e instanceof ValidationException) {
-                Log::error('Validation error creating admin account: ' . $e->getMessage());
-                $message = 'Dữ liệu không hợp lệ. Vui lòng kiểm tra lại thông tin.';
-            } else {
-                Log::error('Error creating admin account: ' . $e->getMessage());
-            }
-
-            return redirect()->route('admin.register')->with($status, $message);
+            return redirect()->route('admin.register')->with('error', 'Đăng ký thất bại. Vui lòng thử lại.');
         }
     }
 
@@ -102,20 +88,9 @@ class AuthController extends Controller
 
             return back()->withErrors(['password' => 'Thông tin mật khẩu không chính xác.'])->onlyInput('email');
         } catch (Exception $e) {
-            $message = 'Đăng nhập thất bại. Vui lòng thử lại.';
-            $status = 'error';
+            Log::error($e->getMessage());
 
-            if ($e instanceof QueryException) {
-                Log::error('Database error during admin login: ' . $e->getMessage());
-                $message = 'Có lỗi cơ sở dữ liệu. Vui lòng thử lại.';
-            } elseif ($e instanceof ValidationException) {
-                Log::error('Validation error during admin login: ' . $e->getMessage());
-                $message = 'Dữ liệu không hợp lệ. Vui lòng kiểm tra lại thông tin.';
-            } else {
-                Log::error('Error during admin login: ' . $e->getMessage());
-            }
-
-            return redirect()->route('admin.login')->with($status, $message);
+            return redirect()->route('admin.register')->with('error', 'Đăng nhập thất bại. Vui lòng thử lại.');
         }
     }
 
@@ -168,10 +143,13 @@ class AuthController extends Controller
     {
         try{
             $admin = AdminUser::findOrFail($id);
-            $admin->update($request->only(['phone', 'address', 'email', 'name']));
-            return redirect()->route('admin.profile')->with('success', 'Profile updated successfully.');
+            $admin->update($request->only(['phone', 'address']));
+
+            return redirect()->route('admin.profile')->with('success', 'Profile cập nhật thành công.');
         }catch (Exception $e){
-            return redirect()->route('admin.profile')->with('error', 'An error occurred while updating the profile.');
+            Log::error($e->getMessage());
+
+            return redirect()->route('admin.profile')->with('error', 'Có lỗi xảy ra khi cập nhật profile.');
         }
     }
 }
