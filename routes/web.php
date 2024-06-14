@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\Admin\BookController;
+use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Models\Author;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,7 +39,7 @@ Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('
 Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
 Route::resource('admin/books', BookController::class);
 
-Route::get('/', [DashboardController::class, 'indexPage'])->name('dashboard');
+Route::resource('admin/authors', AuthorController::class);
 
 Route::prefix('admin')->group(function () {
     Route::prefix('users')->group(function () {
@@ -46,4 +48,6 @@ Route::prefix('admin')->group(function () {
         Route::post('/', [UserController::class, 'store'])->name('users.store');
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     });
+
+    Route::resource('authors', AuthorController::class);
 });
