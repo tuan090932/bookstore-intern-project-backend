@@ -35,7 +35,7 @@ class AuthController extends Controller
      */
     public function store(AdminRegisterRequest $request)
     {
-        try{
+        try {
             AdminUser::create([
                 'admin_name' => $request->admin_name,
                 'password' => Hash::make($request->password),
@@ -43,8 +43,21 @@ class AuthController extends Controller
             ]);
 
             return redirect()->route('admin.login')->with('success', 'Tạo tài khoản thành công vui lòng đăng nhập.');
-        }catch (Exception $e){
-            return AdminException::handle($e);
+        } catch (Exception $e) {
+            $message = 'Tạo tài khoản thất bại. Vui lòng thử lại.';
+            $status = 'error';
+
+            if ($e instanceof QueryException) {
+                Log::error('Database error creating admin account: ' . $e->getMessage());
+                $message = 'Có lỗi cơ sở dữ liệu. Vui lòng thử lại.';
+            } elseif ($e instanceof ValidationException) {
+                Log::error('Validation error creating admin account: ' . $e->getMessage());
+                $message = 'Dữ liệu không hợp lệ. Vui lòng kiểm tra lại thông tin.';
+            } else {
+                Log::error('Error creating admin account: ' . $e->getMessage());
+            }
+
+            return redirect()->route('admin.register')->with($status, $message);
         }
     }
 
@@ -66,7 +79,7 @@ class AuthController extends Controller
      */
     public function login(AdminLoginRequest $request)
     {
-        try{
+        try {
             $credentials = [
                 'email' => $request->email,
                 'password' => $request->password,
@@ -74,13 +87,13 @@ class AuthController extends Controller
 
             $emailExists = AdminUser::where('email', $request->email)->exists();
 
-            if (!$emailExists){
+            if (!$emailExists) {
                 return back()->withErrors(['email' => 'Thông tin email không chính xác.'])->onlyInput('email');
             }
 
             $authenticated = Auth::guard('admin')->attempt($credentials);
 
-            if ($authenticated){
+            if ($authenticated) {
                 $request->session()->regenerate();
                 $adminUser = Auth::guard('admin')->user();
                 session(['adminUser' => $adminUser]);
@@ -88,8 +101,21 @@ class AuthController extends Controller
             }
 
             return back()->withErrors(['password' => 'Thông tin mật khẩu không chính xác.'])->onlyInput('email');
-        }catch (Exception $e){
-            return AdminLoginException::handle($e);
+        } catch (Exception $e) {
+            $message = 'Đăng nhập thất bại. Vui lòng thử lại.';
+            $status = 'error';
+
+            if ($e instanceof QueryException) {
+                Log::error('Database error during admin login: ' . $e->getMessage());
+                $message = 'Có lỗi cơ sở dữ liệu. Vui lòng thử lại.';
+            } elseif ($e instanceof ValidationException) {
+                Log::error('Validation error during admin login: ' . $e->getMessage());
+                $message = 'Dữ liệu không hợp lệ. Vui lòng kiểm tra lại thông tin.';
+            } else {
+                Log::error('Error during admin login: ' . $e->getMessage());
+            }
+
+            return redirect()->route('admin.login')->with($status, $message);
         }
     }
 
