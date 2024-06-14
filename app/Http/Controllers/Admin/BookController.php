@@ -64,12 +64,7 @@ class BookController extends Controller
      */
     public function edit(string $id)
     {
-        $books = Book::findOrFail($id);  
-        $categories = Category::all();
-        $authors = Author::all();
-        $languages = Language::all();
-        $publishers = Publisher::all();
-        return view('admin.pages.books.edit', compact('books','categories','authors', 'languages','publishers'));
+        //
     }
 
     /**
@@ -77,13 +72,7 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, string $id)
     {
-        try{
-            $books = Book::findOrFail($id);
-            $books->update($request->validated());
-            return redirect()->route('books.index')->with('success', 'Product updated successfully');
-        }catch(\Exception $e){
-            return redirect()->route('books.index')->with('error', 'Failed to add book.');
-        }
+        //
     }
 
     /**
