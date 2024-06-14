@@ -21,12 +21,8 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::with(['authors', 'categories', 'languages', 'publishers'])->paginate(15);
-        // $books = Book::all();
-
-        return view('admin.pages.books.index', compact('books'));
+        //
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -36,7 +32,7 @@ class BookController extends Controller
         $authors = Author::all();
         $languages = Language::all();
         $publishers = Publisher::all();
-        return view('admin.pages.books.create', compact('categories', 'authors', 'languages', 'publishers'));
+        return view('admin.pages.books.create', compact('categories','authors', 'languages','publishers'));
     }
 
     /**
@@ -44,12 +40,33 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
-        try {
-            Book::create($request->validated());
-            return redirect()->route('books.index')->with('success', 'Book added successfully.');
-        } catch (\Exception $e) {
-            return redirect()->route('books.index')->with('error', 'Failed to add book.');
-        }
+        $request->validate([
+            'title' => 'required|string|max:250',
+            'language_id' => 'required|integer',
+            'num_pages' => 'required|integer',
+            'publisher_id' => 'required|integer',
+            'category_id' => 'required|integer',
+            'image' => 'required|string|max:250|unique:books,image',
+            'description' => 'required|string|max:250',
+            'price' => 'required|numeric',
+            'stock' => 'required|integer',
+            'author_id' => 'required|integer',
+        ], [
+            'title.required' => 'Title is required.',
+            'language_id.required' => 'Language is required.',
+            'num_pages.required' => 'Number of pages is required.',
+            'publisher_id.required' => 'Publisher is required.',
+            'category_id.required' => 'Category is required.',
+            'image.required' => 'Image is required.',
+            'description.required' => 'Description is required.',
+            'price.required' => 'Price is required.',
+            'stock.required' => 'Stock is required.',
+            'author_id.required' => 'Author is required.',
+        ]);
+
+        Book::create($request->all());
+
+        return redirect()->route('books.index')->with('success', 'Book added successfully.');
     }
 
 
@@ -71,7 +88,7 @@ class BookController extends Controller
         $authors = Author::all();
         $languages = Language::all();
         $publishers = Publisher::all();
-        return view('admin.pages.books.edit', compact('books', 'categories', 'authors', 'languages', 'publishers'));
+        return view('admin.pages.books.edit', compact('books','categories','authors', 'languages','publishers'));
     }
 
     /**
@@ -79,13 +96,33 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, string $id)
     {
-        try {
-            $books = Book::findOrFail($id);
-            $books->update($request->validated());
-            return redirect()->route('books.index')->with('success', 'Book updated successfully');
-        } catch (\Exception $e) {
-            return redirect()->route('books.index')->with('error', 'Failed to update book.');
-        }
+        $request->validate([
+            'title' => 'required|string|max:250',
+            'language_id' => 'required|integer',
+            'num_pages' => 'required|integer',
+            'publisher_id' => 'required|integer',
+            'category_id' => 'required|integer',
+            'image' => 'required|string|max:250|unique:books,image',
+            'description' => 'required|string|max:250',
+            'price' => 'required|numeric',
+            'stock' => 'required|integer',
+            'author_id' => 'required|integer',
+        ], [
+            'title.required' => 'Title is required.',
+            'language_id.required' => 'Language is required.',
+            'num_pages.required' => 'Number of pages is required.',
+            'publisher_id.required' => 'Publisher is required.',
+            'category_id.required' => 'Category is required.',
+            'image.required' => 'Image is required.',
+            'description.required' => 'Description is required.',
+            'price.required' => 'Price is required.',
+            'stock.required' => 'Stock is required.',
+            'author_id.required' => 'Author is required.',
+        ]);
+
+        $books = Book::findOrFail($id);
+        $books->update($request->all());
+        return redirect()->route('books.index')->with('succes', 'Product updated successfully');
     }
 
     /**
@@ -93,13 +130,7 @@ class BookController extends Controller
      */
     public function destroy(string $id)
     {
-        try {
-            $book = Book::findOrFail($id);
-            $book->delete();
-            return redirect()->route('books.index')->with('success', 'Book deleted successfully.');
-        } catch (\Exception $e) {
-            return redirect()->route('books.index')->with('error', 'Failed to delete the book.');
-        }
+       //
     }
 
     /**
