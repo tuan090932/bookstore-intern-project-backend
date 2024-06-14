@@ -57,6 +57,4 @@ Route::prefix('admin')->group(function () {
         Route::post('/', [UserController::class, 'store'])->name('users.store');
         Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     });
-
-    Route::resource('authors', AuthorController::class);
 });
