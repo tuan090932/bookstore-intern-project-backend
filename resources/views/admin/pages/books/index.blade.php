@@ -66,13 +66,13 @@
                             <tr>
                                 <td>{{ $book->book_id }}</td>
                                 <td>{{ $book->title }}</td>
-                                <td>{{ $book->categories->category_name }}</td>
-                                <td>{{ $book->price }}</td>
+                                <td>{{ ($book->categories)->category_name }}</td>
+                                <td>{{ ($book->price) }}</td>
                                 <td>{{ $book->stock }}</td>
                                 <td>{{ $book->num_pages }}</td>
-                                <td>{{ $book->authors->author_name }}</td>
-                                <td>{{ $book->publishers->publisher_name }}</td>
-                                <td>{{ $book->languages->language_name}}</td>
+                                <td>{{ ($book->authors)->author_name }}</td>
+                                <td>{{ ($book->publishesrs)->publisher_name }}</td>
+                                <td>{{ ($book->languages)->language_name }}</td>
                                 <td>
                                     <div class="d-flex  justify-content-center">
                                         <a button type="button" class="btn btn-success">
@@ -94,11 +94,6 @@
                         @endforeach
                     </tbody>
                 </table>
-                <div class="d-flex">
-                    <nav>
-                        {{ $books->links('vendor.pagination.bootstrap-4') }}
-                    </nav>
-                </div>
             </div>
         </div>
     </div>
