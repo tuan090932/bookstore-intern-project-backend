@@ -123,35 +123,25 @@
 
     <!-- Show/Hide Password JavaScript-->
     <script>
-        document.getElementById('toggleAdminPassword').addEventListener('click', function () {
-            const passwordField = document.getElementById('password');
-            const passwordFieldType = passwordField.getAttribute('type');
-            const icon = this.querySelector('i');
-            if (passwordFieldType === 'password'){
-                passwordField.setAttribute('type', 'text');
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            }else{
-                passwordField.setAttribute('type', 'password');
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        });
+        function togglePasswordVisibility(toggleId, passwordFieldId) {
+            document.getElementById(toggleId).addEventListener('click', function () {
+                const passwordField = document.getElementById(passwordFieldId);
+                const passwordFieldType = passwordField.getAttribute('type');
+                const icon = this.querySelector('i');
+                if (passwordFieldType === 'password') {
+                    passwordField.setAttribute('type', 'text');
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordField.setAttribute('type', 'password');
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        }
 
-        document.getElementById('toggleAdminPasswordConfirmation').addEventListener('click', function () {
-            const passwordField = document.getElementById('password_confirmation');
-            const passwordFieldType = passwordField.getAttribute('type');
-            const icon = this.querySelector('i');
-            if (passwordFieldType === 'password'){
-                passwordField.setAttribute('type', 'text');
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            }else{
-                passwordField.setAttribute('type', 'password');
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        });
+        togglePasswordVisibility('toggleAdminPassword', 'password');
+        togglePasswordVisibility('toggleAdminPasswordConfirmation', 'password_confirmation');
     </script>
 
 </body>
