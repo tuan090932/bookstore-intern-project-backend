@@ -29,13 +29,10 @@ class Author extends Model
      */
     public function getBirthDateAttribute($value)
     {
-        if ($value)
-        {
+        if ($value) {
             $birthDate = Carbon::parse($value);
-            return $birthDate ->format('d/m/Y');
-        }
-        else
-        {
+            return $birthDate->format('d/m/Y');
+        } else {
             return null;
         }
     }
@@ -48,13 +45,10 @@ class Author extends Model
      */
     public function getDeathDateAttribute($value)
     {
-        if ($value)
-        {
+        if ($value) {
             $deathDate = Carbon::parse($value);
             return $deathDate->format('d/m/Y');
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
