@@ -2,14 +2,13 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Login</title>
+    <title>Đăng nhập Admin</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('/assets/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
@@ -19,6 +18,13 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('/assets/css/sb-admin-2.css') }}" rel="stylesheet">
+    <style>
+        input[type=password]::-ms-reveal,
+        input[type=password]::-ms-clear
+        {
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="bg-gradient-primary">
@@ -38,35 +44,45 @@
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                        <h1 class="h4 text-gray-900 mb-4">Chào mừng trở lại!</h1>
                                     </div>
-                                    <form class="user">
+                                    <form class="user" method="POST" action="{{ route('admin.login.submit') }}">
+                                        @csrf
                                         <div class="form-group">
-                                            <input type="email" class="form-control form-control-user"
+                                            <input type="email" name="email" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
-                                                placeholder="Enter Email Address...">
+                                                placeholder="Nhập địa chỉ email...">
+                                            @error('email')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
-                                        <div class="form-group">
-                                            <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password">
+                                        <div class="form-group position-relative">
+                                            <input type="password" name="password" class="form-control form-control-user"
+                                                id="exampleInputPassword" placeholder="Mật khẩu">
+                                            <span toggle="#exampleInputPassword" class="fa fa-fw fa-eye field-icon toggle-password" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></span>
+                                            @error('password')
+                                                <span class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
                                                 <input type="checkbox" class="custom-control-input" id="customCheck">
-                                                <label class="custom-control-label" for="customCheck">Remember
-                                                    Me</label>
+                                                <label class="custom-control-label" for="customCheck">Nhớ mật khẩu</label>
                                             </div>
                                         </div>
-                                        <a href="index.html" class="btn btn-primary btn-user btn-block">
-                                            Login
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                            Đăng nhập
+                                        </button>
+                                        <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary btn-user btn-block">
+                                            Quay về trang Dashboard
                                         </a>
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="{{ route('forgot-password') }}">Forgot Password?</a>
+                                        <a class="small" href="{{ route('forgot-password') }}">Quên mật khẩu?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="{{route('register')}}">Create an Account!</a>
+                                        <a class="small" href="{{ route('admin.register') }}">Tạo tài khoản mới!</a>
                                     </div>
                                 </div>
                             </div>
@@ -89,6 +105,23 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('/assets/js/sb-admin-2.min.js') }}"></script>
+
+    <script>
+        $(document).on('click', '.toggle-password', function()
+        {
+            $(this).toggleClass('fa-eye fa-eye-slash');
+            var input = $($(this).attr('toggle'));
+
+            if (input.attr('type') == 'password')
+            {
+                input.attr('type', 'text');
+            }
+            else
+            {
+                input.attr('type', 'password');
+            }
+        });
+    </script>
 
 </body>
 
