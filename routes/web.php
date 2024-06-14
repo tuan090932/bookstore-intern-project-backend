@@ -43,9 +43,6 @@ Route::prefix('admin')->group(function ()
 
 });
 
-Route::get('/api/districts/{provinceId}', [LocationController::class, 'getDistricts']);
-Route::get('/api/wards/{districtId}', [LocationController::class, 'getWards']);
-
 Route::resource('admin/books', BookController::class);
 Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('dashboard');
 Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
