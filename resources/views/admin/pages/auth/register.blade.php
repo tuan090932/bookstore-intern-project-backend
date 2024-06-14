@@ -127,14 +127,11 @@
             const passwordField = document.getElementById('password');
             const passwordFieldType = passwordField.getAttribute('type');
             const icon = this.querySelector('i');
-            if (passwordFieldType === 'password')
-            {
+            if (passwordFieldType === 'password'){
                 passwordField.setAttribute('type', 'text');
                 icon.classList.remove('fa-eye');
                 icon.classList.add('fa-eye-slash');
-            }
-            else
-            {
+            }else{
                 passwordField.setAttribute('type', 'password');
                 icon.classList.remove('fa-eye-slash');
                 icon.classList.add('fa-eye');
@@ -145,14 +142,11 @@
             const passwordField = document.getElementById('password_confirmation');
             const passwordFieldType = passwordField.getAttribute('type');
             const icon = this.querySelector('i');
-            if (passwordFieldType === 'password')
-            {
+            if (passwordFieldType === 'password'){
                 passwordField.setAttribute('type', 'text');
                 icon.classList.remove('fa-eye');
                 icon.classList.add('fa-eye-slash');
-            }
-            else
-            {
+            }else{
                 passwordField.setAttribute('type', 'password');
                 icon.classList.remove('fa-eye-slash');
                 icon.classList.add('fa-eye');
