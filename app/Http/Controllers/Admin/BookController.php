@@ -36,7 +36,7 @@ class BookController extends Controller
         $authors = Author::all();
         $languages = Language::all();
         $publishers = Publisher::all();
-        return view('admin.pages.books.create', compact('categories','authors', 'languages','publishers'));
+        return view('admin.pages.books.create', compact('categories', 'authors', 'languages', 'publishers'));
     }
 
     /**
@@ -44,10 +44,10 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
-        try{
+        try {
             Book::create($request->validated());
             return redirect()->route('books.index')->with('success', 'Book added successfully.');
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return redirect()->route('books.index')->with('error', 'Failed to add book.');
         }
     }
@@ -73,17 +73,16 @@ class BookController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {   
+    {
         //
-    }  
+    }
 
 
     /**
      * Remove the specified resource from storage.
      */
-   public function destroy(string $id)
+    public function destroy(string $id)
     {
-       //
+        //
     }
-
 }
