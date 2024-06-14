@@ -21,7 +21,10 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        $books = Book::with(['authors', 'categories', 'languages', 'publishers'])->get();
+        // $books = Book::all();
+
+        return view('admin.pages.books.index', compact('books'));
     }
     /**
      * Show the form for creating a new resource.
