@@ -50,8 +50,6 @@ class CartController extends Controller
                 'quantity' => $request->quantity
             ]);
             return response()->json($cartItem, 201);
-        } catch (ValidationException $e) {
-            return response()->json(['error' => $e->errors()], 422);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => $e->getMessage()], 404);
         } catch (Exception $e) {

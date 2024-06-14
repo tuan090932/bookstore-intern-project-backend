@@ -42,6 +42,6 @@ class AddCartItemRequest extends FormRequest
 
         throw new HttpResponseException(response()->json([
             'errors' => $errors
-        ], Response::HTTP_UNPROCESSABLE_ENTITY));
+        ], 422));
     }
 }
