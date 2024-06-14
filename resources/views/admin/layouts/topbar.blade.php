@@ -14,7 +14,6 @@
             aria-label="Search" aria-describedby="basic-addon2">
         <div class="input-group-append">
             <button class="btn btn-primary" type="submit">
-                Search
                 <i class="fas fa-search fa-sm"></i>
             </button>
         </div>
@@ -30,7 +29,7 @@
             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fas fa-search fa-fw"></i>
         </a>
-        
+
     </li>
 
     <div class="topbar-divider d-none d-sm-block"></div>
