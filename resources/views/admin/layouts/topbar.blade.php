@@ -14,7 +14,6 @@
             aria-label="Search" aria-describedby="basic-addon2">
         <div class="input-group-append">
             <button class="btn btn-primary" type="submit">
-                Search
                 <i class="fas fa-search fa-sm"></i>
             </button>
         </div>

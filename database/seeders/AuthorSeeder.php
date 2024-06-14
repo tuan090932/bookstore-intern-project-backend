@@ -12,8 +12,6 @@ class AuthorSeeder extends Seeder
      */
     public function run(): void
     {
-        $author = new Author();
-        $author->author_name = 'author1';
-        $author->save();
+        Author::factory()->count(50)->create();
     }
 }

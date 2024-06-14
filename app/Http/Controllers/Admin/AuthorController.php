@@ -3,25 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Book;
 use Illuminate\Http\Request;
-use App\Models\Category;
-use App\Models\Language;
 use App\Models\Author;
-use App\Models\Publisher;
 
-
-class BookController extends Controller
+class AuthorController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * Using with function to Eager Loading
+     * @return \Illuminate\View\View The view displaying the list of authors.
      */
     public function index()
     {
-        //
+        $authors = Author::paginate(15);
+
+        return view('admin.pages.authors.index', compact('authors'));
     }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -37,7 +35,6 @@ class BookController extends Controller
     {
         //
     }
-
 
     /**
      * Display the specified resource.
@@ -66,9 +63,8 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-   public function destroy(string $id)
+    public function destroy(string $id)
     {
-       //
+        //
     }
-
 }
