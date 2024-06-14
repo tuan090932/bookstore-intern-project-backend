@@ -66,13 +66,13 @@
                             <tr>
                                 <td>{{ $book->book_id }}</td>
                                 <td>{{ $book->title }}</td>
-                                <td>{{ optional($book->category)->category_name }}</td>
-                                <td>{{ formatVND($book->price) }}</td>
+                                <td>{{ ($book->categories)->category_name }}</td>
+                                <td>{{ ($book->price) }}</td>
                                 <td>{{ $book->stock }}</td>
                                 <td>{{ $book->num_pages }}</td>
-                                <td>{{ optional($book->author)->author_name }}</td>
-                                <td>{{ optional($book->publisher)->publisher_name }}</td>
-                                <td>{{ optional($book->language)->language_name }}</td>
+                                <td>{{ ($book->authors)->author_name }}</td>
+                                <td>{{ ($book->publishers)->publisher_name }}</td>
+                                <td>{{ ($book->languages)->language_name }}</td>
                                 <td>
                                     <div class="d-flex  justify-content-center">
                                         <a button type="button" class="btn btn-success">
