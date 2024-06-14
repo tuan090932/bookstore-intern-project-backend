@@ -71,7 +71,7 @@
                                 <td>{{ $book->stock }}</td>
                                 <td>{{ $book->num_pages }}</td>
                                 <td>{{ ($book->authors)->author_name }}</td>
-                                <td>{{ ($book->publishesrs)->publisher_name }}</td>
+                                <td>{{ ($book->publishers)->publisher_name }}</td>
                                 <td>{{ ($book->languages)->language_name }}</td>
                                 <td>
                                     <div class="d-flex  justify-content-center">
