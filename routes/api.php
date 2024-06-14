@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AddressController;
@@ -126,4 +126,9 @@ Route::prefix('address')->group(function () {
     Route::get('/{id}', [AddressController::class, 'show']);
     Route::put('/{id}', [AddressController::class, 'update']);
     Route::delete('/{id}', [AddressController::class, 'destroy']);
+});
+
+Route::prefix('user')->group(function () {
+    Route::get('/{id}', [UserController::class, 'show']);
+    Route::put('/update/{id}', [UserController::class, 'update']);
 });

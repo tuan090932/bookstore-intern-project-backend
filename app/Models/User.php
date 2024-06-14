@@ -22,8 +22,12 @@ class User extends Authenticatable implements JWTSubject
     // Fields that are mass assignable
     protected $fillable = [
         'name',
+        'name',
         'email',
         'password',
+        'password',
+        'phone_number',
+        'user_name',
     ];
 
     /**
