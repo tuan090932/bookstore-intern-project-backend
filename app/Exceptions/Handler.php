@@ -57,15 +57,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
-        if ($request->is('api/*'))
+        if ($request->is('api/*')) 
         {
-            if ($exception instanceof NotFoundHttpException)
+            if ($exception instanceof NotFoundHttpException) 
             {
-                return response()->json([
-                    'error' => 'Not Found',
-                ], 404);
-            }
-            elseif ($exception instanceof MethodNotAllowedHttpException)
+                return response()->json(['error' => 'Not Found'], 404);
+            } 
+            elseif ($exception instanceof MethodNotAllowedHttpException) 
             {
                 return response()->json([
                     'error' => 'Method Not Allowed',
@@ -73,6 +71,7 @@ class Handler extends ExceptionHandler
                 ], 405);
             }
         }
+
         return parent::render($request, $exception);
     }
 }
