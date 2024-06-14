@@ -111,7 +111,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         session()->forget('adminName');
-        return redirect()->route('admin.login');
+        return redirect()->route('admin.dashboard');
     }
 
 }
