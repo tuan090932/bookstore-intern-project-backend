@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,20 +44,17 @@ use App\Http\Controllers\Api\CategoryController;
  * Example: 127.0.0.1/api/auth/login
  */
 
- Route::group([
+Route::group([
 
     'middleware' => 'api',
     'prefix' => 'auth'
 
-], function ()
-{
-
+], function () {
     Route::post('register', [RegisterController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
     Route::get('profile', [AuthController::class, 'profile']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
-
 });
 
 /**
@@ -127,4 +125,24 @@ Route::prefix('address')->group(function () {
     Route::get('/{id}', [AddressController::class, 'show']);
     Route::put('/{id}', [AddressController::class, 'update']);
     Route::delete('/{id}', [AddressController::class, 'destroy']);
+});
+
+
+/**
+ * API Routes for Cart
+ *
+ * This route group handles all cart-related API endpoints.
+ * The group is prefixed with 'api/cart'.
+ *
+ * Endpoints:
+ * - GET /api/cart/{id}: Get the cart items for a specific user.
+ * - POST /api/cart: Adds a new item to the cart.
+ * - DELETE /api/cart/item/{id}: Removes a specific item from the cart by ID.
+ *
+ * These endpoints use the `CartController` to handle the corresponding logic.
+ */
+Route::prefix('cart')->group(function () {
+    Route::get('/{id}', [CartController::class, 'index']);
+    Route::post('/', [CartController::class, 'store']);
+    Route::delete('/item/{id}', [CartController::class, 'destroyItem']);
 });

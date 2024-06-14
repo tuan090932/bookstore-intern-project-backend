@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Models\Cart;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -16,21 +17,14 @@ class User extends Authenticatable implements JWTSubject
 
     protected $table = 'users';
 
-    // Custom primary key for the User model
     protected $primaryKey = 'id';
 
-    // Fields that are mass assignable
     protected $fillable = [
         'user_name',
         'email',
         'phone_number',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
@@ -47,10 +41,15 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * The attributes that should be cast.
+     * Get the cart associated with the user.
      *
-     * @var array<string, string>
+     * @return Illuminate\Database\Eloquent\Relations\HasOne
      */
+    public function cart(): HasOne
+    {
+        return $this->hasOne(Cart::class, 'user_id', 'user_id');
+    }
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
