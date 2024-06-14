@@ -16,23 +16,16 @@ class UpdateProfileException extends Exception
         $message = 'Đã xảy ra lỗi khi cập nhật hồ sơ. Vui lòng thử lại.';
         $status = 'error';
 
-        if ($exception instanceof ModelNotFoundException)
-        {
+        if ($exception instanceof ModelNotFoundException) {
             Log::error('Model not found during profile update: ' . $exception->getMessage());
             $message = 'Không tìm thấy admin.';
-        }
-        elseif ($exception instanceof ValidationException)
-        {
+        } elseif ($exception instanceof ValidationException) {
             Log::error('Validation error during profile update: ' . $exception->getMessage());
             return redirect()->route('admin.profile')->withErrors($exception->validator)->withInput();
-        }
-        elseif ($exception instanceof QueryException)
-        {
+        } elseif ($exception instanceof QueryException) {
             Log::error('Database error during profile update: ' . $exception->getMessage());
             $message = 'Lỗi cơ sở dữ liệu. Vui lòng thử lại.';
-        }
-        else
-        {
+        } else {
             Log::error('Lỗi trong quá trình cập nhật hồ sơ: ' . $exception->getMessage());
         }
 

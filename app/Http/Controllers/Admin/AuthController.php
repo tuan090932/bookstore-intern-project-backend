@@ -35,8 +35,7 @@ class AuthController extends Controller
      */
     public function store(AdminRegisterRequest $request)
     {
-        try
-        {
+        try{
             AdminUser::create([
                 'admin_name' => $request->admin_name,
                 'password' => Hash::make($request->password),
@@ -44,9 +43,7 @@ class AuthController extends Controller
             ]);
 
             return redirect()->route('admin.login')->with('success', 'Tạo tài khoản thành công vui lòng đăng nhập.');
-        }
-        catch (Exception $e)
-        {
+        }catch (Exception $e){
             return AdminException::handle($e);
         }
     }
@@ -69,8 +66,7 @@ class AuthController extends Controller
      */
     public function login(AdminLoginRequest $request)
     {
-        try
-        {
+        try{
             $credentials = [
                 'email' => $request->email,
                 'password' => $request->password,
@@ -78,20 +74,13 @@ class AuthController extends Controller
 
             $emailExists = AdminUser::where('email', $request->email)->exists();
 
-            if (!$emailExists)
-            {
+            if (!$emailExists){
                 return back()->withErrors(['email' => 'Thông tin email không chính xác.'])->onlyInput('email');
             }
 
             $authenticated = Auth::guard('admin')->attempt($credentials);
 
-            if ($authenticated)
-            {
-                // $request->session()->regenerate();
-                // $adminName = Auth::guard('admin')->user()->admin_name;
-                // Session::put('adminName', $adminName);
-                // dd(Auth::guard('admin')->user(), session()->all());
-                // return redirect()->route('admin.dashboard');
+            if ($authenticated){
                 $request->session()->regenerate();
                 $adminUser = Auth::guard('admin')->user();
                 session(['adminUser' => $adminUser]);
@@ -99,9 +88,7 @@ class AuthController extends Controller
             }
 
             return back()->withErrors(['password' => 'Thông tin mật khẩu không chính xác.'])->onlyInput('email');
-        }
-        catch (Exception $e)
-        {
+        }catch (Exception $e){
             return AdminLoginException::handle($e);
         }
     }
@@ -153,14 +140,11 @@ class AuthController extends Controller
      */
     public function updateProfile(UpdateProfileRequest $request, $id)
     {
-        try
-        {
+        try{
             $admin = AdminUser::findOrFail($id);
             $admin->update($request->only(['phone', 'address', 'email', 'name']));
             return redirect()->route('admin.profile')->with('success', 'Profile updated successfully.');
-        }
-        catch (Exception $e)
-        {
+        }catch (Exception $e){
             return redirect()->route('admin.profile')->with('error', 'An error occurred while updating the profile.');
         }
     }

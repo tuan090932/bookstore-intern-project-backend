@@ -15,18 +15,13 @@ class AdminException extends Exception
         $message = 'Tạo tài khoản thất bại. Vui lòng thử lại.';
         $status = 'error';
 
-        if ($exception instanceof QueryException)
-        {
+        if ($exception instanceof QueryException) {
             Log::error('Database error creating admin account: ' . $exception->getMessage());
             $message = 'Có lỗi cơ sở dữ liệu. Vui lòng thử lại.';
-        }
-        elseif ($exception instanceof ValidationException)
-        {
+        } elseif ($exception instanceof ValidationException) {
             Log::error('Validation error creating admin account: ' . $exception->getMessage());
             $message = 'Dữ liệu không hợp lệ. Vui lòng kiểm tra lại thông tin.';
-        }
-        else
-        {
+        } else {
             Log::error('Error creating admin account: ' . $exception->getMessage());
         }
 
