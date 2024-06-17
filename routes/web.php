@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
@@ -42,6 +43,8 @@ Route::prefix('admin')->group(function(){
     Route::resource('books', BookController::class);
     Route::get('books/search', [BookController::class, 'search'])->name('books.search');
 
+    //Authors
+    Route::resource('authors', AuthorController::class);
 });
 
 
