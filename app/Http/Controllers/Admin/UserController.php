@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with(['addresses'])->paginate(10);
+        $users = User::with(['addresses'])->paginate(15);
         $users->each(function ($user) {
             $user->addresses = $user->addresses->first();
         });
