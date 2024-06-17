@@ -41,7 +41,7 @@
                                 <th>Tuổi</th>
                                 <th>Ngày sinh</th>
                                 <th>Ngày mất</th>
-                                <th>Ngày cập nhật</th>
+                                <th>Quốc tịch</th>
                                 <th>Ngày xóa</th>
                                 <th>Options</th>
                             </tr>
@@ -53,7 +53,7 @@
                                 <th>Tuổi</th>
                                 <th>Ngày sinh</th>
                                 <th>Ngày mất</th>
-                                <th>Ngày cập nhật</th>
+                                <th>Quốc tịch</th>
                                 <th>Ngày xóa</th>
                                 <th>Options</th>
                             </tr>
@@ -65,8 +65,8 @@
                                     <td>{{ $author->author_name }}</td>
                                     <td>{{ $author->age }}</td>
                                     <td>{{ $author->birth_date }}</td>
-                                    <td>{{ $author->death_date }}</td>
-                                    <td>{{ $author->updated_at }}</td>
+                                    <td>{{ $author->death_date ? $author->death_date : '------------' }}</td>
+                                    <td>{{ $author->national }}</td>
                                     <td>{{ $author->deleted_at }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
@@ -115,6 +115,11 @@
     </div>
 </div>
 
+<form id="restore-all-form" action="{{ route('authors.restore-all') }}" method="POST" style="display: none;">
+    @csrf
+    <input type="hidden" name="_method" value="PATCH">
+</form>
+
 <script>
     document.getElementById('select-all').addEventListener('click', function(e) {
         const checkboxes = document.querySelectorAll('input[name="author_ids[]"]');
@@ -132,7 +137,7 @@
 
     document.getElementById('restore-all-btn').addEventListener('click', function() {
         if(confirm('Bạn có chắc chắn muốn khôi phục tất cả các tác giả không?')) {
-            window.location.href = "{{ route('authors.restore-all') }}";
+            document.getElementById('restore-all-form').submit();
         }
     });
 </script>

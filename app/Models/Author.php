@@ -17,7 +17,7 @@ class Author extends Model
 
     protected $primaryKey = 'author_id';
 
-    protected $fillable = ['author_name', 'age', 'birth_date', 'death_date', 'deleted_at', 'national'];
+    protected $fillable = ['author_name', 'age', 'birth_date', 'death_date', 'national', 'deleted_at'];
 
     protected $casts = [
         'birth_date' => 'date',
