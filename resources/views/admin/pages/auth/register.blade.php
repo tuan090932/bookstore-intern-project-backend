@@ -19,7 +19,13 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('/assets/css/sb-admin-2.css') }}" rel="stylesheet">
-
+    <style>
+        input[type=password]::-ms-reveal,
+        input[type=password]::-ms-clear
+        {
+            display: none;
+        }
+    </style>
 </head>
 
 <body class="bg-gradient-primary">
@@ -34,43 +40,68 @@
                     <div class="col-lg-7">
                         <div class="p-5">
                             <div class="text-center">
-                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                                <h1 class="h4 text-gray-900 mb-4">Đăng ký tài khoản</h1>
                             </div>
-                            <form class="user">
+
+                            @if (session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
+                            <form class="user" action="{{ route('admin.register.submit') }}" method="POST">
+                                @csrf
                                 <div class="form-group row">
-                                    <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="text" class="form-control form-control-user" id="exampleFirstName"
-                                            placeholder="First Name">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="form-control form-control-user" id="exampleLastName"
-                                            placeholder="Last Name">
+                                    <div class="col-sm-12 mb-3 mb-sm-0">
+                                        <input type="text" class="form-control form-control-user" name="admin_name" id="exampleName"
+                                            placeholder="Name" value="{{ old('admin_name') }}">
+                                        @error('admin_name')
+                                            <span style="margin: 5px 0 0 10px; font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <input type="email" class="form-control form-control-user" id="exampleInputEmail"
-                                        placeholder="Email Address">
+                                    <input type="email" class="form-control form-control-user" name="email" id="exampleInputEmail"
+                                        placeholder="Email Address" value="{{ old('admin_email') }}">
+                                    @error('email')
+                                        <span style="margin: 5px 0 0 10px; font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleInputPassword" placeholder="Password">
+                                        <div class="input-group">
+                                            <input type="password" class="form-control form-control-user" name="password" id="password" placeholder="Password">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="toggleAdminPassword" style="cursor: pointer;">
+                                                    <i class="fas fa-eye"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        @error('password')
+                                            <span style="margin: 5px 0 0 10px; font-size: 12px;" class="text-danger">{{ $message }}</span>
+                                        @enderror
                                     </div>
                                     <div class="col-sm-6">
-                                        <input type="password" class="form-control form-control-user"
-                                            id="exampleRepeatPassword" placeholder="Repeat Password">
+                                        <div class="input-group">
+                                            <input type="password" class="form-control form-control-user" name="password_confirmation" id="password_confirmation" placeholder="Repeat Password">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text" id="toggleAdminPasswordConfirmation" style="cursor: pointer;">
+                                                    <i class="fas fa-eye"></i>
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <a href="login.html" class="btn btn-primary btn-user btn-block">
-                                    Register Account
-                                </a>
+                                <button type="submit" class="btn btn-primary btn-user btn-block">
+                                    Đăng ký
+                                </button>
                             </form>
                             <hr>
                             <div class="text-center">
-                                <a class="small" href="{{ route('forgot-password') }}">Forgot Password?</a>
+                                <a class="small" href="{{ route('forgot-password') }}">Quên mật khẩu?</a>
                             </div>
                             <div class="text-center">
-                                <a class="small" href="{{ route('login') }}">Already have an account? Login!</a>
+                                <a class="small" href="{{ route('admin.login') }}">Đã có tài khoản? Login!</a>
                             </div>
                         </div>
                     </div>
@@ -89,6 +120,29 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('/assets/js/sb-admin-2.min.js') }}"></script>
+
+    <!-- Show/Hide Password JavaScript-->
+    <script>
+        function togglePasswordVisibility(toggleId, passwordFieldId) {
+            document.getElementById(toggleId).addEventListener('click', function () {
+                const passwordField = document.getElementById(passwordFieldId);
+                const passwordFieldType = passwordField.getAttribute('type');
+                const icon = this.querySelector('i');
+                if (passwordFieldType === 'password') {
+                    passwordField.setAttribute('type', 'text');
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    passwordField.setAttribute('type', 'password');
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        }
+
+        togglePasswordVisibility('toggleAdminPassword', 'password');
+        togglePasswordVisibility('toggleAdminPasswordConfirmation', 'password_confirmation');
+    </script>
 
 </body>
 

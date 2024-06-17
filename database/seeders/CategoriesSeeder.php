@@ -12,8 +12,34 @@ class CategoriesSeeder extends Seeder
      */
     public function run(): void
     {
-        $category = new Category();
-        $category->category_name = 'category1';
-        $category->save();
+        $categories = [
+            'Fiction',
+            'Non-Fiction',
+            'Science Fiction',
+            'Fantasy',
+            'Mystery',
+            'Thriller',
+            'Romance',
+            'Horror',
+            'Biography',
+            'Self-Help',
+            'History',
+            'Children',
+            'Adventure',
+            'Graphic Novel',
+            'Poetry',
+            'Drama',
+            'Classic',
+            'Cookbook',
+            'Travel',
+            'True Crime',
+            'Art',
+        ];
+
+        foreach ($categories as $categoryName) {
+            $category = new Category();
+            $category->category_name = $categoryName;
+            $category->save();
+        }
     }
 }

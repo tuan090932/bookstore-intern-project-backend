@@ -13,126 +13,128 @@ class BookSeeder extends Seeder
      */
     public function run(): void
     {
-        // Ensure related data exists before seeding books
-        // DB::table('languages')->insert([
-        //     ['language_name' => 'English', 'created_at' => now(), 'updated_at' => now()],
-        //     ['language_name' => 'French', 'created_at' => now(), 'updated_at' => now()],
-        //     ['language_name' => 'Spanish', 'created_at' => now(), 'updated_at' => now()],
-        // ]);
-
-        // DB::table('publishers')->insert([
-        //     ['publisher_name' => 'Publisher 1', 'created_at' => now(), 'updated_at' => now()],
-        //     ['publisher_name' => 'Publisher 2', 'created_at' => now(), 'updated_at' => now()],
-        //     ['publisher_name' => 'Publisher 3', 'created_at' => now(), 'updated_at' => now()],
-        // ]);
-
-        // DB::table('authors')->insert([
-        //     ['author_name' => 'Author 1', 'created_at' => now(), 'updated_at' => now()],
-        //     ['author_name' => 'Author 2', 'created_at' => now(), 'updated_at' => now()],
-        //     ['author_name' => 'Author 3', 'created_at' => now(), 'updated_at' => now()],
-        // ]);
-
-        // DB::table('categories')->insert([
-        //     ['category_name' => 'Fiction', 'created_at' => now(), 'updated_at' => now()],
-        //     ['category_name' => 'Non-Fiction', 'created_at' => now(), 'updated_at' => now()],
-        //     ['category_name' => 'Science Fiction', 'created_at' => now(), 'updated_at' => now()],
-        // ]);
-
-        // // Create book entries
-        // $books = [
-        //     [
-        //         'title' => 'Book 1',
-        //         'language_id' => 1, // Assuming 1 corresponds to English
-        //         'num_pages' => 300,
-        //         'publisher_id' => 1, // Assuming 1 corresponds to Publisher 1
-        //         'category_id' => 1, // Assuming 1 corresponds to Fiction
-        //         'image' => 'https://example.com/book1.jpg',
-        //         'description' => 'Description for Book 1',
-        //         'price' => 29.99,
-        //         'stock' => 100,
-        //         'author_id' => 1, // Assuming 1 corresponds to Author 1
-        //     ],
-        //     [
-        //         'title' => 'Book 2',
-        //         'language_id' => 2, // Assuming 2 corresponds to French
-        //         'num_pages' => 150,
-        //         'publisher_id' => 2, // Assuming 2 corresponds to Publisher 2
-        //         'category_id' => 2, // Assuming 2 corresponds to Non-Fiction
-        //         'image' => 'https://example.com/book2.jpg',
-        //         'description' => 'Description for Book 2',
-        //         'price' => 19.99,
-        //         'stock' => 200,
-        //         'author_id' => 2, // Assuming 2 corresponds to Author 2
-        //     ],
-        //     [
-        //         'title' => 'Book 3',
-        //         'language_id' => 3, // Assuming 3 corresponds to Spanish
-        //         'num_pages' => 450,
-        //         'publisher_id' => 3, // Assuming 3 corresponds to Publisher 3
-        //         'category_id' => 3, // Assuming 3 corresponds to Science Fiction
-        //         'image' => 'https://example.com/book3.jpg',
-        //         'description' => 'Description for Book 3',
-        //         'price' => 39.99,
-        //         'stock' => 50,
-        //         'author_id' => 3, // Assuming 3 corresponds to Author 3
-        //     ],
-        // ];
-
-        // Add more languages
-        for ($i = 1; $i <= 200; $i++) {
-            $languages[] = [
-                'language_name' => 'Language ' . $i,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
-        }
-
-        // Add more publishers
-        for ($i = 1; $i <= 200; $i++) {
-            $publishers[] = [
-                'publisher_name' => 'Publisher ' . $i,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
-        }
-
-        // Add more authors
-        for ($i = 1; $i <= 200; $i++) {
-            $authors[] = [
-                'author_name' => 'Author ' . $i,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
-        }
-
-        // Add more categories
-        for ($i = 1; $i <= 200; $i++) {
-            $categories[] = [
-                'category_name' => 'Category ' . $i,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
-        }
-
-        DB::table('languages')->insert($languages);
-        DB::table('publishers')->insert($publishers);
-        DB::table('authors')->insert($authors);
-        DB::table('categories')->insert($categories);
-
-        for ($i = 1; $i <= 200; $i++) {
-            $books[] = [
-                'title' => 'Book ' . $i,
-                'language_id' => rand(1, 200),
-                'num_pages' => rand(100, 500),
-                'publisher_id' => rand(1, 200),
-                'category_id' => rand(1, 200),
-                'image' => 'https://example.com/book' . $i . '.jpg',
-                'description' => 'Description for Book ' . $i,
-                'price' => rand(10, 50) * 10000,
-                'stock' => rand(50, 200),
-                'author_id' => rand(1, 200),
-            ];
-        }
+        $books = [
+            [
+                'title' => 'Dế Mèn Phiêu Lưu Ký',
+                'language_id' => 1,
+                'num_pages' => 200,
+                'publisher_id' => 1,
+                'category_id' => 1,
+                'image' => 'https://example.com/de-men-phieu-luu-ky.jpg',
+                'description' => 'A classic Vietnamese children\'s book.',
+                'price' => 50000,
+                'stock' => 100,
+                'author_id' => 1,
+            ],
+            [
+                'title' => 'Tắt Đèn',
+                'language_id' => 1,
+                'num_pages' => 150,
+                'publisher_id' => 2,
+                'category_id' => 2,
+                'image' => 'https://example.com/tat-den.jpg',
+                'description' => 'A novel about the plight of Vietnamese peasants.',
+                'price' => 60000,
+                'stock' => 80,
+                'author_id' => 2,
+            ],
+            [
+                'title' => 'Số Đỏ',
+                'language_id' => 1,
+                'num_pages' => 180,
+                'publisher_id' => 3,
+                'category_id' => 3,
+                'image' => 'https://example.com/so-do.jpg',
+                'description' => 'A satirical novel about Vietnamese society.',
+                'price' => 55000,
+                'stock' => 90,
+                'author_id' => 3,
+            ],
+            [
+                'title' => 'Chí Phèo',
+                'language_id' => 1,
+                'num_pages' => 120,
+                'publisher_id' => 4,
+                'category_id' => 4,
+                'image' => 'https://example.com/chi-pheo.jpg',
+                'description' => 'A story about a tragic anti-hero in Vietnamese literature.',
+                'price' => 45000,
+                'stock' => 70,
+                'author_id' => 4,
+            ],
+            [
+                'title' => 'Lão Hạc',
+                'language_id' => 1,
+                'num_pages' => 130,
+                'publisher_id' => 5,
+                'category_id' => 5,
+                'image' => 'https://example.com/lao-hac.jpg',
+                'description' => 'A touching story about a poor old man and his dog.',
+                'price' => 48000,
+                'stock' => 60,
+                'author_id' => 5,
+            ],
+            [
+                'title' => 'Vợ Nhặt',
+                'language_id' => 1,
+                'num_pages' => 140,
+                'publisher_id' => 6,
+                'category_id' => 6,
+                'image' => 'https://example.com/vo-nhat.jpg',
+                'description' => 'A story about love and survival during famine.',
+                'price' => 52000,
+                'stock' => 75,
+                'author_id' => 6,
+            ],
+            [
+                'title' => 'Đất Rừng Phương Nam',
+                'language_id' => 1,
+                'num_pages' => 160,
+                'publisher_id' => 7,
+                'category_id' => 7,
+                'image' => 'https://example.com/dat-rung-phuong-nam.jpg',
+                'description' => 'A novel about the life and adventures in the southern forests.',
+                'price' => 58000,
+                'stock' => 85,
+                'author_id' => 7,
+            ],
+            [
+                'title' => 'Người Lái Đò Sông Đà',
+                'language_id' => 1,
+                'num_pages' => 170,
+                'publisher_id' => 8,
+                'category_id' => 8,
+                'image' => 'https://example.com/nguoi-lai-do-song-da.jpg',
+                'description' => 'A story about the bravery of a boatman on the Da River.',
+                'price' => 54000,
+                'stock' => 65,
+                'author_id' => 8,
+            ],
+            [
+                'title' => 'Mắt Biếc',
+                'language_id' => 1,
+                'num_pages' => 190,
+                'publisher_id' => 9,
+                'category_id' => 9,
+                'image' => 'https://example.com/mat-biec.jpg',
+                'description' => 'A touching love story that spans decades.',
+                'price' => 62000,
+                'stock' => 95,
+                'author_id' => 9,
+            ],
+            [
+                'title' => 'Nỗi Buồn Chiến Tranh',
+                'language_id' => 1,
+                'num_pages' => 210,
+                'publisher_id' => 10,
+                'category_id' => 10,
+                'image' => 'https://example.com/noi-buon-chien-tranh.jpg',
+                'description' => 'A poignant novel about the Vietnam War.',
+                'price' => 65000,
+                'stock' => 110,
+                'author_id' => 10,
+            ],
+        ];
 
         foreach ($books as $bookData) {
             $book = new Book();

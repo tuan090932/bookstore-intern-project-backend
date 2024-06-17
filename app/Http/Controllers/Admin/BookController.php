@@ -5,6 +5,11 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\Language;
+use App\Models\Author;
+use App\Models\Publisher;
+
 
 class BookController extends Controller
 {
@@ -15,18 +20,15 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::with(['author', 'category', 'language', 'publisher'])->paginate(15);
-        // $books = Book::all();
-
+        $books = Book::with('categories', 'languages', 'authors', 'publishers')->paginate(15);
         return view('admin.pages.books.index', compact('books'));
     }
-
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('admin.pages.books.create');
+        //
     }
 
     /**
@@ -36,6 +38,7 @@ class BookController extends Controller
     {
         //
     }
+
 
     /**
      * Display the specified resource.
@@ -64,8 +67,9 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+   public function destroy(string $id)
     {
-        //
+       //
     }
+
 }
