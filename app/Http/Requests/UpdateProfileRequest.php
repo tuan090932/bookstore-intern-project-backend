@@ -12,11 +12,12 @@ class UpdateProfileRequest extends FormRequest
 
     public function rules()
     {
+        $userId = $this->route('id');
+        logger($userId);
         return [
-            'phone' => 'required|string|max:15|regex:/^[0-9]+$/',
-            'address' => 'required|string|max:255',
-            'user_name' => 'sometimes|string|max:255|unique:users,user_name,' . $this->route('user'), // Thêm quy tắc cho user_name
-            'email' => 'sometimes|string|email|max:255|unique:users,email,' . $this->route('user'), // Thêm quy tắc cho email
+            'phone' => 'sometimes|string|max:15|regex:/^[0-9]+$/',
+            'user_name' => 'sometimes|string|max:255|unique:users,user_name,' . $userId . ',user_id',
+            'email' => 'sometimes|email|max:255|unique:users,email,' . $userId . ',user_id',
             'name' => 'sometimes|string|max:255',
             'password' => 'sometimes|string|min:6|confirmed',
             'old_password' => 'required_with:password|string|min:6'
