@@ -31,24 +31,15 @@ class BookController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        $authors = Author::all();
-        $languages = Language::all();
-        $publishers = Publisher::all();
-        return view('admin.pages.books.create', compact('categories','authors', 'languages','publishers'));
+       //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(BookRequest $request)
+    public function store(Request $request)
     {
-        try{
-            Book::create($request->validated());
-            return redirect()->route('books.index')->with('success', 'Book added successfully.');
-        }catch(\Exception $e){
-            return redirect()->route('books.index')->with('error', 'Failed to add book.');
-        }
+        //
     }
 
     /**
@@ -70,7 +61,7 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(BookRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
         //
     }
