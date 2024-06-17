@@ -59,26 +59,10 @@ class Author extends Model
 
     public function getDeletedAtAttribute($value)
     {
-        if ($value)
-        {
+        if ($value) {
             $deletedAt = Carbon::parse($value);
             return $deletedAt->format('d/m/Y');
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    public function getDeletedAtAttribute($value)
-    {
-        if ($value)
-        {
-            $deletedAt = Carbon::parse($value);
-            return $deletedAt->format('d/m/Y');
-        }
-        else
-        {
+        } else {
             return null;
         }
     }

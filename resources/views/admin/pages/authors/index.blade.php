@@ -50,7 +50,6 @@
                                 <th>Tuổi</th>
                                 <th>Ngày sinh</th>
                                 <th>Ngày mất</th>
-                                <th>Ngày cập nhật</th>
                                 <th>Quốc tịch</th>
                             <th>Options</th>
                             </tr>
@@ -62,7 +61,6 @@
                                 <th>Tuổi</th>
                                 <th>Ngày sinh</th>
                                 <th>Ngày mất</th>
-                                <th>Ngày cập nhật</th>
                                 <th>Quốc tịch</th>
                             <th>Options</th>
                             </tr>
@@ -75,7 +73,6 @@
                                     <td>{{ $author->age }}</td>
                                     <td>{{ $author->birth_date }}</td>
                                     <td>{{ $author->death_date ? $author->death_date : '-------------' }}</td>
-                                    <td>{{ $author->updated_at ? $author->death_date: '------------' }}</td>
                                 <td>{{ $author->national }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
