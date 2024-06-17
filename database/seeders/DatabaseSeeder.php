@@ -5,6 +5,7 @@ use Database\Seeders\PublisherSeeder;
 use Database\Seeders\BooksTableSeeder;
 use Database\Seeders\LanguageSeeder;
 use Database\Seeders\AuthorSeeder;
+use Database\Seeders\UserSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

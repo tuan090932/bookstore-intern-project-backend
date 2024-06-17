@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('authors', function (Blueprint $table) {
-            $table->id('author_id');
-            $table->string('author_name', 250);
-            $table->tinyInteger('age')->nullable();
-            $table->date('birth_date')->nullable();
-            $table->date('death_date')->nullable();
-            $table->string('national')->nullable();
+        Schema::create('cart', function (Blueprint $table) {
+            $table->id('cart_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('user_id')->on('users');
         });
     }
 
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('authors');
+        Schema::dropIfExists('cart');
     }
 };
