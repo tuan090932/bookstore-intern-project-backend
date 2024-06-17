@@ -23,5 +23,8 @@ class DatabaseSeeder extends Seeder
             CategoriesSeeder::class,
             BookSeeder::class,
         ]);
+
+        $this->call([
+        ]);
     }
 }

@@ -9,6 +9,8 @@ class Language extends Model
 {
     use HasFactory;
 
+    protected $table = "languages";
+
     protected $primaryKey = 'language_id';
 
     protected $fillable = ['language_name'];

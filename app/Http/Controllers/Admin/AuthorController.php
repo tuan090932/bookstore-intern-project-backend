@@ -18,6 +18,8 @@ class AuthorController extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
+     * @return \Illuminate\View\View The view displaying the list of authors.
      */
     public function index()
     {
