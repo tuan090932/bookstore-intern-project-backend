@@ -44,7 +44,7 @@ class AuthorController extends Controller
      */
     public function store(StoreAuthorRequest $request)
     {
-        try{
+        try {
             $authorName = $request->input('author_name');
             $birthDate = Carbon::createFromFormat('d/m/Y', $request->input('birth_date'));
             $deathDate = $request->input('death_date') ? Carbon::createFromFormat('d/m/Y', $request->input('death_date')) : null;
@@ -61,7 +61,7 @@ class AuthorController extends Controller
             ]);
 
             return redirect()->back()->with('success', 'Tạo tác giả thành công.');
-        }catch (Exception $e){
+        } catch (Exception $e) {
             Log::error($e->getMessage());
 
             return redirect()->back()->with('error', 'Đã xảy ra lỗi khi tạo tác giả. Vui lòng thử lại.');
