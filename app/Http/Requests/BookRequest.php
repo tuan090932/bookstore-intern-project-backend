@@ -22,7 +22,16 @@ class BookRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:250',
+            'language_id' => 'required|integer',
+            'num_pages' => 'required|integer',
+            'publisher_id' => 'required|integer',
+            'category_id' => 'required|integer',
+            'image' => 'required|string|max:250',
+            'description' => 'required|string|max:250',
+            'price' => 'required|numeric',
+            'stock' => 'required|integer',
+            'author_id' => 'required|integer',
         ];
     }
 }

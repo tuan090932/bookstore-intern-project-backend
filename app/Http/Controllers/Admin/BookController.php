@@ -21,7 +21,7 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::with(['authors', 'categories', 'languages', 'publishers'])->get();
-        // $books = Book::all();
+        $books = Book::paginate(5);
 
         return view('admin.pages.books.index', compact('books'));
     }
@@ -100,13 +100,4 @@ class BookController extends Controller
         }
     }
 
-    /**
-     * Search for books by title.
-     */
-    public function search(Request $request)
-    {
-        $search = $request->input('search');
-        $books = Book::where('title', 'like', '%' . $search . '%')->with(['authors', 'categories', 'languages', 'publishers'])->get();
-        return view('admin.pages.books.index', compact('books'));
-    }
 }

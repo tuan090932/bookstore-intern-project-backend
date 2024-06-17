@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\LanguageController;
@@ -45,6 +46,8 @@ Route::prefix('admin')->group(function(){
 
     //Languages
     Route::resource('languages', LanguageController::class);
+    //Authors
+    Route::resource('authors', AuthorController::class);
 });
 
 

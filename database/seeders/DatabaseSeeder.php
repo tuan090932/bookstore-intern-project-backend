@@ -5,6 +5,7 @@ use Database\Seeders\PublisherSeeder;
 use Database\Seeders\BookSeeder;
 use Database\Seeders\LanguageSeeder;
 use Database\Seeders\AuthorSeeder;
+use Database\Seeders\UserSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -22,10 +23,10 @@ class DatabaseSeeder extends Seeder
             AuthorSeeder::class,
             CategoriesSeeder::class,
             BookSeeder::class,
+            UserSeeder::class,
         ]);
 
         $this->call([
-            CategoriesTableSeeder::class,
         ]);
     }
 }

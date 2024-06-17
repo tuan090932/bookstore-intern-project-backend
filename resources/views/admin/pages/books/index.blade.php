@@ -66,16 +66,16 @@
                             <tr>
                                 <td>{{ $book->book_id }}</td>
                                 <td>{{ $book->title }}</td>
-                                <td>{{ $book->categories->category_name }}</td>
-                                <td>{{ $book->price }}</td>
+                                <td>{{ ($book->categories)->category_name }}</td>
+                                <td>{{ ($book->price) }}</td>
                                 <td>{{ $book->stock }}</td>
                                 <td>{{ $book->num_pages }}</td>
-                                <td>{{ $book->authors->author_name }}</td>
-                                <td>{{ $book->publishers->publisher_name }}</td>
-                                <td>{{ $book->languages->language_name }}</td>
+                                <td>{{ ($book->authors)->author_name }}</td>
+                                <td>{{ ($book->publishers)->publisher_name }}</td>
+                                <td>{{ ($book->languages)->language_name }}</td>
                                 <td>
                                     <div class="d-flex  justify-content-center">
-                                    <a href="{{ route('books.edit', $book->book_id)}}" type="button" class="btn btn-warning">Edit</a>
+                                        <a href="{{ route('books.edit', $book->book_id)}}" type="button" class="btn btn-warning">Edit</a>
                                         <div class="d-flex justify-content-center">
                                             <form action="{{ route('books.destroy', $book->book_id) }}" method="POST" class="btn btn-danger p-0" onsubmit="return confirm('Are you sure you want to delete?')">
                                                 @csrf
@@ -89,6 +89,11 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="d-flex">
+                    <nav>
+                        {{ $books->links('vendor.pagination.bootstrap-4') }}
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
