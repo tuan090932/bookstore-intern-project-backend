@@ -42,7 +42,10 @@ use App\Http\Controllers\Api\CategoryController;
  * 127.0.0.1/api/auth/{action}
  * Example: 127.0.0.1/api/auth/login
  */
+<<<<<<<<< Temporary merge branch 1
 
+Route::group([
+=========
  Route::group([
 
     'middleware' => 'api',
