@@ -89,6 +89,11 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="d-flex">
+                    <nav>
+                        {{ $books->links('vendor.pagination.bootstrap-4') }}
+                    </nav>
+                </div>
             </div>
         </div>
     </div>

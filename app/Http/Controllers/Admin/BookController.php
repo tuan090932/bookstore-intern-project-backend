@@ -21,7 +21,7 @@ class BookController extends Controller
     public function index()
     {
         $books = Book::with(['authors', 'categories', 'languages', 'publishers'])->get();
-        // $books = Book::all();
+        $books = Book::paginate(5);
 
         return view('admin.pages.books.index', compact('books'));
     }
@@ -41,7 +41,7 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(BookRequest $request)
+    public function store(Request $request)
     {
         try {
             Book::create($request->validated());
