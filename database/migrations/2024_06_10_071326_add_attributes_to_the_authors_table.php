@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('languages', function (Blueprint $table) {
-            $table->id('language_id');
-            $table->string('language_name', 250)->unique();
-            $table->timestamps();
+        Schema::table('authors', function (Blueprint $table) {
+            $table->tinyInteger('age')->nullable();
+            $table->date('birth_date')->nullable();
+            $table->date('death_date')->nullable();
         });
     }
 
@@ -23,6 +23,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('languages');
+        Schema::table('authors', function (Blueprint $table) {
+            //
+        });
     }
 };
