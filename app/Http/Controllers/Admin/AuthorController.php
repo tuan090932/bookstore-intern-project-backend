@@ -55,8 +55,8 @@ class AuthorController extends Controller
 
             Author::create([
                 'author_name' => $authorName,
-                'birth_date' => $birthDate->format('Y-m-d'),
-                'death_date' => $deathDate ? $deathDate->format('Y-m-d') : null,
+                'birth_date' => $birthDate,
+                'death_date' => $deathDate ? $deathDate : null,
                 'age' => $age,
                 'national' => $national,
             ]);
