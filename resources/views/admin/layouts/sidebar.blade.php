@@ -47,6 +47,12 @@ $currentRoute = request()->route()->getName();
     </li>
 
 
+    <li class="nav-item {{ $currentRoute=='authors.index' ? 'active':'' }}" href="{{ route('authors.index') }}">
+        <a class="nav-link" href="{{ route('authors.index') }}">
+            <i class="fa-solid fa-pen-nib"></i>
+            <span>Authors</span></a>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 

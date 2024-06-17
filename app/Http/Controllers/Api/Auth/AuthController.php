@@ -11,27 +11,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class AuthController extends Controller
 {
     /**
-     * API -> authentication -> JWT token
-
-     *request data: send token through header (authorization: bearer <token>)
-
-     *server -> check token validity -> decode payload -> query db return data
-
-     *## Security
-     *- Issue with access_token: if hacker gets access_token => can hack into the system, exploit data based on access_token
-     *- Solution:
-     *1/ Reduce access_token lifespan => inconvenience for users as they have to constantly re-login (e.g., access_token lifespan is 1 hour, users have to login again every hour)
-     *2/ Add a refresh_token: longer lifespan and used to issue new access_token after each login
-     *3/ When logging out, put token in blacklist, if refresh_token expires, logout and put token in blacklist
-     *+ When authorizing, check if token is in blacklist
-
-     *## Issue with refresh_token
-     *- Old access_token still valid, hacker can use it to access and exploit data
-     *- Solution:
-     *+ After token is refreshed, put old access_token in blacklist
-     */
-
-    /**
      * Constructor for the AuthController class.
      *
      * This constructor sets up the middleware for the controller's actions.
@@ -139,9 +118,7 @@ class AuthController extends Controller
             'exp' => time() + config('jwt.refresh_ttl'),
         ];
 
-        $refreshToken = JWTAuth::getJWTProvider()->encode($data);
-
-        return $refreshToken;
+        return JWTAuth::getJWTProvider()->encode($data);
     }
 
     /**

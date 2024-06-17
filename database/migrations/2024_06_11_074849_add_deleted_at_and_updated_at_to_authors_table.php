@@ -9,12 +9,10 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('languages', function (Blueprint $table) {
-            $table->increments('language_id');
-            $table->string('language_name', 250);
-            $table->timestamps();
+        Schema::table('authors', function (Blueprint $table) {
+            $table->softDeletes(); // Adds the deleted_at column
         });
     }
 
@@ -23,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('languages');
+        Schema::table('authors', function (Blueprint $table) {
+            $table->dropSoftDeletes(); // Removes the deleted_at column
+        });
     }
 };

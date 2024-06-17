@@ -18,10 +18,8 @@ class ApiNotFoundMiddleware
         try {
             return $next($request);
         } catch (NotFoundHttpException $e) {
-            if ($request->is('127.0.0.1/*' || 'localhost/*')) {
-                return response()->json([
-                    'error' => 'Not Found',
-                ], 404);
+            if ($request->is('api/*')) {
+                return response()->json(['error' => 'Not Found'], 404);
             }
             throw $e;
         }
