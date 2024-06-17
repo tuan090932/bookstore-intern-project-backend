@@ -15,10 +15,8 @@ class User extends Authenticatable implements JWTSubject
     protected $table = 'users';
 
     // Custom primary key for the User model
-    protected $primaryKey = 'user_id'; // Khóa chính là 'user_id'
+    protected $primaryKey = 'user_id';
 
-    public $incrementing = true; // Sử dụng auto-increment
-    protected $keyType = 'int'; // Kiểu dữ liệu của khóa chính
 
     // Fields that are mass assignable
     protected $fillable = [
