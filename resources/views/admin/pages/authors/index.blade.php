@@ -51,7 +51,8 @@
                                 <th>Ngày sinh</th>
                                 <th>Ngày mất</th>
                                 <th>Ngày cập nhật</th>
-                                <th>Options</th>
+                                <th>Quốc tịch</th>
+                            <th>Options</th>
                             </tr>
                         </thead>
                         <tfoot>
@@ -62,7 +63,8 @@
                                 <th>Ngày sinh</th>
                                 <th>Ngày mất</th>
                                 <th>Ngày cập nhật</th>
-                                <th>Options</th>
+                                <th>Quốc tịch</th>
+                            <th>Options</th>
                             </tr>
                         </tfoot>
                         <tbody>
@@ -73,7 +75,8 @@
                                     <td>{{ $author->age }}</td>
                                     <td>{{ $author->birth_date }}</td>
                                     <td>{{ $author->death_date ? $author->death_date : '-------------' }}</td>
-                                    <td>{{ $author->updated_at }}</td>
+                                    <td>{{ $author->updated_at ? $author->death_date: '------------' }}</td>
+                                <td>{{ $author->national }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center">
                                             <a href="{{ route('authors.edit', $author->author_id) }}" class="mr-2 text-success">
