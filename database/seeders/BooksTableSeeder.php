@@ -3,7 +3,12 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use App\Models\Book;
+use App\Models\Language;
+use App\Models\Publisher;
+use App\Models\Category;
+use App\Models\Author;
+use Faker\Factory as Faker;
 
 class BooksTableSeeder extends Seeder
 {
@@ -12,31 +17,19 @@ class BooksTableSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('books')->insert([
-            [
-                'title' => 'Cho tôi xin một vé đi tuổi thơ',
-                'language_id' => 1,
-                'publisher_id' => 1,
-                'category_id' => 1,
-                'author_id' => 1,
-                'num_pages' => 230,
-                'image' => 'https://cdn0.fahasa.com/media/catalog/product/8/9/8935212361934.jpg',
-                'description' => 'Một cuốn sách về tuổi thơ',
-                'price' => 100000,
-                'stock' => 50,
-            ],
-            [
-                'title' => 'Tuổi thơ dữ dội',
-                'language_id' => 1,
-                'publisher_id' => 2,
-                'category_id' => 1,
-                'author_id' => 2,
-                'num_pages' => 350,
-                'image' => 'https://cdn0.fahasa.com/media/catalog/product/i/m/image_229833.jpg',
-                'description' => 'Một cuốn sách về tuổi thơ thời chiến của Nguyễn Huy Thiệp.',
-                'price' => 150000,
-                'stock' => 30,
-            ],
-        ]);
+        $faker = Faker::create();
+
+        $languages = Language::all()->pluck('language_id')->toArray();
+        $publishers = Publisher::all()->pluck('publisher_id')->toArray();
+        $categories = Category::all()->pluck('category_id')->toArray();
+        $authors = Author::all()->pluck('author_id')->toArray();
+
+        Book::factory()->count(50)->make()->each(function($book) use ($faker, $languages, $publishers, $categories, $authors) {
+            $book->language_id = $faker->randomElement($languages);
+            $book->publisher_id = $faker->randomElement($publishers);
+            $book->category_id = $faker->randomElement($categories);
+            $book->author_id = $faker->randomElement($authors);
+            $book->save();
+        });
     }
 }

@@ -54,7 +54,8 @@ class RegisterController extends Controller
         {
             Log::error('Error registering user: '. $e->getMessage());
 
-            return response()->json(['message' => 'An error occurred while registering the user'], 500);
+            return response()->json(['message' => 'An error occurred while registering the user',
+        'erro'=> $e->getMessage()], 500);
         }
     }
 

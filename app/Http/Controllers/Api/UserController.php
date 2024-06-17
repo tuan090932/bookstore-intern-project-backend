@@ -1,5 +1,4 @@
-<?php
-
+<?php   
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
@@ -7,20 +6,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Exceptions\ApiUserExceptionHandler;
-use App\Http\Requests\User\UpdateUserRequest;
+use App\Http\Requests\UpdateProfileRequest; // Đảm bảo sử dụng đúng Request
 use Exception;
+
 class UserController extends Controller
 {
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $user_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show($user_id)
     {
         try {
-            $user = User::findOrFail($id);
+            $user = User::findOrFail($user_id);
             return response()->json($user);
         } catch (Exception $ex) {
             return ApiUserExceptionHandler::handle($ex);
@@ -30,14 +30,14 @@ class UserController extends Controller
     /**
      * Update the specified user in storage.
      *
-     * @param  \App\Http\Requests\User\UpdateUserRequest  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\UpdateProfileRequest  $request
+     * @param  int  $user_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateUserRequest $request, $id)
+    public function update(UpdateProfileRequest $request, $user_id)
     {
         try {
-            $user = User::findOrFail($id);
+            $user = User::findOrFail($user_id);
 
             if ($request->has('user_name')) {
                 $user->user_name = $request->user_name;
