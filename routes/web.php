@@ -33,6 +33,13 @@ Route::get('/books/search', [BookController::class, 'search'])->name('books.sear
 Route::resource('admin/books', BookController::class);
 
 Route::prefix('admin')->group(function () {
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('users.index');
+        Route::get('/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('/', [UserController::class, 'store'])->name('users.store');
+        Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+    });
+
     Route::get('/', [DashboardController::class, 'indexPage'])->name('admin.dashboard');
     Route::get('register', [AuthController::class, 'register'])->name('admin.register');
     Route::post('register', [AuthController::class, 'store'])->name('admin.register.submit');
@@ -43,21 +50,13 @@ Route::prefix('admin')->group(function () {
     Route::get('profile/edit', [AuthController::class, 'editProfile'])->name('admin.profile.edit');
     Route::put('profile/update/{id}', [AuthController::class, 'updateProfile'])->name('admin.profile.update');
 
-    Route::prefix('users')->group(function () {
-        Route::get('/', [UserController::class, 'index'])->name('users.index');
-        Route::get('/create', [UserController::class, 'create'])->name('users.create');
-        Route::post('/', [UserController::class, 'store'])->name('users.store');
-        Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-    });
+    Route::get('authors/trashed', [AuthorController::class, 'trashed'])->name('authors.trashed');
+    Route::patch('authors/restore-selected', [AuthorController::class, 'restoreSelected'])->name('authors.restore-selected');
+    Route::patch('authors/restore-all', [AuthorController::class, 'restoreAll'])->name('authors.restore-all');
+    Route::delete('authors/deleteSelected', [AuthorController::class, 'deleteSelected'])->name('authors.deleteSelected');
+    Route::get('authors/delete-all', [AuthorController::class, 'deleteAll'])->name('authors.delete-all');
+    Route::patch('authors/{id}/restore', [AuthorController::class, 'restore'])->name('authors.restore');
 
-    Route::prefix('authors')->group(function () {
-        Route::get('trashed', [AuthorController::class, 'trashed'])->name('authors.trashed');
-        Route::patch('restore-selected', [AuthorController::class, 'restoreSelected'])->name('authors.restore-selected');
-        Route::patch('restore-all', [AuthorController::class, 'restoreAll'])->name('authors.restore-all');
-        Route::delete('deleteSelected', [AuthorController::class, 'deleteSelected'])->name('authors.deleteSelected');
-        Route::get('delete-all', [AuthorController::class, 'deleteAll'])->name('authors.delete-all');
-        Route::patch('{id}/restore', [AuthorController::class, 'restore'])->name('authors.restore');
+    Route::resource('authors', AuthorController::class);
 
-        Route::resource('/', AuthorController::class);
-    });
 });
