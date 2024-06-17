@@ -2,7 +2,7 @@
 
 use Database\Seeders\CategoriesSeeder;
 use Database\Seeders\PublisherSeeder;
-use Database\Seeders\BooksTableSeeder;
+use Database\Seeders\BookSeeder;
 use Database\Seeders\LanguageSeeder;
 use Database\Seeders\AuthorSeeder;
 use Database\Seeders\UserSeeder;
@@ -22,7 +22,8 @@ class DatabaseSeeder extends Seeder
             LanguageSeeder::class,
             AuthorSeeder::class,
             CategoriesSeeder::class,
-            BooksTableSeeder::class,
+            BookSeeder::class,
+            UserSeeder::class,
         ]);
 
         $this->call([
