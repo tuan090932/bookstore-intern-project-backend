@@ -35,7 +35,7 @@ class BookController extends Controller
         $authors = Author::all();
         $languages = Language::all();
         $publishers = Publisher::all();
-        return view('admin.pages.books.create', compact('categories','authors', 'languages','publishers'));
+        return view('admin.pages.books.create', compact('categories', 'authors', 'languages', 'publishers'));
     }
 
     /**
@@ -43,10 +43,10 @@ class BookController extends Controller
      */
     public function store(BookRequest $request)
     {
-        try{
+        try {
             Book::create($request->validated());
             return redirect()->route('books.index')->with('success', 'Book added successfully.');
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return redirect()->route('books.index')->with('error', 'Failed to add book.');
         }
     }
@@ -64,12 +64,12 @@ class BookController extends Controller
      */
     public function edit(string $id)
     {
-        $books = Book::findOrFail($id);  
+        $books = Book::findOrFail($id);
         $categories = Category::all();
         $authors = Author::all();
         $languages = Language::all();
         $publishers = Publisher::all();
-        return view('admin.pages.books.edit', compact('books','categories','authors', 'languages','publishers'));
+        return view('admin.pages.books.edit', compact('books', 'categories', 'authors', 'languages', 'publishers'));
     }
 
     /**
@@ -77,11 +77,11 @@ class BookController extends Controller
      */
     public function update(BookRequest $request, string $id)
     {
-        try{
+        try {
             $books = Book::findOrFail($id);
             $books->update($request->validated());
             return redirect()->route('books.index')->with('success', 'Product updated successfully');
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return redirect()->route('books.index')->with('error', 'Failed to add book.');
         }
     }
@@ -89,7 +89,7 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-   public function destroy(string $id)
+    public function destroy(string $id)
     {
         try {
             $book = Book::findOrFail($id);
@@ -101,13 +101,12 @@ class BookController extends Controller
     }
 
     /**
-    * Search for books by title.
-    */
+     * Search for books by title.
+     */
     public function search(Request $request)
     {
         $search = $request->input('search');
         $books = Book::where('title', 'like', '%' . $search . '%')->with(['authors', 'categories', 'languages', 'publishers'])->get();
         return view('admin.pages.books.index', compact('books'));
     }
-    
 }
