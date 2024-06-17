@@ -13,7 +13,7 @@ class CreateAdminsTable extends Migration
      */
     public function up()
     {
-        Schema::create('admins', function (Blueprint $table)
+        Schema::create('admin', function (Blueprint $table)
         {
             $table->id('admin_id');
             $table->string('admin_name', 250);
@@ -30,6 +30,6 @@ class CreateAdminsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('admins');
+        Schema::dropIfExists('admin');
     }
 }

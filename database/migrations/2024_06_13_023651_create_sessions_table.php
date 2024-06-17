@@ -20,7 +20,7 @@ class CreateSessionsTable extends Migration
             $table->timestamp('expiration');
             $table->timestamps();
 
-            $table->foreign('admin_id')->references('admin_id')->on('admins')->onDelete('cascade');
+            $table->foreign('admin_id')->references('admin_id')->on('admin')->onDelete('cascade');
         });
     }
 
