@@ -19,7 +19,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with(['addresses'])->get();
+        $users = User::with(['addresses'])->paginate(15);
         $users->each(function ($user) {
             $user->addresses = $user->addresses->first();
         });
@@ -37,7 +37,7 @@ class UserController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -106,9 +106,9 @@ class UserController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     * This method deletes the user and related addresses with user_id = $id. 
+     * This method deletes the user and related addresses with user_id = $id.
      * It redirects the user to the users.index page with a success or error message.
-     * 
+     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

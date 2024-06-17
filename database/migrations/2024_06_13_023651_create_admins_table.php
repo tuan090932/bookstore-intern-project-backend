@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddAddressPhoneToAdminsTable extends Migration
+class CreateAdminsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,13 @@ class AddAddressPhoneToAdminsTable extends Migration
      */
     public function up()
     {
-        Schema::table('admin', function (Blueprint $table) {
-            $table->string('address')->nullable();
-            $table->string('phone')->nullable();
+        Schema::create('admin', function (Blueprint $table)
+        {
+            $table->id('admin_id');
+            $table->string('admin_name', 250);
+            $table->string('password', 250);
+            $table->string('email', 250)->unique();
+            $table->timestamps();
         });
     }
 
@@ -26,9 +30,6 @@ class AddAddressPhoneToAdminsTable extends Migration
      */
     public function down()
     {
-        Schema::table('admins', function (Blueprint $table) {
-            $table->dropColumn('address');
-            $table->dropColumn('phone');
-        });
+        Schema::dropIfExists('admin');
     }
 }
