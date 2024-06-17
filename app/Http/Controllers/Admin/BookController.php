@@ -31,7 +31,11 @@ class BookController extends Controller
      */
     public function create()
     {
-       //
+        $categories = Category::all();
+        $authors = Author::all();
+        $languages = Language::all();
+        $publishers = Publisher::all();
+        return view('admin.pages.books.create', compact('categories', 'authors', 'languages', 'publishers'));
     }
 
     /**
@@ -39,7 +43,12 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            Book::create($request->validated());
+            return redirect()->route('books.index')->with('success', 'Book added successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('books.index')->with('error', 'Failed to add book.');
+        }
     }
 
     /**
@@ -69,7 +78,7 @@ class BookController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-   public function destroy(string $id)
+    public function destroy(string $id)
     {
         try {
             $books = Book::findOrFail($id);
@@ -79,5 +88,4 @@ class BookController extends Controller
             return redirect()->route('books.index')->with('error', 'Failed to delete the book.');
         }
     }
-    
 }
