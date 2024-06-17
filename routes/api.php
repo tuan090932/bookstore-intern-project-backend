@@ -1,10 +1,6 @@
 <?php
 
-<<<<<<< HEAD
-=======
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
->>>>>>> develop
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\RegisterController;
