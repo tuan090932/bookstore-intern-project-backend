@@ -17,6 +17,7 @@ return new class extends Migration
             $table->tinyInteger('age')->nullable();
             $table->date('birth_date')->nullable();
             $table->date('death_date')->nullable();
+            $table->string('national')->nullable();
             $table->timestamps();
         });
     }

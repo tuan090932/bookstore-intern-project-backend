@@ -27,6 +27,7 @@
                             <th>Tuổi</th>
                             <th>Ngày sinh</th>
                             <th>Ngày mất</th>
+                            <th>Quốc tịch</th>
                             <th>Options</th>
                         </tr>
                     </thead>
@@ -36,6 +37,7 @@
                             <th>Tuổi</th>
                             <th>Ngày sinh</th>
                             <th>Ngày mất</th>
+                            <th>Quốc tịch</th>
                             <th>Options</th>
                         </tr>
                     </tfoot>
@@ -46,6 +48,7 @@
                                 <td>{{ $author->age }}</td>
                                 <td>{{ $author->birth_date }}</td>
                                 <td>{{ $author->death_date ? $author->death_date: '------------' }}</td>
+                                <td>{{ $author->national }}</td>
                                 <td>
                                     <div class="d-flex justify-content-center">
                                         <a href="#" class="mr-2 text-success">

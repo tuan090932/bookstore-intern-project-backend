@@ -49,6 +49,7 @@ class AuthorController extends Controller
             $authorName = $request->input('author_name');
             $birthDate = Carbon::createFromFormat('d/m/Y', $request->input('birth_date'));
             $deathDate = $request->input('death_date') ? Carbon::createFromFormat('d/m/Y', $request->input('death_date')) : null;
+            $national = $request->input('national');
 
             $age = $deathDate ? $deathDate->year - $birthDate->year : Carbon::now()->year - $birthDate->year;
 
@@ -57,6 +58,7 @@ class AuthorController extends Controller
                 'birth_date' => $birthDate->format('Y-m-d'),
                 'death_date' => $deathDate ? $deathDate->format('Y-m-d') : null,
                 'age' => $age,
+                'national' => $national,
             ]);
 
             return redirect()->back()->with('success', 'Tạo tác giả thành công.');

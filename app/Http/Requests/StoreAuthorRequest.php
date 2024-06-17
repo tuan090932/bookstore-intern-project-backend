@@ -33,6 +33,11 @@ class StoreAuthorRequest extends FormRequest
                 'date_format:d/m/Y',
                 new ValidDeathDate($this->birth_date)
             ],
+            'national' => [
+                'required',
+                'string',
+                'max:255',
+            ],
         ];
     }
 
@@ -43,9 +48,14 @@ class StoreAuthorRequest extends FormRequest
             'author_name.string' => 'Họ tên tác giả phải là một chuỗi ký tự.',
             'author_name.max' => 'Họ tên tác giả không được vượt quá 255 ký tự.',
             'author_name.unique' => 'Tên tác giả đã tồn tại. Vui lòng nhập tên khác.',
+
             'birth_date.required' => 'Ngày sinh là bắt buộc.',
             'birth_date.date_format' => 'Ngày sinh phải có định dạng DD/MM/YYYY.',
             'death_date.date_format' => 'Ngày mất phải có định dạng DD/MM/YYYY.',
+
+            'national.required' => 'Quốc tịch là bắt buộc.',
+            'national.string' => 'Quốc tịch phải là một chuỗi ký tự.',
+            'national.max' => 'Quốc tịch không được vượt quá 255 ký tự.',
         ];
     }
 }
