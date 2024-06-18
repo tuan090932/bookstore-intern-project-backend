@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AddressController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Models\Author;
 use App\Http\Controllers\Admin\AuthController;
@@ -37,12 +38,8 @@ Route::resource('admin/books', BookController::class);
 Route::resource('admin/authors', AuthorController::class);
 
 Route::prefix('admin')->group(function () {
-    Route::prefix('users')->group(function () {
-        Route::get('/', [UserController::class, 'index'])->name('users.index');
-        Route::get('/create', [UserController::class, 'create'])->name('users.create');
-        Route::post('/', [UserController::class, 'store'])->name('users.store');
-        Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-    });
+    Route::resource('users', UserController::class);
+    Route::resource('addresses', AddressController::class);
 
     Route::get('/', [DashboardController::class, 'indexPage'])->name('admin.dashboard');
     Route::get('register', [AuthController::class, 'register'])->name('admin.register');
@@ -56,10 +53,10 @@ Route::prefix('admin')->group(function () {
 
     Route::prefix('categories')->group(function () {
         Route::get('/', [CategoryController::class, 'index'])->name('categories.index');
-        Route::get('/create', [CategoryController::class, 'create'])->name('categories.create');
-        Route::post('/store', [CategoryController::class, 'store'])->name('categories.store');
-        Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('categories.edit');
-        Route::put('/update/{id}', [CategoryController::class, 'update'])->name('categories.update');
+        Route::get('categories/create', [CategoryController::class, 'create'])->name('categories.create');
+        Route::post('categories/store', [CategoryController::class, 'store'])->name('categories.store');
+        Route::get('categories/edit/{id}', [CategoryController::class, 'edit'])->name('categories.edit');
+        Route::put('categories/update/{id}', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('/destroy/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     });
 });
