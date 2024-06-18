@@ -32,16 +32,15 @@ class AddressController extends Controller
      */
     public function store(AddressRequest $request)
     {
-        $request->validated();
-        $user_id = $request->input('user_id');
+        $userId = $request->input('user_id');
         try {
             Address::create([
                 'city' => $request->input('city'),
                 'country_name' => $request->input('country_name'),
                 'shipping_address' => $request->input('shipping_address'),
-                'user_id' => $user_id,
+                'user_id' => $userId,
             ]);
-            return redirect()->route('users.edit', $user_id);
+            return redirect()->route('users.edit', $userId);
         } catch (Exception $e) {
             Log::error('Error deleting user: ' . $e->getMessage());
             return redirect()->route('users.index')->with('error', 'Failed to add the address. Please try again.');
@@ -70,10 +69,9 @@ class AddressController extends Controller
      */
     public function update(AddressRequest $request, string $id)
     {
-        $request->validated();
         $address = Address::findOrFail($id);
         try {
-            $address->update($request->all());
+            $address->update($request->validated());
             return redirect()->route('users.edit', $id)->with('success', 'Address updated successfully.');
         } catch (Exception $e) {
             Log::error('Error updating address: ' . $e->getMessage());

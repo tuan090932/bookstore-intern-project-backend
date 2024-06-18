@@ -43,8 +43,6 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
-        $request->validated();
-
         try {
             // create user
             $user = new User();
@@ -93,10 +91,9 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, $id)
     {
-        $request->validated();
         $user = User::findOrFail($id);
         try {
-            $user->update($request->all());
+            $user->update($request->validated());
             return redirect()->route('users.edit', $id)->with('success', 'User updated successfully.');
         } catch (Exception $e) {
             Log::error('Error updating user: ' . $e->getMessage());
