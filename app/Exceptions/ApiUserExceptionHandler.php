@@ -7,11 +7,12 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Database\QueryException;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 
 class ApiUserExceptionHandler
 {
     /**
-     * Handle the exception.
+     * Handle the exception
      *
      * @param Exception $ex
      * @return JsonResponse
@@ -20,24 +21,26 @@ class ApiUserExceptionHandler
     {
         if ($ex instanceof ModelNotFoundException) {
             return response()->json([
-                'error' => 'Không tìm thấy người dùng',
+                'error' => 'Not Found',
                 'message' => $ex->getMessage()
             ], 404);
         } elseif ($ex instanceof ValidationException) {
+            Log::error($ex->errors());
             return response()->json([
-                'error' => 'Lỗi xác thực',
+                'error' => 'Validation failed',
                 'messages' => $ex->errors()
             ], 400);
         } elseif ($ex instanceof QueryException) {
             return response()->json([
-                'error' => 'Lỗi cơ sở dữ liệu',
+                'error' => 'Query Exception',
                 'message' => $ex->getMessage()
             ], 500);
         } else {
             return response()->json([
-                'error' => 'Đã xảy ra lỗi không mong muốn',
+                'error' => 'Internal Server Error',
                 'message' => $ex->getMessage()
             ], 500);
         }
     }
 }
+

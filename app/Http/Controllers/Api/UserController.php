@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Exceptions\ApiUserExceptionHandler;
-use App\Http\Requests\UpdateProfileRequest; // Đảm bảo sử dụng đúng Request
+use App\Http\Requests\UpdateProfileRequest; 
 use Exception;
 
 class UserController extends Controller
@@ -34,40 +34,30 @@ class UserController extends Controller
      * @param  int  $user_id
      * @return \Illuminate\Http\JsonResponse
      */
-        public function update(UpdateProfileRequest $request, $user_id)
-        {
-            try {
-                $user = User::findOrFail($user_id);
+    public function update(UpdateProfileRequest $request, $user_id)
+    {
+        try {
+            $user = User::findOrFail($user_id);
+    
+            $updatableAttributes = $request->only(['user_name', 'email', 'name', 'phone_number']);
 
-                if ($request->has('user_name')) {
-                    $user->user_name = $request->user_name;
-                }
-
-                if ($request->has('email')) {
-                    $user->email = $request->email;
-                }
-
-                if ($request->has('name')) {
-                    $user->name = $request->name;
-                }
-
-                if ($request->has('phone_number')) {
-                    $user->phone_number = $request->phone_number;
-                }
-
-                if ($request->filled('password')) {
-                    if (!Hash::check($request->old_password, $user->password)) {
-                        return response()->json(['old_password' => 'Mật khẩu cũ không đúng'], 400);
-                    }
-                    
-                    $user->password = Hash::make($request->password);
-                }
-                
-                $user->save();
-
-                return response()->json($user);
-            } catch (Exception $ex) {
-                return ApiUserExceptionHandler::handle($ex);
+            foreach ($updatableAttributes as $key => $value) {
+                $user->$key = $value;
             }
+    
+            if ($request->filled('password')) {
+                if (!Hash::check($request->old_password, $user->password)) {
+                    return response()->json(['old_password' => 'Mật khẩu cũ không đúng'], 400);
+                }
+    
+                $user->password = Hash::make($request->password);
+            }
+    
+            $user->save();
+    
+            return response()->json($user);
+        } catch (Exception $ex) {
+            return ApiUserExceptionHandler::handle($ex);
         }
+    }    
 }
