@@ -30,10 +30,10 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body">
+                        <div class="modal-body" id="confirmDeleteSelectedModalBody">
                             Bạn có chắc chắn muốn xóa những tác giả được chọn này không?
                         </div>
-                        <div class="modal-footer">
+                        <div class="modal-footer" id="confirmDeleteSelectedModalFooter">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             <button type="button" class="btn btn-danger" onclick="document.getElementById('selected-delete-form').submit();">Delete</button>
                         </div>
@@ -50,19 +50,28 @@
             <div style="top: 200px !important;" class="modal fade" id="confirmDeleteAllModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteAllModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="confirmDeleteAllModalLabel">Confirm Deletion</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            Bạn có chắc chắn muốn xóa tất cả các tác giả này không?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-danger" onclick="window.location.href = '{{ route('authors.delete-all') }}';">Delete</button>
-                        </div>
+                        @if($authors->count() > 0)
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmDeleteAllModalLabel">Confirm Deletion</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Bạn có chắc chắn muốn xóa tất cả các tác giả này không?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-danger" onclick="window.location.href = '{{ route('authors.delete-all') }}';">Delete</button>
+                            </div>
+                        @else
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmDeleteAllModalLabel">Không có tác giả nào để xóa</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -187,7 +196,18 @@
     // Event listener for delete selected button
     const deleteSelectedBtn = document.getElementById('selected-delete-btn');
     deleteSelectedBtn.addEventListener('click', () => {
-        document.getElementById('selected-delete-form').submit();
+        const selectedAuthors = document.querySelectorAll('input[name="author_ids[]"]:checked');
+        const modalBody = document.getElementById('confirmDeleteSelectedModalBody');
+        const modalFooter = document.getElementById('confirmDeleteSelectedModalFooter');
+
+        if (selectedAuthors.length > 0) {
+            modalBody.textContent = 'Bạn có chắc chắn muốn xóa những tác giả được chọn này không?';
+            modalFooter.style.display = 'flex';
+        } else {
+            modalBody.textContent = 'Không có tác giả nào được chọn để xóa';
+            modalFooter.style.display = 'none';
+        }
+
         $('#confirmDeleteSelectedModal').modal('show');
     });
 
@@ -197,4 +217,3 @@
     });
 </script>
 @endsection
-
