@@ -14,13 +14,13 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $user_id
+     * @param  int  $userId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function show($user_id)
+    public function show($userId)
     {
         try {
-            $user = User::findOrFail($user_id);
+            $user = User::findOrFail($userId);
             return response()->json($user);
         } catch (Exception $ex) {
             return ApiUserExceptionHandler::handle($ex);
@@ -31,13 +31,13 @@ class UserController extends Controller
      * Update the specified user in storage.
      *
      * @param  \App\Http\Requests\UpdateProfileRequest  $request
-     * @param  int  $user_id
+     * @param  int  $userId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(UpdateProfileRequest $request, $user_id)
+    public function update(UpdateProfileRequest $request, $userId)
     {
         try {
-            $user = User::findOrFail($user_id);
+            $user = User::findOrFail($userId);
     
             $updatableAttributes = $request->only(['user_name', 'email', 'name', 'phone_number']);
 
