@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
@@ -38,12 +42,8 @@ class CategoryController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest  $request)
     {
-        // Validate the request
-        $request->validate([
-            'category_name' => 'required|unique:categories,category_name',
-        ]);
 
         try {
             $category = Category::create([
@@ -92,17 +92,13 @@ class CategoryController extends Controller
      * @param string $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCategoryRequest  $request, $id)
     {
         $category = Category::find($id);
 
         if ($category === null) {
             return redirect()->route('categories.index')->with('error', 'Category not found');
         }
-
-        $request->validate([
-            'category_name' => 'required|unique:categories,category_name,' . $category->category_id . ',category_id',
-        ]);
 
         try {
             $category->category_name = $request->input('category_name');
