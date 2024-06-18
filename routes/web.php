@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AddressController;
 use App\Models\Author;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\LocationController;
@@ -33,12 +34,8 @@ Route::get('/books/search', [BookController::class, 'search'])->name('books.sear
 Route::resource('admin/books', BookController::class);
 
 Route::prefix('admin')->group(function () {
-    Route::prefix('users')->group(function () {
-        Route::get('/', [UserController::class, 'index'])->name('users.index');
-        Route::get('/create', [UserController::class, 'create'])->name('users.create');
-        Route::post('/', [UserController::class, 'store'])->name('users.store');
-        Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-    });
+    Route::resource('users', UserController::class);
+    Route::resource('addresses', AddressController::class);
 
     Route::get('/', [DashboardController::class, 'indexPage'])->name('admin.dashboard');
     Route::get('register', [AuthController::class, 'register'])->name('admin.register');
