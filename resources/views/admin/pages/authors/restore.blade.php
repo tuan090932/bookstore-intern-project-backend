@@ -12,12 +12,61 @@
                 </span>
                 <span class="text">Restore Selected</span>
             </button>
+            <!-- Confirm Restore Selected Modal -->
+            <div style="top: 200px !important;" class="modal fade" id="confirmRestoreSelectedModal" tabindex="-1" role="dialog" aria-labelledby="confirmRestoreSelectedModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmRestoreSelectedModalLabel">Confirm Restore Selected</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="confirmRestoreSelectedModalBody">
+                            Bạn có muốn hoàn lại các tác giả được chọn không?
+                        </div>
+                        <div class="modal-footer" id="confirmRestoreSelectedModalFooter">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-success" onclick="document.getElementById('bulk-restore-form').submit();">Restore</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <button class="btn btn-success btn-icon-split" id="restore-all-btn">
                 <span class="icon text-white-50">
                     <i class="fas fa-undo"></i>
                 </span>
                 <span class="text">Restore All</span>
             </button>
+            <!-- Confirm Restore All Modal -->
+            <div style="top: 200px !important;" class="modal fade" id="confirmRestoreAllModal" tabindex="-1" role="dialog" aria-labelledby="confirmRestoreAllModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        @if($authors->count() > 0)
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmRestoreAllModalLabel">Confirm Restore All</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Bạn có muốn hoàn lại tất cả tác giả không?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-success" onclick="document.getElementById('restore-all-form').submit();">Restore</button>
+                            </div>
+                        @else
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmRestoreSelectedModalLabel">Không có tác giả nào để hoàn lại</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+            </div>
             <a href="{{ route('authors.index') }}" class="btn btn-primary btn-icon-split">
                 <span class="icon text-white-50">
                     <i class="fas fa-arrow-left"></i>
@@ -121,24 +170,33 @@
 </form>
 
 <script>
-    document.getElementById('select-all').addEventListener('click', function(e) {
-        const checkboxes = document.querySelectorAll('input[name="author_ids[]"]');
-        checkboxes.forEach(checkbox => checkbox.checked = e.target.checked);
+    document.querySelectorAll('#select-all, #select-all-footer').forEach(element => {
+        element.addEventListener('click', e => {
+            document.querySelectorAll('input[name="author_ids[]"]').forEach(checkbox => {
+                checkbox.checked = e.target.checked;
+            });
+        });
     });
 
-    document.getElementById('select-all-footer').addEventListener('click', function(e) {
-        const checkboxes = document.querySelectorAll('input[name="author_ids[]"]');
-        checkboxes.forEach(checkbox => checkbox.checked = e.target.checked);
-    });
+    const bulkRestoreBtn = document.getElementById('bulk-restore-btn');
+    bulkRestoreBtn.addEventListener('click', () => {
+        const selectedAuthors = document.querySelectorAll('input[name="author_ids[]"]:checked');
+        const modalBody = document.getElementById('confirmRestoreSelectedModalBody');
+        const modalFooter = document.getElementById('confirmRestoreSelectedModalFooter');
 
-    document.getElementById('bulk-restore-btn').addEventListener('click', function() {
-        document.getElementById('bulk-restore-form').submit();
-    });
-
-    document.getElementById('restore-all-btn').addEventListener('click', function() {
-        if(confirm('Bạn có chắc chắn muốn khôi phục tất cả các tác giả không?')) {
-            document.getElementById('restore-all-form').submit();
+        if (selectedAuthors.length > 0) {
+            modalBody.textContent = 'Bạn có muốn hoàn lại các tác giả được chọn không?';
+            modalFooter.style.display = 'flex';
+        } else {
+            modalBody.textContent = 'Không có tác giả nào được chọn để hoàn lại';
+            modalFooter.style.display = 'none';
         }
+
+        $('#confirmRestoreSelectedModal').modal('show');
+    });
+
+    document.getElementById('restore-all-btn').addEventListener('click', () => {
+        $('#confirmRestoreAllModal').modal('show');
     });
 </script>
 @endsection

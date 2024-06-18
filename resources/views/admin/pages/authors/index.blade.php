@@ -20,12 +20,52 @@
                 </span>
                 <span class="text">Delete Selected</span>
             </button>
+            <!-- Confirm Delete Selected Modal -->
+            <div style="top: 200px !important;" class="modal fade" id="confirmDeleteSelectedModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteSelectedModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmDeleteSelectedModalLabel">Confirm Deletion</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc chắn muốn xóa những tác giả được chọn này không?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-danger" onclick="document.getElementById('selected-delete-form').submit();">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <button class="btn btn-danger btn-icon-split" id="delete-all-btn">
                 <span class="icon text-white-50">
                     <i class="fas fa-trash"></i>
                 </span>
                 <span class="text">Delete All</span>
             </button>
+            <!-- Confirm Delete All Modal -->
+            <div style="top: 200px !important;" class="modal fade" id="confirmDeleteAllModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteAllModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmDeleteAllModalLabel">Confirm Deletion</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            Bạn có chắc chắn muốn xóa tất cả các tác giả này không?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-danger" onclick="window.location.href = '{{ route('authors.delete-all') }}';">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <a href="{{ route('authors.create') }}" class="btn btn-primary btn-icon-split">
                 <span class="icon text-white-50">
                     <i class="fas fa-plus"></i>
@@ -135,24 +175,26 @@
 <script src="{{ asset('/assets/js/demo/datatables-demo.js') }}"></script>
 
 <script>
-    document.getElementById('select-all').addEventListener('click', function(e) {
-        const checkboxes = document.querySelectorAll('input[name="author_ids[]"]');
-        checkboxes.forEach(checkbox => checkbox.checked = e.target.checked);
+    // Toggle all checkboxes
+    document.querySelectorAll('#select-all, #select-all-footer').forEach(element => {
+        element.addEventListener('click', e => {
+            document.querySelectorAll('input[name="author_ids[]"]').forEach(checkbox => {
+                checkbox.checked = e.target.checked;
+            });
+        });
     });
 
-    document.getElementById('select-all-footer').addEventListener('click', function(e) {
-        const checkboxes = document.querySelectorAll('input[name="author_ids[]"]');
-        checkboxes.forEach(checkbox => checkbox.checked = e.target.checked);
-    });
-
-    document.getElementById('selected-delete-btn').addEventListener('click', function() {
+    // Event listener for delete selected button
+    const deleteSelectedBtn = document.getElementById('selected-delete-btn');
+    deleteSelectedBtn.addEventListener('click', () => {
         document.getElementById('selected-delete-form').submit();
+        $('#confirmDeleteSelectedModal').modal('show');
     });
 
-    document.getElementById('delete-all-btn').addEventListener('click', function() {
-        if (confirm('Are you sure you want to delete all authors?')) {
-            window.location.href = "{{ route('authors.delete-all') }}";
-        }
+    // Show modal for delete all
+    document.getElementById('delete-all-btn').addEventListener('click', () => {
+        $('#confirmDeleteAllModal').modal('show');
     });
 </script>
 @endsection
+
