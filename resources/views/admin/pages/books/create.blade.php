@@ -4,6 +4,17 @@
 <h1 class="h3 mb-2 text-gray-800">Create Book</h1>
 <hr class="my-12" />
 <!-- DataTales Example -->
+@if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
 <div class="row">
     <div class="col-md-12">
         <form action="{{ route('books.store') }}" method="POST" id="input-form">
