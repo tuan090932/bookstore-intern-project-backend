@@ -28,6 +28,7 @@ class RegisterController extends Controller
         try
         {
             $validator = Validator::make($request->all(), [
+                'user_name' => 'required|string|max:255',
                 'name' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:6|confirmed',
@@ -39,6 +40,7 @@ class RegisterController extends Controller
             }
 
             $user = User::create([
+                'user_name' => $request->name,
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
@@ -54,7 +56,8 @@ class RegisterController extends Controller
         {
             Log::error('Error registering user: '. $e->getMessage());
 
-            return response()->json(['message' => 'An error occurred while registering the user'], 500);
+            return response()->json(['message' => 'An error occurred while registering the user',
+        'erro'=> $e->getMessage()], 500);
         }
     }
 
