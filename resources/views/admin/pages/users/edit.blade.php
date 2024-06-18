@@ -109,6 +109,7 @@
                     <th>Shipping address</th>
                     <th>Options</th>
                 </tr>
+            </thead>
             <tbody>
                 @foreach ($addresses as $address)
                 <tr>
@@ -133,7 +134,7 @@
                 </tr>
                 @endforeach
             </tbody>
-            </thead>
+
         </table>
     </div>
 </div>
