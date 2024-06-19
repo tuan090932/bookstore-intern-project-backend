@@ -6,8 +6,18 @@
 @endsection
 
 @section('content')
-<div class="container">
-    <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">Dashboard</h1>
+<style>
+    .cardBox
+    {
+        position: relative;
+        width: 100%;
+        padding: 20px;
+        display: grid;
+        grid-template-columns: repeat(2,1fr) !important;
+        grid-gap: 30px;
+    }
+</style>
+<h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">Dashboard</h1>
 
     <!-- cards -->
     <div class="cardBox">
@@ -172,7 +182,6 @@
             </table>
         </div>
     </div>
-</div>
 
 <!-- <script src="/admin page/assets/js/admin-script.js"></script> -->
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
