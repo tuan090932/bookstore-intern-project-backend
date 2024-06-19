@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\UserRequest;
 
 class UserController extends Controller
 {
@@ -23,7 +24,6 @@ class UserController extends Controller
         $users->each(function ($user) {
             $user->addresses = $user->addresses->first();
         });
-
         return view('admin.pages.users.index', compact('users'));
     }
 
@@ -41,18 +41,8 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $request->validate([
-            'user_name' => 'required|string|max:250|unique:users,user_name',
-            'email' => 'required|email|unique:users,email',
-            'phone_number' => 'required|string|max:250|unique:users,phone_number',
-            'password' => 'required|min:6',
-            'city' => 'required|string|max:250',
-            'country_name' => 'required|string|max:250',
-            'shipping_address' => 'required',
-        ]);
-
         try {
             // create user
             $user = new User();
@@ -61,11 +51,8 @@ class UserController extends Controller
             $user->email = $request->input('email');
             $user->phone_number = $request->input('phone_number');
 
-            $user->makeVisible(['password']);
             $user->password = Hash::make($request->input('password'));
             $user->save();
-
-            $user->makeHidden(['password']);
 
             // create address of user
             Address::create([
@@ -76,6 +63,7 @@ class UserController extends Controller
             ]);
             return redirect()->route('users.index')->with('success', 'User created successfully.');
         } catch (Exception $e) {
+            Log::error('Error deleting user: ' . $e->getMessage());
             return redirect()->back()->with('error', 'An error occurred while creating the user. Please try again.');
         }
     }
@@ -93,15 +81,24 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $addresses = Address::where('user_id', $id)->get();
+        return view('admin.pages.users.edit', compact('user', 'addresses'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UserRequest $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+        try {
+            $user->update($request->validated());
+            return redirect()->route('users.edit', $id)->with('success', 'User updated successfully.');
+        } catch (Exception $e) {
+            Log::error('Error updating user: ' . $e->getMessage());
+            return redirect()->route('users.index')->with('error', 'Failed to update the user. Please try again.');
+        }
     }
 
     /**
@@ -119,8 +116,8 @@ class UserController extends Controller
             $user = User::findOrFail($id);
             $user->delete();
             return redirect()->route('users.index')->with('success', 'User deleted successfully');
-        } catch (\Exception $e) {
-            Log::error('Error deleting user: '.$e->getMessage());
+        } catch (Exception $e) {
+            Log::error('Error deleting user: ' . $e->getMessage());
             return redirect()->route('users.index')->with('error', 'Failed to delete the user. Please try again.');
         }
     }
