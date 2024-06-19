@@ -34,6 +34,7 @@ Route::resource('admin/books', BookController::class);
 Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('dashboard');
 Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
 Route::resource('admin/books', BookController::class);
+Route::resource('admin/languages', LanguageController::class);
 
 Route::resource('admin/authors', AuthorController::class);
 
