@@ -60,11 +60,11 @@ class AuthorController extends Controller
                 'national' => $national,
             ]);
 
-            return redirect()->back()->with('success', 'Tạo tác giả thành công.');
+            return redirect()->back()->with('success', __('messages.author_created_success'));
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
-            return redirect()->back()->with('error', 'Đã xảy ra lỗi khi tạo tác giả. Vui lòng thử lại.');
+            return redirect()->back()->with('success', __('messages.author_creation_failed'));
         }
     }
 
@@ -104,11 +104,11 @@ class AuthorController extends Controller
             $author = Author::findOrFail($id);
             $author->delete();
 
-            return redirect()->back()->with('success', 'Tác giả đã được xóa thành công.');
+            return redirect()->back()->with('success', __('messages.author_deleted_success'));
         } catch (Exception $e) {
             Log::error('Error deleting author: ' . $e->getMessage());
 
-            return redirect()->back()->with('error', 'Đã xảy ra lỗi khi xóa tác giả. Vui lòng thử lại.');
+            return redirect()->back()->with('error', __('messages.author_deletion_failed'));
         }
     }
 
@@ -136,11 +136,11 @@ class AuthorController extends Controller
             $author = Author::onlyTrashed()->findOrFail($id);
             $author->restore();
 
-            return redirect()->back()->with('success', 'Tác giả đã được khôi phục thành công.');
+            return redirect()->back()->with('success', __('messages.author_restored_success'));
         } catch (Exception $e) {
             Log::error('Error restoring author: ' . $e->getMessage());
 
-            return redirect()->back()->with('error', 'Đã xảy ra lỗi khi khôi phục tác giả. Vui lòng thử lại.');
+            return redirect()->back()->with('error', __('messages.author_restoration_failed'));
         }
     }
 
@@ -155,13 +155,13 @@ class AuthorController extends Controller
         try {
             $authorIds = $request->input('author_ids');
             if ($authorIds) {
-                Author::onlyTrashed()->whereIn('author_id', $authorIds)->restore();
-                return redirect()->back()->with('success', 'Những tác giả được chọn đã khôi phục thành công.');
+                Author::onlyTrashed()->whereIn('id', $authorIds)->restore();
+                return redirect()->back()->with('success', __('messages.selected_authors_restored_success'));
             }
-            return redirect()->back()->with('error', 'Không tác giả nào được chọn.');
+            return redirect()->back()->with('error', __('messages.no_authors_selected'));
         } catch (Exception $e) {
             Log::error('Error bulk restoring authors: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Có lỗi xảy ra khi khôi phục những tác giả được chọn. Vui lòng thử lại.');
+            return redirect()->back()->with('error', __('messages.selected_authors_restoration_failed'));
         }
     }
 
@@ -176,13 +176,13 @@ class AuthorController extends Controller
         try {
             $authorIds = $request->input('author_ids');
             if ($authorIds) {
-                Author::whereIn('author_id', $authorIds)->delete();
-                return redirect()->back()->with('success', 'Những tác giả được chọn đã xóa thành công.');
+                Author::whereIn('id', $authorIds)->delete();
+                return redirect()->back()->with('success', __('messages.selected_authors_deleted_success'));
             }
-            return redirect()->back()->with('error', 'Không tác giả nào được chọn.');
+            return redirect()->back()->with('error', __('messages.no_authors_selected'));
         } catch (Exception $e) {
             Log::error('Error bulk deleting authors: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Có lỗi xảy ra khi xóa những tác giả được chọn. Vui lòng thử lại.');
+            return redirect()->back()->with('error', __('messages.selected_authors_deletion_failed'));
         }
     }
 
@@ -195,10 +195,10 @@ class AuthorController extends Controller
     {
         try {
             Author::query()->delete();
-            return redirect()->back()->with('success', 'Tất cả tác giả đã được xóa thành công.');
+            return redirect()->back()->with('success', __('messages.all_authors_deleted_success'));
         } catch (Exception $e) {
             Log::error('Error deleting all authors: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Có lỗi xảy ra khi xóa tất cả tác giả. Vui lòng thử lại.');
+            return redirect()->back()->with('error', __('messages.all_authors_deletion_failed'));
         }
     }
 
@@ -211,10 +211,10 @@ class AuthorController extends Controller
     {
         try {
             Author::onlyTrashed()->restore();
-            return redirect()->back()->with('success', 'Tất cả tác giả đã được khôi phục thành công.');
+            return redirect()->back()->with('success', __('messages.all_authors_restored_success'));
         } catch (Exception $e) {
             Log::error('Error restoring all authors: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Có lỗi xảy ra khi khôi phục tất cả tác giả. Vui lòng thử lại.');
+            return redirect()->back()->with('error', __('messages.all_authors_restoration_failed'));
         }
     }
 

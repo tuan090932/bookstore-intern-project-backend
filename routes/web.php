@@ -33,6 +33,10 @@ Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('
 Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
 Route::resource('admin/books', BookController::class);
 
+Route::get('/', function () {
+    return redirect('/admin');
+});
+
 Route::prefix('admin')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('addresses', AddressController::class);
