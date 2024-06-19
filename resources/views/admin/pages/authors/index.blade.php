@@ -21,19 +21,19 @@
                 <span class="text">Delete Selected</span>
             </button>
             <!-- Confirm Delete Selected Modal -->
-            <div style="top: 200px !important;" class="modal fade" id="confirmDeleteSelectedModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteSelectedModalLabel" aria-hidden="true">
+            <div style="top: 200px !important;" class="modal fade" id="confirm-delete-selected-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-selected-modal-label" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="confirmDeleteSelectedModalLabel">Confirm Deletion</h5>
+                            <h5 class="modal-title" id="confirm-delete-selected-modal-label">Confirm Deletion</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
-                        <div class="modal-body" id="confirmDeleteSelectedModalBody">
+                        <div class="modal-body" id="confirm-delete-selected-modal-body">
                             Bạn có chắc chắn muốn xóa những tác giả được chọn này không?
                         </div>
-                        <div class="modal-footer" id="confirmDeleteSelectedModalFooter">
+                        <div class="modal-footer" id="confirm-delete-selected-modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                             <button type="button" class="btn btn-danger" onclick="document.getElementById('selected-delete-form').submit();">Delete</button>
                         </div>
@@ -47,12 +47,12 @@
                 <span class="text">Delete All</span>
             </button>
             <!-- Confirm Delete All Modal -->
-            <div style="top: 200px !important;" class="modal fade" id="confirmDeleteAllModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteAllModalLabel" aria-hidden="true">
+            <div style="top: 200px !important;" class="modal fade" id="confirm-delete-all-modal" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-all-modal-label" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         @if($authors->count() > 0)
                             <div class="modal-header">
-                                <h5 class="modal-title" id="confirmDeleteAllModalLabel">Confirm Deletion</h5>
+                                <h5 class="modal-title" id="confirm-delete-all-modal-label">Confirm Deletion</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -66,7 +66,7 @@
                             </div>
                         @else
                             <div class="modal-header">
-                                <h5 class="modal-title" id="confirmDeleteAllModalLabel">Không có tác giả nào để xóa</h5>
+                                <h5 class="modal-title" id="confirm-delete-all-modal-label">Không có tác giả nào để xóa</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -134,7 +134,7 @@
                                             <form id="delete-form-{{ $author->author_id }}" action="{{ route('authors.destroy', $author->author_id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="button" class="btn btn-link p-0 m-0" data-toggle="modal" data-target="#confirmDeleteModal-{{ $author->author_id }}">
+                                                <button type="button" class="btn btn-link p-0 m-0" data-toggle="modal" data-target="#confirm-delete-modal-{{ $author->author_id }}">
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="red" class="bi bi-trash-fill" viewBox="0 0 16 16">
                                                         <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
                                                     </svg>
@@ -142,11 +142,11 @@
                                             </form>
 
                                             <!-- Modal -->
-                                            <div style="top: 200px !important;" class="modal fade" id="confirmDeleteModal-{{ $author->author_id }}" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel-{{ $author->author_id }}" aria-hidden="true">
+                                            <div style="top: 200px !important;" class="modal fade" id="confirm-delete-modal-{{ $author->author_id }}" tabindex="-1" role="dialog" aria-labelledby="confirm-delete-modal-label-{{ $author->author_id }}" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title" id="confirmDeleteModalLabel-{{ $author->author_id }}">Confirm Deletion</h5>
+                                                            <h5 class="modal-title" id="confirm-delete-modal-label-{{ $author->author_id }}">Confirm Deletion</h5>
                                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
@@ -197,8 +197,8 @@
     const deleteSelectedBtn = document.getElementById('selected-delete-btn');
     deleteSelectedBtn.addEventListener('click', () => {
         const selectedAuthors = document.querySelectorAll('input[name="author_ids[]"]:checked');
-        const modalBody = document.getElementById('confirmDeleteSelectedModalBody');
-        const modalFooter = document.getElementById('confirmDeleteSelectedModalFooter');
+        const modalBody = document.getElementById('confirm-delete-selected-modal-body');
+        const modalFooter = document.getElementById('confirm-delete-selected-modal-footer');
 
         if (selectedAuthors.length > 0) {
             modalBody.textContent = 'Bạn có chắc chắn muốn xóa những tác giả được chọn này không?';
@@ -208,12 +208,12 @@
             modalFooter.style.display = 'none';
         }
 
-        $('#confirmDeleteSelectedModal').modal('show');
+        $('#confirm-delete-selected-modal').modal('show');
     });
 
     // Show modal for delete all
     document.getElementById('delete-all-btn').addEventListener('click', () => {
-        $('#confirmDeleteAllModal').modal('show');
+        $('#confirm-delete-all-modal').modal('show');
     });
 </script>
 @endsection
