@@ -69,7 +69,7 @@
                                         </svg>
                                     </a>
 
-                                    <form action="{{ route('categories.destroy', $category->category_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                    <form action="{{ route('categories.destroy', $category->category_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this category ?');">
                                         @csrf
                                         @method('DELETE')
 
