@@ -28,19 +28,19 @@ $currentRoute = request()->route()->getName();
     <!-- Nav Item - Tables -->
     <li class="nav-item {{ $currentRoute=='users.index' ? 'active':'' }}" href="{{ route('users.index') }}">
         <a class="nav-link" href="{{ route('users.index') }}">
-            <i class="fas fa-fw fa-table"></i>
+            <i class="fa-solid fa-user"></i>
             <span>Users</span></a>
     </li>
 
     <li class="nav-item {{ $currentRoute=='books.index' ? 'active':'' }}" href="{{ route('books.index') }}">
         <a class="nav-link" href="{{ route('books.index') }}">
-            <i class="fas fa-fw fa-table"></i>
+            <i class="fa-solid fa-book"></i>
             <span>Books</span></a>
     </li>
 
     <li class="nav-item {{ $currentRoute=='languages.index' ? 'active':'' }}" href="{{ route('languages.index') }}">
         <a class="nav-link" href="{{ route('languages.index') }}">
-            <i class="fas fa-fw fa-table"></i>
+            <i class="fa-solid fa-language"></i>
             <span>Languages</span></a>
     </li>   
          
