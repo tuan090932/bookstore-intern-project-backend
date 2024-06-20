@@ -3,7 +3,6 @@
 @section('content')
 <!-- Begin Page Content -->
 <div class="container-fluid">
-
     <!-- Page Heading -->
     <div class="d-grid d-flex justify-content-between mb-3">
         <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">Categories</h1>
@@ -15,8 +14,6 @@
             <span class="text">Create</span>
         </a>
     </div>
-
-
     <!-- Flash Message for Success or Error -->
     @if (session('success'))
     <div class="alert alert-success">
@@ -27,12 +24,6 @@
         {{ session('error') }}
     </div>
     @endif
-
-
-
-
-
-
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
@@ -86,7 +77,6 @@
                         @endforeach
                     </tbody>
                 </table>
-
                 <div class="d-flex">
                     <nav>
                         {{ $categories->links('vendor.pagination.bootstrap-4') }}
@@ -98,12 +88,9 @@
 
 </div>
 <!-- /.container-fluid -->
-
 <!-- Page level plugins -->
 <script src="{{ asset('/assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('/assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-
 <!-- Page level custom scripts -->
 <script src="{{ asset('/assets/js/demo/datatables-demo.js') }}"></script>
-
 @endsection

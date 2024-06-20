@@ -5,21 +5,17 @@
 @section('content')
 <h1 class="h3 mb-2 text-gray-800">Edit Category</h1>
 <hr class="my-12" />
-
 <!-- Display Success or Error Messages -->
 @if (session('success'))
 <div class="alert alert-success">
     {{ session('success') }}
 </div>
 @endif
-
 <div class="row">
     <div class="col-md-12">
         <form id="edit_form" action="{{ route('categories.update', $category->category_id) }}" method="POST">
             @csrf
             @method('PUT')
-
-
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="category_name">Category Name</label>
@@ -29,9 +25,7 @@
                     @enderror
                 </div>
             </div>
-
             <hr class="my-12" />
-
             <div class="d-grid d-flex justify-content-between">
                 <a href="javascript:history.back()" class="form-group btn btn-secondary btn-icon-split">
                     <span class="icon text-white-50">

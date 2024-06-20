@@ -3,14 +3,12 @@
 @section('content')
 <h1 class="h3 mb-2 text-gray-800">Create Category</h1>
 <hr class="my-12" />
-
 <!-- Display Success or Error Messages -->
 @if (session('success'))
 <div class="alert alert-success">
     {{ session('success') }}
 </div>
 @endif
-
 <div class="row">
     <div class="col-md-12">
         <form id="input_form" method="POST" action="{{ route('categories.store') }}">
