@@ -11,22 +11,6 @@
 <div class="alert alert-success">
     {{ session('success') }}
 </div>
-
-@elseif (session('error'))
-<div class="alert alert-danger">
-    {{ session('error') }}
-</div>
-@endif
-
-<!-- Display Validation Errors -->
-@if ($errors->any())
-<div class="alert alert-danger">
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
 @endif
 
 <div class="row">
@@ -34,10 +18,15 @@
         <form id="edit_form" action="{{ route('categories.update', $category->category_id) }}" method="POST">
             @csrf
             @method('PUT')
+
+
             <div class="form-row">
                 <div class="form-group col-md-12">
                     <label for="category_name">Category Name</label>
-                    <input type="text" class="form-control" id="category_name" name="category_name" value="{{ $category->category_name }}">
+                    <input type="text" class="form-control @error('category_name') is-invalid @enderror" id="category_name" name="category_name" value="{{ old('category_name', $category->category_name) }}">
+                    @error('category_name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 

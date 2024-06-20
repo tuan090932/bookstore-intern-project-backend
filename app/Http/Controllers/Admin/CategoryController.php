@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -22,7 +23,7 @@ class CategoryController extends Controller
     public function index()
     {
 
-        $categories = Category::paginate(15);
+        $categories = Category::paginate(10);
         return view('admin.pages.categories.index', compact('categories'));
     }
 
@@ -44,12 +45,10 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest  $request)
     {
-
         try {
             $category = Category::create([
                 'category_name' => $request->input('category_name')
             ]);
-
             if ($category) {
                 return redirect()->route('categories.create')->with('success', 'Category created successfully');
             }
@@ -76,13 +75,12 @@ class CategoryController extends Controller
      */
     public function edit(string $id)
     {
-        $category = Category::find($id);
-
-        if ($category === null) {
+        try {
+            $category = Category::findOrFail($id);
+            return view('admin.pages.categories.edit', compact('category'));
+        } catch (ModelNotFoundException $e) {
             return redirect()->route('categories.index')->with('error', 'Category not found');
         }
-
-        return view('admin.pages.categories.edit', compact('category'));
     }
 
     /**
@@ -94,17 +92,13 @@ class CategoryController extends Controller
      */
     public function update(UpdateCategoryRequest  $request, $id)
     {
-        $category = Category::find($id);
-
-        if ($category === null) {
-            return redirect()->route('categories.index')->with('error', 'Category not found');
-        }
-
         try {
+            $category = Category::findOrFail($id);
             $category->category_name = $request->input('category_name');
             $category->save();
-
             return redirect()->route('categories.edit', $id)->with('success', 'Category updated successfully');
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('categories.index', $id)->with('error', 'Category not found');
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return redirect()->route('categories.edit', $id)->with('error', 'Category update failed');
@@ -119,20 +113,16 @@ class CategoryController extends Controller
      */
     public function destroy(string $id)
     {
-
-        $category = Category::find($id);
-        if ($category === null) {
-            return redirect()->route('categories.index')->with('error', 'Category not found');
-        }
         try {
-
+            $category = Category::findOrFail($id);
             $bookCount = Book::where('category_id', $id)->count();
             if ($bookCount > 0) {
                 return redirect()->route('categories.index')->with('error', 'Cannot delete category because it is associated with one or more books');
             }
-
             $category->delete();
             return redirect()->route('categories.index')->with('success', 'Category deleted successfully');
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('categories.index')->with('error', 'Category not found');
         } catch (\Exception $e) {
             return redirect()->route('categories.index')->with('error', 'Category deletion failed');
         }
