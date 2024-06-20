@@ -60,11 +60,11 @@ class AuthorController extends Controller
                 'national' => $national,
             ]);
 
-            return redirect()->back()->with('success', __('messages.author_created_success'));
+            return redirect()->back()->with('success', __('messages.author.created_success'));
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
-            return redirect()->back()->with('success', __('messages.author_creation_failed'));
+            return redirect()->back()->with('error', __('messages.author.created_error'));
         }
     }
 
@@ -104,11 +104,11 @@ class AuthorController extends Controller
             $author = Author::findOrFail($id);
             $author->delete();
 
-            return redirect()->back()->with('success', __('messages.author_deleted_success'));
+            return redirect()->back()->with('success', __('messages.author.deleted_success'));
         } catch (Exception $e) {
             Log::error('Error deleting author: ' . $e->getMessage());
 
-            return redirect()->back()->with('error', __('messages.author_deletion_failed'));
+            return redirect()->back()->with('error', __('messages.author.deleted_error'));
         }
     }
 
@@ -136,11 +136,11 @@ class AuthorController extends Controller
             $author = Author::onlyTrashed()->findOrFail($id);
             $author->restore();
 
-            return redirect()->back()->with('success', __('messages.author_restored_success'));
+            return redirect()->back()->with('success', __('messages.author.restored_success'));
         } catch (Exception $e) {
             Log::error('Error restoring author: ' . $e->getMessage());
 
-            return redirect()->back()->with('error', __('messages.author_restoration_failed'));
+            return redirect()->back()->with('error', __('messages.author.restored_error'));
         }
     }
 
@@ -152,14 +152,19 @@ class AuthorController extends Controller
      */
     public function restoreSelected(Request $request)
     {
-        $authorIdsInput = $request->input('author_ids', '');
-        $authorIdsArray = explode(',', $authorIdsInput);
-        $authorIds = array_filter($authorIdsArray, function($value) {
-            return !empty($value) && is_numeric($value);
-        });
+        try {
+            $authorIdsInput = $request->input('author_ids', '');
+            $authorIdsArray = explode(',', $authorIdsInput);
+            $authorIds = array_filter($authorIdsArray, function($value) {
+                return !empty($value) && is_numeric($value);
+            });
 
-        Author::onlyTrashed()->whereIn('author_id', $authorIds)->restore();
-        return redirect()->back();
+            Author::onlyTrashed()->whereIn('author_id', $authorIds)->restore();
+            return redirect()->back()->with('success', __('messages.author.selected_restored_success'));
+        } catch (Exception $e) {
+            Log::error('Error restoring authors: ' . $e->getMessage());
+            return redirect()->back()->with('error', __('messages.author.selected_restored_error'));
+        }
     }
 
     /**
@@ -170,15 +175,20 @@ class AuthorController extends Controller
      */
     public function deleteSelected(Request $request)
     {
-        $authorIdsInput = $request->input('author_ids', '');
-        $authorIdsArray = explode(',', $authorIdsInput);
-        $authorIds = array_filter($authorIdsArray, function($value) {
-            return !empty($value) && is_numeric($value);
-        });
-        dd($authorIds);
-        Author::whereIn('author_id', $authorIds)->delete();
+        try {
+            $authorIdsInput = $request->input('author_ids', '');
+            $authorIdsArray = explode(',', $authorIdsInput);
+            $authorIds = array_filter($authorIdsArray, function($value) {
+                return !empty($value) && is_numeric($value);
+            });
 
-        return redirect()->back()->with('success', 'Selected authors have been deleted successfully.');
+            Author::whereIn('author_id', $authorIds)->delete();
+
+            return redirect()->back()->with('success', __('messages.author.selected_deleted_success'));
+        } catch (Exception $e) {
+            Log::error('Error deleting selected authors: ' . $e->getMessage());
+            return redirect()->back()->with('error', __('messages.author.selected_deleted_error'));
+        }
     }
 
     /**
@@ -190,10 +200,10 @@ class AuthorController extends Controller
     {
         try {
             Author::query()->delete();
-            return redirect()->back()->with('success', __('messages.all_authors_deleted_success'));
+            return redirect()->back()->with('success', __('messages.author.all_deleted_success'));
         } catch (Exception $e) {
             Log::error('Error deleting all authors: ' . $e->getMessage());
-            return redirect()->back()->with('error', __('messages.all_authors_deletion_failed'));
+            return redirect()->back()->with('error', __('messages.author.all_deleted_error'));
         }
     }
 
@@ -206,10 +216,10 @@ class AuthorController extends Controller
     {
         try {
             Author::onlyTrashed()->restore();
-            return redirect()->back()->with('success', __('messages.all_authors_restored_success'));
+            return redirect()->back()->with('success', __('messages.author.all_restored_success'));
         } catch (Exception $e) {
             Log::error('Error restoring all authors: ' . $e->getMessage());
-            return redirect()->back()->with('error', __('messages.all_authors_restoration_failed'));
+            return redirect()->back()->with('error', __('messages.author.all_restored_error'));
         }
     }
 

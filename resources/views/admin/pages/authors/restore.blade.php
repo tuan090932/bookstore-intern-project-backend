@@ -28,23 +28,23 @@
             ])
             @endcomponent
 
-            <button class="btn btn-danger btn-icon-split" id="delete-all-btn" data-toggle="modal" data-target="#confirm-delete-all-modal">
+            <button class="btn btn-success btn-icon-split" id="restore-all-btn" data-toggle="modal" data-target="#confirm-restore-all-modal">
                 <span class="icon text-white-50">
-                    <i class="fas fa-trash"></i>
+                    <i class="fas fa-trash-restore"></i>
                 </span>
                 <span class="text">Delete All</span>
             </button>
-            <!-- Confirm Delete Selected Modal -->
+            <!-- Confirm Restore All Modal -->
             @component('components.confirm-modal', [
-                'id' => 'confirm-delete-all-modal',
-                'labelId' => 'confirm-delete-all-modal-label',
-                'title' => 'Confirm Delete',
+                'id' => 'confirm-restore-all-modal',
+                'labelId' => 'confirm-restore-all-modal-label',
+                'title' => 'Confirm Restore',
                 'body' => 'Bạn có chắc chắn muốn xóa tất cả các tác giả không?',
-                'formId' => 'delete-all-form',
-                'formAction' => route('authors.delete-all'),
+                'formId' => 'restore-all-form',
+                'formAction' => route('authors.restore-all'),
                 'method' => 'PATCH',
                 'inputId' => 'author_ids',
-                'confirmText' => 'Delete'
+                'confirmText' => 'Restore'
             ])
             @endcomponent
 
@@ -52,7 +52,7 @@
                 <span class="icon text-white-50">
                     <i class="fas fa-arrow-left"></i>
                 </span>
-                <span class="text">Back to Authors</span>
+                <span class="text">Back</span>
             </a>
         </div>
     </div>
