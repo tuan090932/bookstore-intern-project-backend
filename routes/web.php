@@ -47,12 +47,6 @@ Route::prefix('admin')->group(function () {
             Route::get('admins-account', [AdminController::class, 'index'])->name('admin.admins-account');
         });
 
-        Route::middleware('role:ALL,MG')->group(function () {
-            Route::resource('users', UserController::class);
-            Route::resource('books', BookController::class);
-            Route::resource('authors', AuthorController::class);
-        });
-
         Route::middleware('role:ALL,MG,CUST')->group(function () {
             Route::resource('users', UserController::class);
         });
