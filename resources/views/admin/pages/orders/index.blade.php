@@ -4,6 +4,9 @@
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
+    <style>
+
+    </style>
     <!-- Page Heading -->
     <div class="d-grid d-flex justify-content-between mb-3">
         <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">Orders</h1>
@@ -48,12 +51,9 @@
                             <td>{{ $order->order_id }}</td>
                             <td>{{ $order->user_name }}</td>
                             <td>{{ $order->order_date }}</td>
+
                             <td>
-                                <span class="badge 
-                                    @if($order->status_name == 'Processing') badge-warning 
-                                    @elseif($order->status_name == 'Completed') badge-success 
-                                    @elseif($order->status_name == 'Pending') badge-secondary 
-                                    @endif">
+                                <span class="badge badge{{$order->status_id }}">
                                     {{ $order->status_name }}
                                 </span>
                             </td>
@@ -67,7 +67,7 @@
                                             <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                                         </svg>
                                     </a>
-                                    <a href="" class="mr-2 text-primary">
+                                    <a href="{{ route('orders.show', $order->order_id) }}" class="mr-2 text-primary">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
                                             <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zm-8 4a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                                         </svg>

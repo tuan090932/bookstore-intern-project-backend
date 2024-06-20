@@ -20,10 +20,11 @@ class OrderController extends Controller
             ->join('order_status', 'book_order.status_id', '=', 'order_status.status_id')
             ->join('book_order_details', 'book_order.order_id', '=', 'book_order_details.order_id')
             ->select(
-                'book_order.order_id',
+                'book_order.*',
                 'users.user_name',
                 'users.email',
                 'order_status.status_name',
+                'order_status.status_id',
                 'book_order.order_date',
                 'book_order.total_price',
                 'book_order_details.book_id',
@@ -32,18 +33,21 @@ class OrderController extends Controller
             )
             ->get();
 
+
+
         return view('admin.pages.orders.index', compact('orders'));
     }
 
 
     public function show($id)
     {
-        $order = BookOrder::with('details')->where('order_id', $id)->first();
+        $order = BookOrder::with(['bookOrderDetails', 'orderStatus', 'user'])->where('order_id', $id)->first();
+
 
         if (!$order) {
             return redirect()->route('orders.index')->with('error', 'Order not found.');
         }
 
-        return view('admin.pages.orders.index', compact('order'));
+        return view('admin.pages.orders.show', compact('order'));
     }
 }

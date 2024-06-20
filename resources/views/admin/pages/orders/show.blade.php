@@ -15,7 +15,15 @@
             <p>Order ID: {{ $order->order_id }}</p>
             <p>User Name: {{ $order->user->user_name }}</p>
             <p>Order Date: {{ $order->order_date }}</p>
-            <p>Status: {{ $order->orderStatus ? $order->orderStatus->status_name : 'N/A' }}</p>
+            <p>Status: {{ $order->orderStatus->status_id }}</p>
+
+            <p>Status:
+                <span class="badge badge{{$order->orderStatus->status_id }}">
+                    {{ $order->orderStatus->status_name }}
+                </span>
+            </p>
+
+
             <p>Total Price: {{ $order->total_price }}</p>
             <p>Order Address: {{ $order->order_address }}</p>
         </div>

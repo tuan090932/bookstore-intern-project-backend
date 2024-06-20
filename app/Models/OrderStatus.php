@@ -18,6 +18,6 @@ class OrderStatus extends Model
 
     public function bookOrders()
     {
-        return $this->hasMany(BookOrder::class, 'status_id', 'status_id');
+        return $this->belongsTo(BookOrder::class, 'status_id', 'status_id');
     }
 }

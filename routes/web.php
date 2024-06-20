@@ -57,16 +57,10 @@ Route::prefix('admin')->group(function () {
     Route::post('register', [AuthController::class, 'store'])->name('admin.register.submit');
     Route::get('login', [AuthController::class, 'loginForm'])->name('admin.login');
     Route::post('login', [AuthController::class, 'login'])->name('admin.login.submit');
+});
 
 
-
-
-
-
-
-
-    Route::prefix('orders')->group(function () {
-        Route::get('/', [OrderController::class, 'index'])->name('orders.index');
-        Route::get('/{id}', [OrderController::class, 'show'])->name('orders.show');
-    });
+Route::prefix('orders')->group(function () {
+    Route::get('/', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/{id}', [OrderController::class, 'show'])->name('orders.show');
 });
