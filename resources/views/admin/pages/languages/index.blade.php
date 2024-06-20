@@ -26,20 +26,17 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Tên ngôn ngữ</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>ID</th>
                             <th>Tên ngôn ngữ</th>
                         </tr>
                     </tfoot>
                     <tbody>
                         @foreach($languages as $language)
                             <tr>
-                                <td>{{ $language->language_id }}</td>
                                 <td>{{ $language->language_name}}</td>
                                 <td>
                                     <div class="d-flex justify-content-center">

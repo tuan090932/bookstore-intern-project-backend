@@ -35,7 +35,6 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Tên sách</th>
                             <th>Danh mục</th>
                             <th>Giá</th>
@@ -49,7 +48,6 @@
                     </thead>
                     <tfoot>
                         <tr>
-                            <th>ID</th>
                             <th>Tên sách</th>
                             <th>Danh mục</th>
                             <th>Giá</th>
@@ -64,7 +62,6 @@
                     <tbody>
                         @foreach($books as $book)
                             <tr>
-                                <td>{{ $book->book_id }}</td>
                                 <td>{{ $book->title }}</td>
                                 <td>{{ ($book->categories)->category_name }}</td>
                                 <td>{{ ($book->price) }}</td>
