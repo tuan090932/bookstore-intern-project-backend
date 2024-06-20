@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AddressController;
 use App\Models\Author;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\LocationController;
@@ -36,12 +37,8 @@ Route::resource('admin/books', BookController::class);
 Route::resource('admin/authors', AuthorController::class);
 
 Route::prefix('admin')->group(function () {
-    Route::prefix('users')->group(function () {
-        Route::get('/', [UserController::class, 'index'])->name('users.index');
-        Route::get('/create', [UserController::class, 'create'])->name('users.create');
-        Route::post('/', [UserController::class, 'store'])->name('users.store');
-        Route::delete('/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-    });
+    Route::resource('users', UserController::class);
+    Route::resource('addresses', AddressController::class);
 
     Route::get('/', [DashboardController::class, 'indexPage'])->name('admin.dashboard');
     Route::get('register', [AuthController::class, 'register'])->name('admin.register');
@@ -51,7 +48,7 @@ Route::prefix('admin')->group(function () {
     Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
     Route::get('profile', [AuthController::class, 'showProfile'])->name('admin.profile');
     Route::get('profile/edit', [AuthController::class, 'editProfile'])->name('admin.profile.edit');
-    Route::put('profile/update/{id}', [AuthController::class, 'updateProfile'])->name('admin.profile.update');
+    Route::put('profile/update/{id}', [AuthController::class, 'updateProfile'])->name('admin.profile.update')
 
     Route::get('authors/trashed', [AuthorController::class, 'trashed'])->name('authors.trashed');
     Route::delete('authors/deleteSelected', [AuthorController::class, 'deleteSelected'])->name('authors.deleteSelected');
