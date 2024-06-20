@@ -152,17 +152,14 @@ class AuthorController extends Controller
      */
     public function restoreSelected(Request $request)
     {
-        try {
-            $authorIds = $request->input('author_ids');
-            if ($authorIds) {
-                Author::onlyTrashed()->whereIn('id', $authorIds)->restore();
-                return redirect()->back()->with('success', __('messages.selected_authors_restored_success'));
-            }
-            return redirect()->back()->with('error', __('messages.no_authors_selected'));
-        } catch (Exception $e) {
-            Log::error('Error bulk restoring authors: ' . $e->getMessage());
-            return redirect()->back()->with('error', __('messages.selected_authors_restoration_failed'));
-        }
+        $authorIdsInput = $request->input('author_ids', '');
+        $authorIdsArray = explode(',', $authorIdsInput);
+        $authorIds = array_filter($authorIdsArray, function($value) {
+            return !empty($value) && is_numeric($value);
+        });
+
+        Author::onlyTrashed()->whereIn('author_id', $authorIds)->restore();
+        return redirect()->back();
     }
 
     /**
@@ -173,17 +170,15 @@ class AuthorController extends Controller
      */
     public function deleteSelected(Request $request)
     {
-        try {
-            $authorIds = $request->input('author_ids');
-            if ($authorIds) {
-                Author::whereIn('id', $authorIds)->delete();
-                return redirect()->back()->with('success', __('messages.selected_authors_deleted_success'));
-            }
-            return redirect()->back()->with('error', __('messages.no_authors_selected'));
-        } catch (Exception $e) {
-            Log::error('Error bulk deleting authors: ' . $e->getMessage());
-            return redirect()->back()->with('error', __('messages.selected_authors_deletion_failed'));
-        }
+        $authorIdsInput = $request->input('author_ids', '');
+        $authorIdsArray = explode(',', $authorIdsInput);
+        $authorIds = array_filter($authorIdsArray, function($value) {
+            return !empty($value) && is_numeric($value);
+        });
+        dd($authorIds);
+        Author::whereIn('author_id', $authorIds)->delete();
+
+        return redirect()->back()->with('success', 'Selected authors have been deleted successfully.');
     }
 
     /**
