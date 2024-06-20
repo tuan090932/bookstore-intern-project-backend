@@ -146,11 +146,6 @@
 <script src="{{ asset('/assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('/assets/js/demo/datatables-demo.js') }}"></script>
 <script src="{{ asset('/assets/js/checkbox-handler.js') }}"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        initializeCheckboxes('select-all', 'select-all-footer', 'author_ids[]', 'selected-delete-btn', 'author_ids');
-    });
-</script>
 
 @endsection
 
