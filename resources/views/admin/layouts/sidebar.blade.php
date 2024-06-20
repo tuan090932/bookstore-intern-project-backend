@@ -24,29 +24,22 @@ $currentRoute = request()->route()->getName();
 
     <!-- Divider -->
     <hr class="sidebar-divider">
-
     <!-- Nav Item - Tables -->
     <li class="nav-item {{ $currentRoute=='users.index' ? 'active':'' }}" href="{{ route('users.index') }}">
         <a class="nav-link" href="{{ route('users.index') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Users</span></a>
     </li>
-
     <li class="nav-item {{ $currentRoute=='books.index' ? 'active':'' }}" href="{{ route('books.index') }}">
         <a class="nav-link" href="{{ route('books.index') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Books</span></a>
     </li>
-
-
-
     <li class="nav-item {{ $currentRoute=='categories.index' ? 'active':'' }}" href="{{ route('categories.index') }}">
         <a class="nav-link" href="{{ route('categories.index') }}">
             <i class="fas fa-fw fa-table"></i>
             <span>Categories</span></a>
     </li>
-
-
     <li class="nav-item {{ $currentRoute=='authors.index' ? 'active':'' }}" href="{{ route('authors.index') }}">
         <a class="nav-link" href="{{ route('authors.index') }}">
             <i class="fas fa-fw fa-table"></i>
