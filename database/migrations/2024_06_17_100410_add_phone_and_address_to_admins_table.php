@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('admin', function (Blueprint $table) {
-            $table->unsignedBigInteger('role_id')->after('admin_id');
-            $table->foreign('role_id')->references('role_id')->on('roles');
+            $table->string('phone')->nullable()->after('email'); // Thêm cột phone sau cột email
+            $table->string('address')->nullable()->after('phone'); // Thêm cột address sau cột phone
         });
     }
 
@@ -23,8 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('admin', function (Blueprint $table) {
-            $table->dropForeign(['role_id']);
-            $table->dropColumn('role_id');
+            $table->dropColumn(['phone', 'address']);
         });
     }
 };

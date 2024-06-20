@@ -57,6 +57,12 @@ class Author extends Model
         }
     }
 
+    /**
+     * Format the deleted date attribute.
+     *
+     * @param string|null $value The deleted date value.
+     * @return string|null The formatted deleted date or null if the value is null.
+     */
     public function getDeletedAtAttribute($value)
     {
         if ($value) {

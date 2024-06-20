@@ -57,11 +57,11 @@ class AuthorController extends Controller
                 'national' => $national,
             ]);
 
-            return redirect()->back()->with('success', 'Tạo tác giả thành công.');
+            return redirect()->back()->with('success', __('messages.author.created_success'));
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
-            return redirect()->back()->with('error', 'Đã xảy ra lỗi khi tạo tác giả. Vui lòng thử lại.');
+            return redirect()->back()->with('error', __('messages.author.created_error'));
         }
     }
 
@@ -137,18 +137,15 @@ class AuthorController extends Controller
      */
     public function destroy($id)
     {
-        try
-        {
+        try {
             $author = Author::findOrFail($id);
             $author->delete();
 
-            return redirect()->back()->with('success', 'Tác giả đã được xóa thành công.');
-        }
-        catch (Exception $e)
-        {
-            Log::error('Error deleting author: '.$e->getMessage());
+            return redirect()->back()->with('success', __('messages.author.deleted_success'));
+        } catch (Exception $e) {
+            Log::error('Error deleting author: ' . $e->getMessage());
 
-            return redirect()->back()->with('error', 'Đã xảy ra lỗi khi xóa tác giả. Vui lòng thử lại.');
+            return redirect()->back()->with('error', __('messages.author.deleted_error'));
         }
     }
 
@@ -172,87 +169,62 @@ class AuthorController extends Controller
      */
     public function restore($id)
     {
-        try
-        {
+        try {
             $author = Author::onlyTrashed()->findOrFail($id);
             $author->restore();
 
-            return redirect()->back()->with('success', 'Tác giả đã được khôi phục thành công.');
-        }
-        catch (Exception $e)
-        {
+            return redirect()->back()->with('success', __('messages.author.restored_success'));
+        } catch (Exception $e) {
             Log::error('Error restoring author: ' . $e->getMessage());
 
-            return redirect()->back()->with('error', 'Đã xảy ra lỗi khi khôi phục tác giả. Vui lòng thử lại.');
+            return redirect()->back()->with('error', __('messages.author.restored_error'));
         }
     }
 
     /**
      * Bulk restore selected author resources from the trash.
      *
-     * @param \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function restoreSelected(Request $request)
     {
-        try
-        {
-            $authorIds = $request->input('author_ids');
-            if ($authorIds)
-            {
-                Author::onlyTrashed()->whereIn('author_id', $authorIds)->restore();
-                return redirect()->back()->with('success', 'Những tác giả được chọn đã khôi phục thành công.');
-            }
-            return redirect()->back()->with('error', 'Không tác giả nào được chọn.');
-        }
-        catch (Exception $e)
-        {
-            Log::error('Error bulk restoring authors: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Có lỗi xảy ra khi khôi phục những tác giả được chọn. Vui lòng thử lại.');
-        }
-    }
+        try {
+            $authorIdsInput = $request->input('author_ids', '');
+            $authorIdsArray = explode(',', $authorIdsInput);
+            $authorIds = array_filter($authorIdsArray, function($value) {
+                return !empty($value) && is_numeric($value);
+            });
 
-    /**
-     * Restore all trashed author resources.
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function restoreAll()
-    {
-        try
-        {
-            Author::onlyTrashed()->restore();
-            return redirect()->back()->with('success', 'Tất cả tác giả đã được khôi phục thành công.');
-        }
-        catch (Exception $e)
-        {
-            Log::error('Error restoring all authors: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Có lỗi xảy ra khi khôi phục tất cả tác giả. Vui lòng thử lại.');
+            Author::onlyTrashed()->whereIn('author_id', $authorIds)->restore();
+            return redirect()->back()->with('success', __('messages.author.selected_restored_success'));
+        } catch (Exception $e) {
+            Log::error('Error restoring authors: ' . $e->getMessage());
+            return redirect()->back()->with('error', __('messages.author.selected_restored_error'));
         }
     }
 
     /**
      * Bulk delete selected author resources from the database.
      *
-     * @param \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
     public function deleteSelected(Request $request)
     {
-        try
-        {
-            $authorIds = $request->input('author_ids');
-            if ($authorIds)
-            {
-                Author::whereIn('author_id', $authorIds)->delete();
-                return redirect()->back()->with('success', 'Những tác giả được chọn đã xóa thành công.');
-            }
-            return redirect()->back()->with('error', 'Không tác giả nào được chọn.');
-        }
-        catch (Exception $e)
-        {
-            Log::error('Error bulk deleting authors: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Có lỗi xảy ra khi xóa những tác giả được chọn. Vui lòng thử lại.');
+        try {
+            $authorIdsInput = $request->input('author_ids', '');
+            $authorIdsArray = explode(',', $authorIdsInput);
+            $authorIds = array_filter($authorIdsArray, function($value) {
+                return !empty($value) && is_numeric($value);
+            });
+
+            Author::whereIn('author_id', $authorIds)->delete();
+
+            return redirect()->back()->with('success', __('messages.author.selected_deleted_success'));
+        } catch (Exception $e) {
+            Log::error('Error deleting selected authors: ' . $e->getMessage());
+            return redirect()->back()->with('error', __('messages.author.selected_deleted_error'));
         }
     }
 
@@ -263,15 +235,28 @@ class AuthorController extends Controller
      */
     public function deleteAll()
     {
-        try
-        {
+        try {
             Author::query()->delete();
-            return redirect()->back()->with('success', 'Tất cả tác giả đã được xóa thành công.');
-        }
-        catch (Exception $e)
-        {
+            return redirect()->back()->with('success', __('messages.author.all_deleted_success'));
+        } catch (Exception $e) {
             Log::error('Error deleting all authors: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Có lỗi xảy ra khi xóa tất cả tác giả. Vui lòng thử lại.');
+            return redirect()->back()->with('error', __('messages.author.all_deleted_error'));
+        }
+    }
+
+    /**
+     * Restore all trashed author resources from the trash.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function restoreAll()
+    {
+        try {
+            Author::onlyTrashed()->restore();
+            return redirect()->back()->with('success', __('messages.author.all_restored_success'));
+        } catch (Exception $e) {
+            Log::error('Error restoring all authors: ' . $e->getMessage());
+            return redirect()->back()->with('error', __('messages.author.all_restored_error'));
         }
     }
 
