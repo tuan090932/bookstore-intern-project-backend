@@ -40,9 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (btn) {
             btn.addEventListener('click', function () {
-                const selectedIds = Array.from(checkboxes)
-                                        .filter(checkbox => checkbox.checked)
-                                        .map(checkbox => checkbox.value);
+                const selectedIds = Array.from(checkboxes).filter(checkbox => checkbox.checked).map(checkbox => checkbox.value);
                 authorIdsInput.value = selectedIds.join(',');
             });
         }
