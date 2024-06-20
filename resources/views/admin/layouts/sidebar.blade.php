@@ -49,10 +49,10 @@ $currentRoute = request()->route()->getName();
             </li>
         @endif
 
-        <!-- Divider -->
-        <hr class="sidebar-divider d-none d-md-block">
-
         @if(Auth::guard('admin')->user()->hasRole('ALL'))
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
             <!-- Nav Item - Admins Account -->
             <li class="nav-item {{ $currentRoute=='admin.admins-account' ? 'active':'' }}">
                 <a class="nav-link" href="{{ route('admin.admins-account') }}">
