@@ -11,43 +11,85 @@ use App\Models\Author;
 use App\Models\Publisher;
 use Illuminate\Http\Request;
 use App\Models\BookOrder;
+use App\Models\BookOrderDetail;
+use App\Models\OrderStatus;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Exception;
 
 class OrderController extends Controller
 {
+    /**
+     * Display a listing of the orders.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
-        $orders = BookOrder::join('users', 'book_order.user_id', '=', 'users.user_id')
-            ->join('order_status', 'book_order.status_id', '=', 'order_status.status_id')
-            ->join('book_order_details', 'book_order.order_id', '=', 'book_order_details.order_id')
-            ->select(
-                'book_order.*',
-                'users.user_name',
-                'users.email',
-                'order_status.status_name',
-                'order_status.status_id',
-                'book_order.order_date',
-                'book_order.total_price',
-                'book_order_details.book_id',
-                'book_order_details.quantity',
-                'book_order_details.price'
-            )
-            ->get();
-
-
-
+        $orders = BookOrder::with(['user', 'orderStatus', 'bookOrderDetails'])->get();
         return view('admin.pages.orders.index', compact('orders'));
     }
 
-
+    /**
+     * Display the specified order.
+     *
+     * @param string $id
+     * @return \Illuminate\View\View|\Illuminate\Http\RedirectResponse
+     */
     public function show($id)
     {
-        $order = BookOrder::with(['bookOrderDetails', 'orderStatus', 'user'])->where('order_id', $id)->first();
-
-
-        if (!$order) {
+        try {
+            $order = BookOrder::with(['bookOrderDetails', 'orderStatus', 'user'])->where('order_id', $id)->firstOrFail();
+            $statuses = OrderStatus::all();
+            return view('admin.pages.orders.show', compact('order', 'statuses'));
+        } catch (ModelNotFoundException $e) {
             return redirect()->route('orders.index')->with('error', 'Order not found.');
+        } catch (Exception $e) {
+            return redirect()->route('orders.index')->with('error', 'Failed to fetch order.');
         }
+    }
 
-        return view('admin.pages.orders.show', compact('order'));
+    /**
+     * Update the specified order status in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updateStatus(Request $request, $id)
+    {
+        try {
+            $order_status = BookOrder::where('order_id', $id)->firstOrFail();
+            $order_status->status_id = $request->input('status_id');
+            $order_status->save();
+            return redirect()->route('orders.show', $id)->with('success', 'Order status updated successfully.');
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('orders.show', $id)->with('error', 'Order not found.');
+        } catch (Exception $e) {
+            return redirect()->route('orders.show', $id)->with('error', 'Failed to update order status.');
+        }
+    }
+
+    /**
+     * Remove the specified order from storage.
+     *
+     * @param string $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroy($id)
+    {
+        try {
+            $order = BookOrder::where('order_id', $id)->firstOrFail();
+            $bookOrderDetails = BookOrderDetail::where('order_id', $id)->get();
+            foreach ($bookOrderDetails as $bookOrderDetail) {
+                $bookOrderDetail->delete();
+            }
+            $order->delete();
+            return redirect()->route('orders.index')->with('success', 'Order deleted successfully.');
+        } catch (ModelNotFoundException $e) {
+            return redirect()->route('orders.index')->with('error', 'Order not found.');
+        } catch (Exception $e) {
+            dd($e);
+            return redirect()->route('orders.index')->with('error', 'Failed to delete order.');
+        }
     }
 }

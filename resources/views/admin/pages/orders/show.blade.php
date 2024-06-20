@@ -52,7 +52,39 @@
                 </tbody>
             </table>
         </div>
+
     </div>
+
+    <form action="{{ route('orders.updateStatus', $order->order_id) }}" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="form-group">
+            <label for="status">Change Status:</label>
+            <select name="status_id" id="status" class="form-control">
+                @foreach($statuses as $status)
+                <option value="{{ $status->status_id }}">
+                    {{ $status->status_name }}
+                </option>
+                @endforeach
+            </select>
+
+            @if (session('error'))
+            <div class="alert alert-danger mt-2">
+                {{ session('error') }}
+            </div>
+            @endif
+
+            @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+            @endif
+
+
+
+        </div>
+        <button type="submit" class="btn btn-primary">Update Status</button>
+    </form>
 </div>
 <!-- /.container-fluid -->
 @endsection
