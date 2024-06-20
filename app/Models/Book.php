@@ -59,4 +59,14 @@ class Book extends Model
     {
         return $this->belongsTo(Author::class, 'author_id', 'author_id');
     }
+
+    public static function totalBooksInStock()
+    {
+        return self::sum('stock');
+    }
+
+    public static function totalDistinctTitles()
+    {
+        return self::distinct('title')->count('title');
+    }
 }

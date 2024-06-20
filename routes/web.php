@@ -40,7 +40,7 @@ Route::prefix('admin')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('addresses', AddressController::class);
 
-    Route::get('/', [DashboardController::class, 'indexPage'])->name('admin.dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('register', [AuthController::class, 'register'])->name('admin.register');
     Route::post('register', [AuthController::class, 'store'])->name('admin.register.submit');
     Route::get('login', [AuthController::class, 'loginForm'])->name('admin.login');

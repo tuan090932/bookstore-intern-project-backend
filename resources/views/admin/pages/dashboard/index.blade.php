@@ -13,7 +13,7 @@
         width: 100%;
         padding: 20px;
         display: grid;
-        grid-template-columns: repeat(2,1fr) !important;
+        grid-template-columns: repeat(3,1fr) !important;
         grid-gap: 30px;
     }
 </style>
@@ -23,11 +23,20 @@
     <div class="cardBox">
         <div class="card">
             <div>
-                <div class="number">100</div>
+                <div class="number">{{ $totalBooksInStock }}</div>
                 <div class="cardName">Đang bán</div>
             </div>
             <div class="iconBox">
-                <ion-icon name="cart-outline"></ion-icon>
+                <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+        </div>
+        <div class="card">
+            <div>
+                <div class="number">{{ $totalDistinctTitles }}</div>
+                <div class="cardName">Đầu sách</div>
+            </div>
+            <div class="iconBox">
+                <i class="fa-solid fa-book"></i>
             </div>
         </div>
         <div class="card">
@@ -36,7 +45,7 @@
                 <div class="cardName">Thu nhập</div>
             </div>
             <div class="iconBox">
-                <ion-icon name="cash-outline"></ion-icon>
+                <i class="fa-regular fa-money-bill-1"></i>
             </div>
         </div>
     </div>
@@ -90,46 +99,6 @@
                         <td><span class="status return">Hoàn trả</span></td>
                     </tr>
                 </tbody>
-                <tbody>
-                    <tr>
-                        <td>LOGITECH G502</td>
-                        <td>2.150.000đ</td>
-                        <td>Quá hạn thanh toán</td>
-                        <td><span class="status inProgress">Đang xử lý</span></td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>Kit V65</td>
-                        <td>2.150.000đ</td>
-                        <td>Đã thanh toán</td>
-                        <td><span class="status delivered">Đã giao hàng</span></td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>LOGITECH G502</td>
-                        <td>2.150.000đ</td>
-                        <td>Quá hạn thanh toán</td>
-                        <td><span class="status pending">Đang chờ thanh toán</span></td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>Kit V65</td>
-                        <td>2.150.000đ</td>
-                        <td>Đã thanh toán</td>
-                        <td><span class="status return">Hoàn trả</span></td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>LOGITECH G502</td>
-                        <td>2.150.000đ</td>
-                        <td>Quá hạn thanh toán</td>
-                        <td><span class="status inProgress">Đang xử lý</span></td>
-                    </tr>
-                </tbody>
             </table>
         </div>
 
@@ -139,46 +108,13 @@
                 <h2>Recent Customers</h2>
             </div>
             <table>
-                <tr>
-                    <td>
-                        <h4>Huy<br><span>TP.Hồ Chí Minh</span></h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h4>Huy<br><span>TP.Hồ Chí Minh</span></h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h4>Huy<br><span>TP.Hồ Chí Minh</span></h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h4>Huy<br><span>TP.Hồ Chí Minh</span></h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h4>Huy<br><span>Hà Nội</span></h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h4>Huy<br><span>Hà Nội</span></h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h4>Huy<br><span>Hà Nội</span></h4>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <h4>Huy<br><span>Hà Nội</span></h4>
-                    </td>
-                </tr>
+                @foreach ($recentCustomers as $customer)
+                    <tr>
+                        <td>
+                            <h4>{{ $customer->name }}</h4>
+                        </td>
+                    </tr>
+                @endforeach
             </table>
         </div>
     </div>
