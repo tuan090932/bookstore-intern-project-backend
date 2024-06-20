@@ -21,10 +21,14 @@ class RoleMiddleware
     {
         $user = Auth::guard('admin')->user();
 
-        if ($user && in_array($user->role_id, $roles)) {
+        if (!$user) {
+            return redirect()->route('admin.login')->with(['error' => __('auth.must_login')]);
+        }
+
+        if (empty($roles) || in_array($user->role_id, $roles)) {
             return $next($request);
         }
 
-        return redirect()->route('admin.dashboard')->with(['error' => 'You do not have permission to access this page.']);
+        return redirect()->route('admin.dashboard')->with(['error' => __('auth.not_admin')]);
     }
 }

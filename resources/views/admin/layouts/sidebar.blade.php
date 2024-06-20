@@ -49,6 +49,15 @@ $currentRoute = request()->route()->getName();
             </li>
         @endif
 
+        @if(Auth::guard('admin')->user()->hasRole('ALL'))
+            <!-- Nav Item - Admins Account -->
+            <li class="nav-item {{ $currentRoute=='admin.admins-account' ? 'active':'' }}">
+                <a class="nav-link" href="{{ route('admin.admins-account') }}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Admins Account</span></a>
+            </li>
+        @endif
+
         @if(Auth::guard('admin')->user()->hasRole('CUST'))
             <!-- Nav Item - Users -->
             <li class="nav-item {{ $currentRoute=='users.index' ? 'active':'' }}">
