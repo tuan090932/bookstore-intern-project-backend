@@ -6,7 +6,7 @@
 <!-- DataTales Example -->
 <div class="row">
     <div class="col-md-12">
-        <form action="{{ route('languages.store') }}" method="POST" id="input-form">
+        <form action="{{ route('languages.store') }}" method="POST">
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-7">
