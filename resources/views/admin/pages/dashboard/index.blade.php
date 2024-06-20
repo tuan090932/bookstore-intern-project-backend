@@ -27,7 +27,7 @@
                 <div class="cardName">Đang bán</div>
             </div>
             <div class="iconBox">
-                <i class="fa-solid fa-cart-shopping"></i>
+                <i class="fa-solid fa-cart-shopping fa-2xs"></i>
             </div>
         </div>
         <div class="card">
@@ -36,7 +36,7 @@
                 <div class="cardName">Đầu sách</div>
             </div>
             <div class="iconBox">
-                <i class="fa-solid fa-book"></i>
+                <i class="fa-solid fa-book fa-2xs"></i>
             </div>
         </div>
         <div class="card">
@@ -45,7 +45,7 @@
                 <div class="cardName">Thu nhập</div>
             </div>
             <div class="iconBox">
-                <i class="fa-regular fa-money-bill-1"></i>
+                <i class="fa-regular fa-money-bill-1 fa-2xs"></i>
             </div>
         </div>
     </div>
