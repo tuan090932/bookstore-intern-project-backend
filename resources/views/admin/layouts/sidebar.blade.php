@@ -45,9 +45,11 @@ $currentRoute = request()->route()->getName();
     </li>   
          
     <li class="nav-item {{ $currentRoute=='authors.index' ? 'active':'' }}" href="{{ route('authors.index') }}">
+    <li class="nav-item {{ in_array($currentRoute, ['authors.index', 'authors.trashed']) ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('authors.index') }}">
             <i class="fas fa-fw fa-table"></i>
-            <span>Authors</span></a>
+            <span>Authors</span>
+        </a>
     </li>
 
     <!-- Divider -->
