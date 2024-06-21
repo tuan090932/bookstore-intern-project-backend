@@ -7,7 +7,7 @@
 
 @section('content')
 <style>
-    .card-box {
+    .cardBox {
         position: relative;
         width: 100%;
         padding: 20px;
@@ -19,7 +19,7 @@
 <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">Dashboard</h1>
 
 <!-- cards -->
-<div class="card-box">
+<div class="cardBox">
     <div class="card">
         <div>
             <div class="number">100</div>
@@ -185,4 +185,3 @@
 <!-- <script src="/admin page/assets/js/admin-script.js"></script> -->
 <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-@endsection
