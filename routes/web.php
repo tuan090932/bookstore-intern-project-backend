@@ -49,7 +49,10 @@ Route::prefix('admin')->group(function () {
         Route::put('profile/update/{id}', [AuthController::class, 'updateProfile'])->name('admin.profile.update');
 
         Route::middleware('role:ALL')->group(function () {
-            Route::get('admins-account', [AdminController::class, 'index'])->name('admin.admins-account');
+            // Route::get('admins-account', [AdminController::class, 'index'])->name('admins.index');
+            // Route::get('admins/create', [AdminController::class, 'create'])->name('admins.create');
+            // Route::post('admins', [AdminController::class, 'store'])->name('admins.store');
+            Route::resource('admins', AdminController::class);
         });
 
         Route::middleware('role:ALL,MG,CUST')->group(function () {

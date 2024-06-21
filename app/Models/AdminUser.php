@@ -48,7 +48,7 @@ class AdminUser extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsTo(Role::class, 'role_id', 'role_id');
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
     public function hasRole($role)

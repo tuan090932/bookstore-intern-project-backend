@@ -54,8 +54,8 @@ $currentRoute = request()->route()->getName();
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Nav Item - Admins Account -->
-            <li class="nav-item {{ $currentRoute=='admin.admins-account' ? 'active':'' }}">
-                <a class="nav-link" href="{{ route('admin.admins-account') }}">
+            <li class="nav-item {{ $currentRoute=='admins.index' ? 'active':'' }}">
+                <a class="nav-link" href="{{ route('admins.index') }}">
                     <i class="fa-solid fa-gears"></i>
                     <span>Admins Account</span></a>
             </li>

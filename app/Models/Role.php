@@ -13,5 +13,7 @@ class Role extends Model
 
     protected $primaryKey = 'role_id';
 
+    protected $keyType = 'string';
+
     protected $fillable = ['role_name'];
 }
