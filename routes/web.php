@@ -27,6 +27,15 @@ use Illuminate\Support\Facades\Route;
 Route::get('/forgot-password', function () {
     return view('admin.pages.auth.forgot-password');
 })->name('forgot-password');
+
+Route::get('admin/dashboard', [DashboardController::class, 'indexPage'])->name('dashboard');
+Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
+Route::resource('admin/books', BookController::class);
+
+Route::get('/', function () {
+    return redirect('/admin');
+});
+
 Route::prefix('admin')->group(function () {
     Route::middleware(['auth.admin'])->group(function () {
         Route::resource('/books', BookController::class);
@@ -46,18 +55,24 @@ Route::prefix('admin')->group(function () {
     Route::post('register', [AuthController::class, 'store'])->name('admin.register.submit');
     Route::get('login', [AuthController::class, 'loginForm'])->name('admin.login');
     Route::post('login', [AuthController::class, 'login'])->name('admin.login.submit');
+    Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
+    Route::get('profile', [AuthController::class, 'showProfile'])->name('admin.profile');
+    Route::get('profile/edit', [AuthController::class, 'editProfile'])->name('admin.profile.edit');
+    Route::put('profile/update/{id}', [AuthController::class, 'updateProfile'])->name('admin.profile.update');
+
+    Route::delete('authors/delete-selected', [AuthorController::class, 'deleteSelected'])->name('authors.delete-selected');
+    Route::delete('authors/delete-all', [AuthorController::class, 'deleteAll'])->name('authors.delete-all');
+
+    Route::get('authors/trashed', [AuthorController::class, 'trashed'])->name('authors.trashed');
+    Route::patch('authors/restore-selected', [AuthorController::class, 'restoreSelected'])->name('authors.restore-selected');
+    Route::patch('authors/restore-all', [AuthorController::class, 'restoreAll'])->name('authors.restore-all');
+    Route::patch('authors/{id}/restore', [AuthorController::class, 'restore'])->name('authors.restore');
+
+    Route::resource('authors', AuthorController::class);
     Route::prefix('orders')->group(function () {
         Route::get('/', [OrderController::class, 'index'])->name('orders.index');
         Route::get('/{id}', [OrderController::class, 'show'])->name('orders.show');
         Route::put('/{id}', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
         Route::delete('/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
     });
-});
-
-
-Route::prefix('orders')->group(function () {
-    Route::get('/', [OrderController::class, 'index'])->name('orders.index');
-    Route::get('/{id}', [OrderController::class, 'show'])->name('orders.show');
-    Route::put('/{id}', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
-    Route::delete('/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
 });
