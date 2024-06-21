@@ -6,9 +6,8 @@ use Database\Seeders\BookSeeder;
 use Database\Seeders\LanguageSeeder;
 use Database\Seeders\AuthorSeeder;
 use Database\Seeders\UserSeeder;
-use Database\Seeders\FavoriteSeeder;
 use Illuminate\Database\Seeder;
-
+use Database\Seeders\AddressSeeder;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -25,7 +24,8 @@ class DatabaseSeeder extends Seeder
             CategoriesSeeder::class,
             UserSeeder::class,
             BookSeeder::class,
-            FavoriteSeeder::class,
+            UserSeeder::class,
+            AddressSeeder::class,
         ]);
 
         $this->call([

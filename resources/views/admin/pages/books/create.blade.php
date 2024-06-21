@@ -17,7 +17,7 @@
 @endif
 <div class="row">
     <div class="col-md-12">
-        <form action="{{ route('books.store') }}" method="POST" id="input-form">
+        <form action="{{ route('books.store') }}" method="POST">
             @csrf
             <div class="form-row">
                 <div class="form-group col-md-7">
