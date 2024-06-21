@@ -14,6 +14,6 @@ class BookSeeder extends Seeder
      */
     public function run()
     {
-        Book::factory()->count(10)->create(); // Tạo 10 sách mẫu
+        Book::factory()->count(10)->create();
     }
 }
