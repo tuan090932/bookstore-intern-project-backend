@@ -121,7 +121,7 @@ class AuthController extends Controller
     private function createRefreshToken()
     {
         $data = [
-            'user_id' => auth('api')->user()->user_id,
+            'user_id' => auth('api')->user()->id,
             'random' => rand().time(),
             'exp' => time() + config('jwt.refresh_ttl'),
         ];

@@ -15,6 +15,7 @@ class BookOrderDetail extends Model
         'quantity',
         'price',
     ];
+    
     /**
      * Defines a many-to-one relationship with BookOrder
      * A book order detail belongs to a book order
@@ -25,6 +26,7 @@ class BookOrderDetail extends Model
     {
         return $this->belongsTo(BookOrder::class, 'order_id', 'order_id');
     }
+
     /**
      * Defines a many-to-one relationship with Book
      * A book order detail belongs to a book

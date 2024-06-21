@@ -13,6 +13,7 @@ class OrderStatus extends Model
     protected $fillable = [
         'status_name',
     ];
+    
     /**
      * Defines a many-to-one relationship with BookOrder
      * An order status is associated with multiple book orders
