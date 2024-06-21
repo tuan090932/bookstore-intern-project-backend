@@ -61,9 +61,14 @@ Route::prefix('admin')->group(function () {
         });
 
         Route::middleware('role:ALL,MG,AUTHO')->group(function () {
+            Route::delete('authors/delete-selected', [AuthorController::class, 'deleteSelected'])->name('authors.delete-selected');
+            Route::delete('authors/delete-all', [AuthorController::class, 'deleteAll'])->name('authors.delete-all');
+
+            Route::get('authors/trashed', [AuthorController::class, 'trashed'])->name('authors.trashed');
+            Route::patch('authors/restore-selected', [AuthorController::class, 'restoreSelected'])->name('authors.restore-selected');
+            Route::patch('authors/restore-all', [AuthorController::class, 'restoreAll'])->name('authors.restore-all');
+            Route::patch('authors/{id}/restore', [AuthorController::class, 'restore'])->name('authors.restore');
             Route::resource('authors', AuthorController::class);
         });
     });
 });
-
-
