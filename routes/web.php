@@ -41,9 +41,9 @@ Route::prefix('admin')->group(function () {
     Route::get('login', [AuthController::class, 'loginForm'])->name('admin.login');
     Route::post('login', [AuthController::class, 'login'])->name('admin.login.submit');
     Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
+    Route::get('/', [DashboardController::class, 'indexPage'])->name('admin.dashboard');
 
     Route::middleware(['auth.admin'])->group(function () {
-        Route::get('/', [DashboardController::class, 'indexPage'])->name('admin.dashboard');
         Route::get('profile', [AuthController::class, 'showProfile'])->name('admin.profile');
         Route::get('profile/edit', [AuthController::class, 'editProfile'])->name('admin.profile.edit');
         Route::put('profile/update/{id}', [AuthController::class, 'updateProfile'])->name('admin.profile.update');
