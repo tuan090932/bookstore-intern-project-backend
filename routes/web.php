@@ -29,6 +29,11 @@ Route::get('/forgot-password', function () {
 })->name('forgot-password');
 
 Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
+Route::resource('admin/books', BookController::class);
+
+Route::get('/', function () {
+    return redirect('/admin');
+});
 
 Route::prefix('admin')->group(function () {
     Route::get('register', [AuthController::class, 'register'])->name('admin.register');

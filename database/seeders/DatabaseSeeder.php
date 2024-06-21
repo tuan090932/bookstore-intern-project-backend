@@ -6,6 +6,7 @@ use Database\Seeders\BookSeeder;
 use Database\Seeders\LanguageSeeder;
 use Database\Seeders\AuthorSeeder;
 use Database\Seeders\UserSeeder;
+use Database\Seeders\AddressSeeder;
 use Database\Seeders\RoleSeeder;
 use Illuminate\Database\Seeder;
 
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
             CategoriesSeeder::class,
             BookSeeder::class,
             UserSeeder::class,
+            AddressSeeder::class,
             RoleSeeder::class,
         ]);
 
