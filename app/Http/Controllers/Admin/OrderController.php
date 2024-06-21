@@ -92,5 +92,5 @@ class OrderController extends Controller
             return redirect()->route('orders.index')->with('error', 'Failed to delete order.');
         }
     }
-    
+
 }

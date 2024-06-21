@@ -38,6 +38,22 @@ class BookOrderDetailsSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'order_id' => 3, 
+                'book_id' => 4, 
+                'quantity' => 2, 
+                'price' => 70000, 
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'order_id' => 4, 
+                'book_id' => 5, 
+                'quantity' => 1,
+                'price' => 80000, 
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
                 'order_id' => 5,
                 'book_id' => 9,
                 'quantity' => 2,
@@ -69,15 +85,6 @@ class BookOrderDetailsSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'order_id' => 7,
-                'book_id' => 2,
-                'quantity' => 4,
-                'price' => 170000,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-
         ];
 
         DB::table('book_order_details')->insert($bookOrderDetails);
