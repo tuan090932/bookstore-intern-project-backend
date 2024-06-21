@@ -49,9 +49,14 @@ Route::prefix('admin')->group(function () {
         Route::put('profile/update/{id}', [AuthController::class, 'updateProfile'])->name('admin.profile.update');
 
         Route::middleware('role:ALL')->group(function () {
-            // Route::get('admins-account', [AdminController::class, 'index'])->name('admins.index');
-            // Route::get('admins/create', [AdminController::class, 'create'])->name('admins.create');
-            // Route::post('admins', [AdminController::class, 'store'])->name('admins.store');
+            Route::delete('admins/delete-selected', [AdminController::class, 'deleteSelected'])->name('admins.delete-selected');
+            Route::delete('admins/delete-all', [AdminController::class, 'deleteAll'])->name('admins.delete-all');
+
+            Route::get('admins/trashed', [AdminController::class, 'trashed'])->name('admins.trashed');
+            Route::patch('admins/restore-selected', [AdminController::class, 'restoreSelected'])->name('admins.restore-selected');
+            Route::patch('admins/restore-all', [AdminController::class, 'restoreAll'])->name('admins.restore-all');
+            Route::patch('admins/{id}/restore', [AdminController::class, 'restore'])->name('admins.restore');
+
             Route::resource('admins', AdminController::class);
         });
 
@@ -71,6 +76,7 @@ Route::prefix('admin')->group(function () {
             Route::patch('authors/restore-selected', [AuthorController::class, 'restoreSelected'])->name('authors.restore-selected');
             Route::patch('authors/restore-all', [AuthorController::class, 'restoreAll'])->name('authors.restore-all');
             Route::patch('authors/{id}/restore', [AuthorController::class, 'restore'])->name('authors.restore');
+
             Route::resource('authors', AuthorController::class);
         });
     });

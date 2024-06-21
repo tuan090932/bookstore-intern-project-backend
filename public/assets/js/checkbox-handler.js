@@ -50,4 +50,8 @@ document.addEventListener('DOMContentLoaded', function () {
     initializeCheckboxes('select-all', 'select-all-footer', 'author_ids[]', 'selected-delete-btn', 'author_ids');
     //Authors restore page
     initializeCheckboxes('select-all', 'select-all-footer', 'author_ids[]', 'selected-restore-btn', 'author_ids');
+    // Admins index page
+
+    //Admins restore page
+    initializeCheckboxes('select-all', 'select-all-footer', 'admin_ids[]', 'selected-restore-btn', 'admin_ids');
 });

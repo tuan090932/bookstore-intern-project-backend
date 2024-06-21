@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\AdminUser;
 use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Exception;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -80,39 +82,84 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-        public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         // Validate the request data
         $request->validate([
-            'admin_name' => 'required|string|max:255',
             'role_id' => 'required|exists:roles,role_id',
             'password' => 'nullable|string|min:8|confirmed',
-            'email' => 'required|string|email|max:255|unique:admin,email,' . $id . ',admin_id',
             'address' => 'nullable|string|max:255',
             'phone' => 'nullable|string|max:15',
         ]);
 
         $admin = AdminUser::findOrFail($id);
 
-        $admin->admin_name = $request->admin_name;
         $admin->role_id = $request->role_id;
         if ($request->filled('password')) {
             $admin->password = Hash::make($request->password);
         }
-        $admin->email = $request->email;
         $admin->address = $request->address;
         $admin->phone = $request->phone;
 
         $admin->save();
 
-        return redirect()->route('admin.admins-account')->with('success', 'Admin user updated successfully.');
+        return redirect()->route('admins.index')->with('success', 'Admin user updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        try {
+            $admin = AdminUser::findOrFail($id);
+
+
+
+            $admin->delete();
+            return redirect()->route('admins.index')->with('success', 'Admin user deleted successfully.');
+        } catch (Exception $e) {
+            Log::error('Error deleting admin: ' . $e->getMessage());
+            return redirect()->route('admins.index')->with('error', 'Failed to delete admin user.');
+        }
+    }
+
+    public function restore($id)
+    {
+        try {
+            $admin = AdminUser::onlyTrashed()->findOrFail($id);
+            $admin->restore();
+            return redirect()->route('admins.index')->with('success', 'Admin user restored successfully.');
+        } catch (Exception $e) {
+            Log::error('Error restoring admin: ' . $e->getMessage());
+            return redirect()->route('admins.index')->with('error', 'Failed to restore admin user.');
+        }
+    }
+
+    public function deleteSelected(Request $request)
+    {
+        $adminIdsInput = $request->input('admin_ids', '');
+        $adminIdsArray = explode(',', $adminIdsInput);
+        $adminIds = array_filter($adminIdsArray, function($value) {
+            return !empty($value) && is_numeric($value);
+        });
+
+        dd($adminIds);
+
+        AdminUser::whereIn('admin_id', $adminIds)->delete();
+
+        return redirect()->back()->with('success', __('Admin user deleted successfully.'));
+    }
+
+    public function restoreSelected(Request $request)
+    {
+        $adminIds = $request->input('admin_ids', []);
+        try {
+            AdminUser::onlyTrashed()->whereIn('id', $adminIds)->restore();
+            return redirect()->route('admins.index')->with('success', 'Selected admin users restored successfully.');
+        } catch (Exception $e) {
+            Log::error('Error restoring selected admins: ' . $e->getMessage());
+            return redirect()->route('admins.index')->with('error', 'Failed to restore selected admin users.');
+        }
     }
 }

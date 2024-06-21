@@ -42,7 +42,7 @@ $currentRoute = request()->route()->getName();
             </li>
 
             <!-- Nav Item - Authors -->
-            <li class="nav-item {{ $currentRoute=='authors.index' ? 'active':'' }}">
+            <li class="nav-item {{ in_array($currentRoute, ['authors.index', 'authors.create', 'authors.edit', 'authors.trashed']) ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('authors.index') }}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Authors</span></a>
@@ -54,7 +54,7 @@ $currentRoute = request()->route()->getName();
             <hr class="sidebar-divider d-none d-md-block">
 
             <!-- Nav Item - Admins Account -->
-            <li class="nav-item {{ $currentRoute=='admins.index' ? 'active':'' }}">
+            <li class="nav-item {{ in_array($currentRoute, ['admins.index', 'admins.create', 'admins.edit']) ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('admins.index') }}">
                     <i class="fa-solid fa-gears"></i>
                     <span>Admins Account</span></a>
@@ -81,7 +81,7 @@ $currentRoute = request()->route()->getName();
 
         @if(Auth::guard('admin')->user()->hasRole('AUTHO'))
             <!-- Nav Item - Authors -->
-            <li class="nav-item {{ $currentRoute=='authors.index' ? 'active':'' }}">
+            <li class="nav-item {{ in_array($currentRoute, ['authors.index', 'authors.create', 'authors.edit', 'authors.trashed']) ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('authors.index') }}">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Authors</span></a>
