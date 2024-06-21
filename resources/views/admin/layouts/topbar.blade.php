@@ -57,18 +57,18 @@
                 <form id="logout-form" action="{{ route('admin.logout') }}" method="POST" class="d-none">
                     @csrf
                 </form>
-            </div>
-        </li>
-    @else
-        <!-- If admin is not logged in, show login and register links -->
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.login') }}">Login</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.register') }}">Register</a>
-        </li>
-    @endif
-</ul>
+            </li>
+        @else
+            <!-- If admin is not logged in, show login and register links -->
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.login') }}">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('admin.register') }}">Register</a>
+            </li>
+        @endif
+
+    </ul>
 
     </nav>
     <!-- End of Topbar -->
