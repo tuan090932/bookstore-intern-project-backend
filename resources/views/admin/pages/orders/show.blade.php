@@ -1,13 +1,10 @@
 @extends('admin.layouts.base')
-
 @section('title', 'Order Details')
-
 @section('content')
 <!-- Begin Page Content -->
 <div class="container-fluid">
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">Order Details</h1>
-
     <!-- Order Information -->
     <div class="card shadow mb-4">
         <div class="card-body">
@@ -16,19 +13,15 @@
             <p>User Name: {{ $order->user->user_name }}</p>
             <p>Order Date: {{ $order->order_date }}</p>
             <p>Status: {{ $order->orderStatus->status_id }}</p>
-
             <p>Status:
                 <span class="badge badge{{$order->orderStatus->status_id }}">
                     {{ $order->orderStatus->status_name }}
                 </span>
             </p>
-
-
             <p>Total Price: {{ $order->total_price }}</p>
             <p>Order Address: {{ $order->order_address }}</p>
         </div>
     </div>
-
     <!-- Order Details -->
     <div class="card shadow mb-4">
         <div class="card-body">
@@ -52,9 +45,7 @@
                 </tbody>
             </table>
         </div>
-
     </div>
-
     <form action="{{ route('orders.updateStatus', $order->order_id) }}" method="POST">
         @csrf
         @method('PUT')
@@ -67,21 +58,16 @@
                 </option>
                 @endforeach
             </select>
-
             @if (session('error'))
             <div class="alert alert-danger mt-2">
                 {{ session('error') }}
             </div>
             @endif
-
             @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
             @endif
-
-
-
         </div>
         <button type="submit" class="btn btn-primary">Update Status</button>
     </form>

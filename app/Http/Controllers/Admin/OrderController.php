@@ -25,10 +25,9 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = BookOrder::with(['user', 'orderStatus', 'bookOrderDetails'])->get();
+        $orders = BookOrder::with(['user', 'orderStatus', 'bookOrderDetails'])->paginate(10);
         return view('admin.pages.orders.index', compact('orders'));
     }
-
     /**
      * Display the specified order.
      *
@@ -47,7 +46,6 @@ class OrderController extends Controller
             return redirect()->route('orders.index')->with('error', 'Failed to fetch order.');
         }
     }
-
     /**
      * Update the specified order status in storage.
      *
@@ -68,7 +66,6 @@ class OrderController extends Controller
             return redirect()->route('orders.show', $id)->with('error', 'Failed to update order status.');
         }
     }
-
     /**
      * Remove the specified order from storage.
      *
