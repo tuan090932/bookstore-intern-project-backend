@@ -17,10 +17,9 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class CartController extends Controller
 {
 
-    /**
-     * Get the cart items for a specific user.
+     /**
+     * Get the cart items for the authenticated user.
      *
-     * @param int $userId The ID of the user whose cart items are to be retrieved.
      * @return \Illuminate\Http\JsonResponse A JSON response containing the cart items or an error message.
      */
     public function index()

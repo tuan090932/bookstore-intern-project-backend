@@ -28,17 +28,16 @@ class Cart extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-
     public function users(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
+
     /**
      * Get the cart items associated with the cart.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-
     public function cartItems(): HasMany
     {
         return $this->hasMany(CartItem::class, 'cart_id', 'cart_id');

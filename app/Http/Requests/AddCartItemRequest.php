@@ -29,6 +29,7 @@ class AddCartItemRequest extends FormRequest
             'quantity' => 'required|integer|min:1',
         ];
     }
+    
     /**
      * Handle a failed validation attempt.
      *
