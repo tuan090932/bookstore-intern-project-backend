@@ -27,7 +27,7 @@ class BookRequest extends FormRequest
             'num_pages' => 'required|integer',
             'publisher_id' => 'required|integer',
             'category_id' => 'required|integer',
-            'image' => 'required|string|max:250|unique:books,image',
+            'image' => 'required|string|max:250',
             'description' => 'required|string|max:250',
             'price' => 'required|numeric',
             'stock' => 'required|integer',
