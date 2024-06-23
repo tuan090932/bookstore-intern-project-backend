@@ -11,23 +11,29 @@ use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Requests\AddCartItemRequest;
 use Illuminate\Validation\ValidationException;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class CartController extends Controller
 {
+
     /**
      * Get the cart items for a specific user.
      *
      * @param int $userId The ID of the user whose cart items are to be retrieved.
      * @return \Illuminate\Http\JsonResponse A JSON response containing the cart items or an error message.
      */
-    public function index($userId)
+    public function index()
     {
         try {
-            $user = User::findOrFail($userId);
+            $user = auth('api')->user();
+            $user = JWTAuth::parseToken()->authenticate();
             $cart = Cart::where('user_id', $user->user_id)->with('cartItems')->firstOrFail();
             return response()->json($cart->cartItems);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'User or cart not found.', 'exception' => $e->getMessage()], 404);
+            return response()->json(['error' => 'cart not found.', 'exception' => $e->getMessage()], 404);
+        } catch (JWTException $e){
+            return response()->json(['error' => 'Unauthorized'], 401);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -42,16 +48,23 @@ class CartController extends Controller
     public function store(AddCartItemRequest $request)
     {
         try {
-            $user = User::findOrFail($request->user_id);
+            $user = auth('api')->user();
+            $user = JWTAuth::parseToken()->authenticate();
             $cart = Cart::firstOrCreate(['user_id' => $user->user_id]);
-            $cartItem = CartItem::create([
-                'cart_id' => $cart->cart_id,
-                'book_id' => $request->book_id,
-                'quantity' => $request->quantity
-            ]);
-            return response()->json($cartItem, 201);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => $e->getMessage()], 404);
+            $cartItem = CartItem::where('cart_id', $cart->cart_id)->where('book_id', $request->book_id)->first();
+            if ($cartItem) {
+                $cartItem->quantity += $request->quantity;
+                $cartItem->save();
+            } else {
+                $cartItem = CartItem::create([
+                    'cart_id' => $cart->cart_id,
+                    'book_id' => $request->book_id,
+                    'quantity' => $request->quantity
+                ]);
+            }
+            return response()->json(['cartItem' => $cartItem, 'message' => 'Cart item added successfully.'], 201);
+        } catch (JWTException $e){
+            return response()->json(['error' => 'Unauthorized'], 401);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -66,11 +79,16 @@ class CartController extends Controller
     public function destroyItem($cartItemId)
     {
         try {
-            $cartItem = CartItem::findOrFail($cartItemId);
+            $user = auth('api')->user();
+            $user = JWTAuth::parseToken()->authenticate();
+            $cart = Cart::where('user_id', $user->user_id)->firstOrFail();
+            $cartItem = CartItem::where('cart_id', $cart->cart_id)->where('item_id', $cartItemId)->firstOrFail();
             $cartItem->delete();
             return response()->json(['message' => 'Item removed successfully.'], 200);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Cart item not found.', 'exception' => $e->getMessage()], 404);
+        } catch (JWTException $e){
+            return response()->json(['error' => 'Unauthorized'], 401);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

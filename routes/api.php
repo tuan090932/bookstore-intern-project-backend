@@ -147,7 +147,7 @@ Route::prefix('user')->group(function () {
  * These endpoints use the `CartController` to handle the corresponding logic.
  */
 Route::prefix('cart')->group(function () {
-    Route::get('/{id}', [CartController::class, 'index']);
+    Route::get('/', [CartController::class, 'index']);
     Route::post('/', [CartController::class, 'store']);
     Route::delete('/item/{id}', [CartController::class, 'destroyItem']);
 });
