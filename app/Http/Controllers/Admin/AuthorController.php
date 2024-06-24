@@ -103,11 +103,11 @@ class AuthorController extends Controller
                 'national' => $national,
             ]);
 
-            return redirect()->back()->with('success', 'Cập nhật tác giả thành công.');
+            return redirect()->back()->with('success', __('messages.author.update_success'));
         } catch (Exception $e) {
             Log::error('Error updating author: '.$e->getMessage());
 
-            return redirect()->back()->with('error', 'Đã xảy ra lỗi khi cập nhật tác giả. Vui lòng thử lại.');
+            return redirect()->back()->with('error', __('messages.author.update_error'));
         }
     }
 
