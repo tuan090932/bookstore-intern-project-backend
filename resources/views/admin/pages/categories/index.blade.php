@@ -75,7 +75,7 @@
                                         'id' => 'confirm_delete_modal_' . $category->category_id,
                                         'labelId' => 'confirm_delete_modal_label_' . $category->category_id,
                                         'title' => 'Confirm Delete',
-                                        'body' => 'Are you sure you want to delete this order?',
+                                        'body' => 'Are you sure you want to delete this category ?',
                                         'formId' => 'delete_form_' . $category->category_id,
                                         'formAction' => route('categories.destroy', ['id' => $category->category_id]),
                                         'method' => 'DELETE',
