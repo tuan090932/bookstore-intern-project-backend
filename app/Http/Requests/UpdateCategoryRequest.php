@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
 class UpdateCategoryRequest extends FormRequest
 {
     /**
@@ -22,10 +21,8 @@ class UpdateCategoryRequest extends FormRequest
     public function rules(): array
     {
         $categoryId = $this->route('id');
-
         return [
             'category_name' => 'required|unique:categories,category_name,' . $categoryId . ',category_id',
-
         ];
     }
 }
