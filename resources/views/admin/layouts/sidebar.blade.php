@@ -51,6 +51,13 @@ $currentRoute = request()->route()->getName();
             <span>Categories</span></a>
     </li>
     
+
+    <li class="nav-item {{ $currentRoute=='orders.index' ? 'active':'' }}" href="{{ route('orders.index') }}">
+        <a class="nav-link" href="{{ route('orders.index') }}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Orders</span></a>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
 
