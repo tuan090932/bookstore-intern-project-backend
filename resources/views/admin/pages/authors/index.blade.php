@@ -76,7 +76,7 @@
                                         <a href="" class="mr-2 text-success">
                                             <i style="color: #1CC88A" class="fa-regular fa-pen-to-square fa-2xl"></i>
                                         </a>
-                                        <button type="button" class="btn btn-link p-0 m-0" id="delete-btn" onclick="showModalConfirmation([{{ $author->author_id }}])">
+                                        <button type="button" class="btn btn-link p-0 m-0" data-author-id="{{ $author->author_id }}" id="delete-btn">
                                             <i style="color: red" class="fa-regular fa-trash-can fa-2xl"></i>
                                         </button>
                                     </div>
@@ -103,32 +103,35 @@
 <script src="{{ asset('assets/js/common.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        DELETE_URL = "{{ route('authors.delete-selected') }}";
+        ACTION_URL = "{{ route('authors.delete-selected') }}";
         title = "Confirm Delete";
         body = "Are you sure you want to delete the selected authors?";
         confirmText = "Delete";
-
         initializeCheckboxes('select-all-header', 'select-all-footer', 'author_ids[]', 'authors-selected-delete-btn');
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        window.initializeDeleteButtons = function(buttonClass, deleteUrl) {
-            document.querySelectorAll('.' + buttonClass).forEach(function(button) {
-                button.addEventListener('click', function() {
-                    var url = deleteUrl.replace(':id', ids);
-                    showModalConfirmation([ids], url);
-                });
+
+        const deleteAllBtn = document.getElementById('authors-delete-all-btn');
+        if (deleteAllBtn) {
+            deleteAllBtn.addEventListener('click', function() {
+                ACTION_URL = "{{ route('authors.delete-all') }}";
+                title = "Confirm Delete";
+                body = "Are you sure you want to delete all authors?";
+                confirmText = "Delete";
+
+                showModalConfirmation([], ACTION_URL, title, body, confirmText);
             });
         }
-        initializeDeleteButtons('delete-btn', "{{ route('authors.destroy', ':id') }}");
-    });
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        DELETE_URL = "{{ route('authors.delete-all') }}";
-        document.getElementById('authors-delete-all-btn').addEventListener('click', function() {
-            showModalConfirmation([], DELETE_URL);
+
+        const deleteButtons = document.querySelectorAll('#delete-btn');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const authorId = this.getAttribute('data-author-id');
+                ACTION_URL = "{{ route('authors.destroy', ':id') }}".replace(':id', authorId);
+                title = "Confirm Delete";
+                body = "Are you sure you want to delete this author?";
+                confirmText = "Delete";
+
+                showModalConfirmation([authorId], ACTION_URL, title, body, confirmText);
+            });
         });
     });
 </script>

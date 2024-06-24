@@ -16,9 +16,11 @@
                 <form method="POST" action="{{ $url }}">
                     @csrf
                     @method('DELETE')
-                    @foreach($ids as $id)
-                        <input type="hidden" name="ids[]" value="{{ $id }}">
-                    @endforeach
+                    @if(!empty($ids))
+                        @foreach($ids as $id)
+                            <input type="hidden" name="ids[]" value="{{ $id }}">
+                        @endforeach
+                    @endif
                     <button type="submit" class="btn btn-danger">{{ $confirmText }}</button>
                 </form>
             </div>

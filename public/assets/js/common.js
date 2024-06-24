@@ -1,10 +1,10 @@
 // Global variables
-var DELETE_URL;
+var ACTION_URL;
 var MODAL_CONFIRM_URL;
 
 document.addEventListener('DOMContentLoaded', function () {
     window.showModalConfirmation = function(ids) {
-        var url = DELETE_URL;
+        var url = ACTION_URL;
         $.ajax({
             url: MODAL_CONFIRM_URL,
             method: 'POST',
