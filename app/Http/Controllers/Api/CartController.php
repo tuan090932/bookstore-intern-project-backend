@@ -8,16 +8,21 @@ use App\Models\User;
 use App\Models\Cart;
 use App\Models\CartItem;
 use Exception;
+
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Requests\AddCartItemRequest;
 use Illuminate\Validation\ValidationException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
-
 class CartController extends Controller
 {
 
-     /**
+     public function __construct()
+     {
+         $this->middleware('auth:api');
+     }
+
+    /**
      * Get the cart items for the authenticated user.
      *
      * @return \Illuminate\Http\JsonResponse A JSON response containing the cart items or an error message.
@@ -26,16 +31,16 @@ class CartController extends Controller
     {
         try {
             $user = auth('api')->user();
-            $user = JWTAuth::parseToken()->authenticate();
             $cart = Cart::where('user_id', $user->user_id)->with('cartItems')->firstOrFail();
             return response()->json($cart->cartItems);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'cart not found.', 'exception' => $e->getMessage()], 404);
+            return response()->json(['error' => 'Cart not found.', 'exception' => $e->getMessage()], 404);
         } catch (JWTException $e){
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'Token not provided'], 401);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+
     }
 
     /**
@@ -48,7 +53,6 @@ class CartController extends Controller
     {
         try {
             $user = auth('api')->user();
-            $user = JWTAuth::parseToken()->authenticate();
             $cart = Cart::firstOrCreate(['user_id' => $user->user_id]);
             $cartItem = CartItem::where('cart_id', $cart->cart_id)->where('book_id', $request->book_id)->first();
             if ($cartItem) {
@@ -79,7 +83,6 @@ class CartController extends Controller
     {
         try {
             $user = auth('api')->user();
-            $user = JWTAuth::parseToken()->authenticate();
             $cart = Cart::where('user_id', $user->user_id)->firstOrFail();
             $cartItem = CartItem::where('cart_id', $cart->cart_id)->where('item_id', $cartItemId)->firstOrFail();
             $cartItem->delete();
