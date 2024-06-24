@@ -73,10 +73,6 @@
                                 <td>{{ ($book->authors)->author_name }}</td>
                                 <td>{{ ($book->publishers)->publisher_name }}</td>
                                 <td>{{ ($book->languages)->language_name }}</td>
-
-
-
-    
                                 <td>
                                     <div class="d-flex  justify-content-center">
                                         <a href="{{ route('books.edit', $book->book_id)}}" type="button" class="btn btn-warning">Edit</a>
