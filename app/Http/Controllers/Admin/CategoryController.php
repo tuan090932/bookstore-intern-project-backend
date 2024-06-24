@@ -46,15 +46,13 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         try {
-            $category = Category::create([
+            Category::create([
                 'category_name' => $request->input('category_name')
             ]);
-            if ($category) {
-                return redirect()->route('categories.create')->with('success', 'Category created successfully');
-            }
+            return redirect()->route('categories.create')->with('success', __('messages.category.created_success'));     
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            return redirect()->route('categories.create')->with('error', 'Category creation failed ');
+            return redirect()->route('categories.create')->with('error', __('messages.category.created_error'));
         }
     }
 
@@ -78,7 +76,7 @@ class CategoryController extends Controller
             $category = Category::findOrFail($id);
             return view('admin.pages.categories.edit', compact('category'));
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('categories.index')->with('error', 'Category not found');
+            return redirect()->route('categories.index')->with('error', __('messages.category.not_found'));
         }
     }
 
@@ -89,18 +87,18 @@ class CategoryController extends Controller
      * @param string $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdateCategoryRequest  $request, $id)
+    public function update(UpdateCategoryRequest $request, $id)
     {
         try {
             $category = Category::findOrFail($id);
             $category->category_name = $request->input('category_name');
             $category->save();
-            return redirect()->route('categories.edit', $id)->with('success', 'Category updated successfully');
+            return redirect()->route('categories.edit', $id)->with('success', __('messages.category.updated_success'));
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('categories.index', $id)->with('error', 'Category not found');
+            return redirect()->route('categories.index', $id)->with('error', __('messages.category.not_found'));
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            return redirect()->route('categories.edit', $id)->with('error', 'Category update failed');
+            return redirect()->route('categories.edit', $id)->with('error', __('messages.category.updated_error'));
         }
     }
 
@@ -116,15 +114,14 @@ class CategoryController extends Controller
             $category = Category::findOrFail($id);
             $bookCount = Book::where('category_id', $id)->count();
             if ($bookCount > 0) {
-                $errorMessage = 'Cannot delete category because it is associated with one or more books';
-                return redirect()->route('categories.index')->withErrors(['category_' . $id => $errorMessage]);
+                return redirect()->route('categories.index')->withErrors(['category_' . $id => __('messages.category.associated_books')]);
             }
             $category->delete();
-            return redirect()->route('categories.index')->with('success', 'Category deleted successfully');
+            return redirect()->route('categories.index')->with('success', __('messages.category.deleted_success'));
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('categories.index')->with('error', 'Category not found');
+            return redirect()->route('categories.index')->with('error', __('messages.category.not_found'));
         } catch (Exception $e) {
-            return redirect()->route('categories.index')->with('error', 'Category deletion failed');
+            return redirect()->route('categories.index')->with('error', __('messages.category.deleted_error'));
         }
     }
 }

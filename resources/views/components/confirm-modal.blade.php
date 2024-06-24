@@ -16,7 +16,7 @@
                 <form id="{{ $formId }}" method="POST" action="{{ $formAction }}">
                     @csrf
                     @method($method)
-                    <input type="hidden" name="author_ids" id="{{ $inputId }}" value="">
+                    <input type="hidden" name="author_ids" id="{{ $inputId }}" value="{{ $inputId }}">
                     <button type="submit" class="btn btn-danger">{{ $confirmText }}</button>
                 </form>
             </div>

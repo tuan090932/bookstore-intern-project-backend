@@ -115,7 +115,7 @@
                                         <!-- Modal for Delete Confirmation -->
                                         @component('components.confirm-modal', [
                                             'id' => 'confirm-delete-modal-'.$author->author_id,
-                                            'labelId' => 'confirm-delete-modal-label-'.$author->author_id,
+                                            'label_id' => 'confirm_delete_modal_label_'.$author->author_id,
                                             'title' => 'Confirm Delete',
                                             'body' => 'Bạn có chắc chắn muốn xóa tác giả này không?',
                                             'formId' => 'delete-form-'.$author->author_id,
