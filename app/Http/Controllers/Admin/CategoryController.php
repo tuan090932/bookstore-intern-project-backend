@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Book;
 use Illuminate\Support\Facades\Log;
+use Exception;
 
 class CategoryController extends Controller
 {
@@ -52,9 +53,8 @@ class CategoryController extends Controller
             if ($category) {
                 return redirect()->route('categories.create')->with('success', 'Category created successfully');
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error($e->getMessage());
-
             return redirect()->route('categories.create')->with('error', 'Category creation failed ');
         }
     }
@@ -99,7 +99,7 @@ class CategoryController extends Controller
             return redirect()->route('categories.edit', $id)->with('success', 'Category updated successfully');
         } catch (ModelNotFoundException $e) {
             return redirect()->route('categories.index', $id)->with('error', 'Category not found');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error($e->getMessage());
             return redirect()->route('categories.edit', $id)->with('error', 'Category update failed');
         }
@@ -123,7 +123,7 @@ class CategoryController extends Controller
             return redirect()->route('categories.index')->with('success', 'Category deleted successfully');
         } catch (ModelNotFoundException $e) {
             return redirect()->route('categories.index')->with('error', 'Category not found');
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return redirect()->route('categories.index')->with('error', 'Category deletion failed');
         }
     }
