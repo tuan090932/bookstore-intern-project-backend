@@ -9,6 +9,8 @@ use App\Models\Author;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\LocationController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\OrderController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -60,5 +62,10 @@ Route::prefix('admin')->group(function () {
     Route::patch('authors/{id}/restore', [AuthorController::class, 'restore'])->name('authors.restore');
 
     Route::resource('authors', AuthorController::class);
-
+    Route::prefix('orders')->group(function () {
+        Route::get('/', [OrderController::class, 'index'])->name('orders.index');
+        Route::get('/{id}', [OrderController::class, 'show'])->name('orders.show');
+        Route::put('/{id}', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
+        Route::delete('delete/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+    });
 });
