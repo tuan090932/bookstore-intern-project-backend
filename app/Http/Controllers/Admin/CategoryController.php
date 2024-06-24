@@ -77,6 +77,8 @@ class CategoryController extends Controller
             return view('admin.pages.categories.edit', compact('category'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('categories.index')->with('error', __('messages.category.not_found'));
+        }  catch (Exception $e) {
+            return redirect()->route('categories.index')->with('error', __('messages.category.fetch_error'));
         }
     }
 
@@ -121,6 +123,7 @@ class CategoryController extends Controller
         } catch (ModelNotFoundException $e) {
             return redirect()->route('categories.index')->with('error', __('messages.category.not_found'));
         } catch (Exception $e) {
+            Log::error($e->getMessage());
             return redirect()->route('categories.index')->with('error', __('messages.category.deleted_error'));
         }
     }

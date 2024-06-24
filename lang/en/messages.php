@@ -35,5 +35,7 @@ return [
         'not_found' => 'Category not found.',
 
         'associated_books' => 'Cannot delete category because it is associated with one or more books.',
+
+        'fetch_error' => 'Failed to fetch category data.',
     ],
 ];

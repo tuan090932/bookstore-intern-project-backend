@@ -1,7 +1,5 @@
 @extends('admin.layouts.base')
-
 @section('title', 'Edit Category')
-
 @section('content')
 <h1 class="h3 mb-2 text-gray-800">Edit Category</h1>
 <hr class="my-12" />

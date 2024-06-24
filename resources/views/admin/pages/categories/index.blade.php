@@ -72,17 +72,17 @@
                                     </button>
                                       <!-- Modal for Delete Confirmation -->
                                       @component('components.confirm-modal', [
-                                    'id' => 'confirm_delete_modal_' . $category->category_id,
-                                    'labelId' => 'confirm_delete_modal_label_' . $category->category_id,
-                                    'title' => 'Confirm Delete',
-                                    'body' => 'Are you sure you want to delete this order?',
-                                    'formId' => 'delete_form_' . $category->category_id,
-                                    'formAction' => route('categories.destroy', ['id' => $category->category_id]),
-                                    'method' => 'DELETE',
-                                    'inputId' => 'input_' . $category->category_id,
-                                    'confirmText' => 'Delete'
-])
-@endcomponent
+                                        'id' => 'confirm_delete_modal_' . $category->category_id,
+                                        'labelId' => 'confirm_delete_modal_label_' . $category->category_id,
+                                        'title' => 'Confirm Delete',
+                                        'body' => 'Are you sure you want to delete this order?',
+                                        'formId' => 'delete_form_' . $category->category_id,
+                                        'formAction' => route('categories.destroy', ['id' => $category->category_id]),
+                                        'method' => 'DELETE',
+                                        'inputId' => 'input_' . $category->category_id,
+                                        'confirmText' => 'Delete'
+                                          ])
+                                    @endcomponent
                                 </div>
                             </td>
                         </tr>
