@@ -8,6 +8,7 @@ use Database\Seeders\AuthorSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\AddressSeeder;
 use Database\Seeders\RoleSeeder;
+use Database\Seeders\AdminSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             AddressSeeder::class,
             RoleSeeder::class,
+            AdminSeeder::class,
         ]);
 
         $this->call([

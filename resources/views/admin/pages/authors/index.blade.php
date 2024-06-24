@@ -20,6 +20,12 @@
                 </span>
                 <span class="text">Delete Selected</span>
             </button>
+            <button class="btn btn-danger btn-icon-split" id="authors-delete-all-btn" data-toggle="modal">
+                <span class="icon text-white-50">
+                    <i class="fas fa-trash"></i>
+                </span>
+                <span class="text">Delete All</span>
+            </button>
             <a href="{{ route('authors.create') }}" class="btn btn-primary btn-icon-split">
                 <span class="icon text-white-50">
                     <i class="fas fa-plus"></i>
@@ -36,7 +42,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th><input type="checkbox" id="select-all"></th>
+                            <th><input type="checkbox" id="select-all-header"></th>
                             <th>Tên tác giả</th>
                             <th>Tuổi</th>
                             <th>Ngày sinh</th>
@@ -95,6 +101,36 @@
 <script src="{{ asset('/assets/js/demo/datatables-demo.js') }}"></script>
 
 <script src="{{ asset('assets/js/common.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        DELETE_URL = "{{ route('authors.delete-selected') }}";
+        title = "Confirm Delete";
+        body = "Are you sure you want to delete the selected authors?";
+        confirmText = "Delete";
+
+        initializeCheckboxes('select-all-header', 'select-all-footer', 'author_ids[]', 'authors-selected-delete-btn');
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        window.initializeDeleteButtons = function(buttonClass, deleteUrl) {
+            document.querySelectorAll('.' + buttonClass).forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var url = deleteUrl.replace(':id', ids);
+                    showModalConfirmation([ids], url);
+                });
+            });
+        }
+        initializeDeleteButtons('delete-btn', "{{ route('authors.destroy', ':id') }}");
+    });
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        DELETE_URL = "{{ route('authors.delete-all') }}";
+        document.getElementById('authors-delete-all-btn').addEventListener('click', function() {
+            showModalConfirmation([], DELETE_URL);
+        });
+    });
+</script>
 
 @endsection
-

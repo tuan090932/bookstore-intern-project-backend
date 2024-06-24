@@ -176,12 +176,9 @@ class AuthorController extends Controller
     public function deleteSelected(Request $request)
     {
         try {
-            $authorIdsInput = $request->input('author_ids', '');
-            $authorIdsArray = explode(',', $authorIdsInput);
-            $authorIds = array_filter($authorIdsArray, function($value) {
-                return !empty($value) && is_numeric($value);
-            });
-            dd($authorIds, $authorIdsArray, $authorIdsInput);
+            $authorIds = $request->input('ids', []);
+            // dd($authorIds);
+
             Author::whereIn('author_id', $authorIds)->delete();
 
             return redirect()->back()->with('success', __('messages.author.selected_deleted_success'));
