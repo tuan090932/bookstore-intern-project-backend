@@ -43,7 +43,7 @@ Route::prefix('admin')->group(function () {
     Route::post('login', [AuthController::class, 'login'])->name('admin.login.submit');
     Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
     Route::get('/', [DashboardController::class, 'indexPage'])->name('admin.dashboard');
-    Route::post('show-confirm-modal', [CommonController::class, 'showConfirmModal'])->name('admin.show-confirm-modal');
+    Route::post('/common/show-confirm-modal', [CommonController::class, 'showConfirmModal'])->name('common.showConfirmModal');
 
     Route::middleware(['auth.admin'])->group(function () {
         Route::get('profile', [AuthController::class, 'showProfile'])->name('admin.profile');
@@ -84,5 +84,3 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-
-Route::post('/common/show-confirm-modal', [CommonController::class, 'showConfirmModal'])->name('common.showConfirmModal');
