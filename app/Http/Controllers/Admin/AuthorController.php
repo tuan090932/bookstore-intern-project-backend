@@ -39,7 +39,7 @@ class AuthorController extends Controller
      * @param // \Illuminate\Http\Request  $request
      * @return // \Illuminate\Http\Response
      */
-    public function store(StoreAuthorRequest $request)
+    public function store(AuthorRequest $request)
     {
         try {
             $authorName = $request->input('author_name');
@@ -76,9 +76,6 @@ class AuthorController extends Controller
     /**
      * Show the form for editing the specified author resource.
      *
-     * This method is responsible for retrieving the author data based on the provided author ID
-     * and displaying the edit form with the current author information pre-filled.
-     *
      * @param int $id The ID of the author to be edited.
      * @return \Illuminate\View\View
      */
@@ -91,11 +88,6 @@ class AuthorController extends Controller
     /**
      * Update the specified author resource in the database.
      *
-     * This method is responsible for updating an existing author record in the database based on the input data provided in the $request object.
-     * It first validates the input data, ensuring that the required fields (author_name, birth_date) are provided and that the death_date field is a valid date if present.
-     * It then calculates the author's age based on the birth_date and either the death_date or the current date if the death_date is not provided.
-     * Finally, it updates the Author record in the database and redirects the user back to the edit page with a success or error message depending on the outcome of the operation.
-     *
      * @param \Illuminate\Http\Request $request
      * @param int $id The ID of the author to be updated.
      * @return \Illuminate\Http\RedirectResponse
@@ -107,6 +99,7 @@ class AuthorController extends Controller
             $authorName = $request->input('author_name');
             $birthDate = Carbon::createFromFormat('d/m/Y', $request->input('birth_date'));
             $deathDate = $request->input('death_date') ? Carbon::createFromFormat('d/m/Y', $request->input('death_date')) : null;
+            $national = $request->input('national');
 
             $age = $deathDate ? $deathDate->year - $birthDate->year : Carbon::now()->year - $birthDate->year;
 
@@ -116,6 +109,7 @@ class AuthorController extends Controller
                 'birth_date' => $birthDate,
                 'death_date' => $deathDate ? $deathDate : null,
                 'age' => $age,
+                'national' => $national,
             ]);
 
             return redirect()->back()->with('success', 'Cập nhật tác giả thành công.');

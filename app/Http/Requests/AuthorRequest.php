@@ -26,12 +26,14 @@ class AuthorRequest extends FormRequest
      */
     public function rules()
     {
+        $authorId = $this->route('author');
+
         return [
             'author_name' => [
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('authors', 'author_name'),
+                Rule::unique('authors', 'author_name')->ignore($authorId, 'author_id'),
             ],
             'birth_date' => [
                 'required',
@@ -41,7 +43,12 @@ class AuthorRequest extends FormRequest
             'death_date' => [
                 'nullable',
                 'date_format:d/m/Y',
-                new ValidDeathDate($this->input('birth_date'))
+                new ValidDeathDate($this->birth_date)
+            ],
+            'national' => [
+                'required',
+                'string',
+                'max:255',
             ],
         ];
     }
@@ -54,13 +61,18 @@ class AuthorRequest extends FormRequest
     public function messages()
     {
         return [
-            'author_name.required' => 'Họ tên tác giả là bắt buộc.',
-            'author_name.string' => 'Họ tên tác giả phải là một chuỗi ký tự.',
-            'author_name.max' => 'Họ tên tác giả không được vượt quá 255 ký tự.',
-            'author_name.unique' => 'Tên tác giả đã tồn tại. Vui lòng nhập tên khác.',
-            'birth_date.required' => 'Ngày sinh là bắt buộc.',
-            'birth_date.date_format' => 'Ngày sinh phải có định dạng DD/MM/YYYY.',
-            'death_date.date_format' => 'Ngày mất phải có định dạng DD/MM/YYYY.',
+            'author_name.required' => 'Author name is required.',
+            'author_name.string' => 'Author name must be a string.',
+            'author_name.max' => 'Author name must not exceed 255 characters.',
+            'author_name.unique' => 'Author name already exists. Please choose a different name.',
+
+            'birth_date.required' => 'Birth date is required.',
+            'birth_date.date_format' => 'Birth date must be in the format DD/MM/YYYY.',
+            'death_date.date_format' => 'Death date must be in the format DD/MM/YYYY.',
+
+            'national.required' => 'Nationality is required.',
+            'national.string' => 'Nationality must be a string.',
+            'national.max' => 'Nationality must not exceed 255 characters.',
         ];
     }
 }

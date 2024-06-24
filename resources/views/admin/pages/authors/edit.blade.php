@@ -43,6 +43,13 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+                <div class="form-group col-md-6">
+                    <label for="national">Quốc tịch</label>
+                    <input type="text" class="form-control @error('national') is-invalid @enderror" id="national" name="national" value="{{ old('national', $author->national) }}">
+                    @error('national')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
 
             <hr class="my-12" />
@@ -50,7 +57,7 @@
             <!--------------------Button--------------------------->
             <div class="d-grid d-flex justify-content-between">
                 <!------ Button Quay Lại ------>
-                <a href="javascript:history.back()" class="form-group btn btn-secondary btn-icon-split">
+                <a href="{{ route('authors.index') }}" class="form-group btn btn-secondary btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-arrow-left"></i>
                     </span>
@@ -70,37 +77,5 @@
 </div>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function()
-    {
-        flatpickr("#birth_date", {
-            dateFormat: "d/m/Y",
-            altInput: true,
-            altFormat: "d/m/Y",
-            allowInput: true
-        });
-
-        flatpickr("#death_date", {
-            dateFormat: "d/m/Y",
-            altInput: true,
-            altFormat: "d/m/Y",
-            allowInput: true
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function()
-    {
-        const authorNameInput = document.getElementById('author_name');
-
-        authorNameInput.addEventListener('input', function()
-        {
-            let words = authorNameInput.value.split(' ');
-            for (let i = 0; i < words.length; i++)
-            {
-                words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
-            }
-            authorNameInput.value = words.join(' ');
-        });
-    });
-</script>
+<script src="{{ asset('assets/js/author-input-handler.js') }}"></script>
 @endsection
