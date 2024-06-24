@@ -23,7 +23,6 @@ class CategoryController extends Controller
      */
     public function index()
     {
-
         $categories = Category::paginate(10);
         return view('admin.pages.categories.index', compact('categories'));
     }
@@ -44,7 +43,7 @@ class CategoryController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(StoreCategoryRequest  $request)
+    public function store(StoreCategoryRequest $request)
     {
         try {
             $category = Category::create([
@@ -117,7 +116,8 @@ class CategoryController extends Controller
             $category = Category::findOrFail($id);
             $bookCount = Book::where('category_id', $id)->count();
             if ($bookCount > 0) {
-                return redirect()->route('categories.index')->with('error', 'Cannot delete category because it is associated with one or more books');
+                $errorMessage = 'Cannot delete category because it is associated with one or more books';
+                return redirect()->route('categories.index')->withErrors(['category_' . $id => $errorMessage]);
             }
             $category->delete();
             return redirect()->route('categories.index')->with('success', 'Category deleted successfully');

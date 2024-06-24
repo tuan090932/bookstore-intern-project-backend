@@ -1,6 +1,5 @@
 <?php
 use App\Http\Controllers\Api\UserController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\Auth\AuthController;
@@ -42,18 +41,20 @@ use App\Http\Controllers\Api\CategoryController;
  * 127.0.0.1/api/auth/{action}
  * Example: 127.0.0.1/api/auth/login
  */
-Route::group([
+ Route::group([
 
     'middleware' => 'api',
     'prefix' => 'auth'
 
-], function () {
+], function ()
+{
 
     Route::post('register', [RegisterController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
     Route::get('profile', [AuthController::class, 'profile']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
+
 });
 
 /**

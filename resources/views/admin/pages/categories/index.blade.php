@@ -49,7 +49,14 @@
                         @foreach ($categories as $category)
                         <tr>
                             <td>{{ $category->category_id }}</td>
-                            <td>{{ $category->category_name }}</td>
+                            <td >
+                                {{ $category->category_name }}
+                                @if ($errors->has('category_' . $category->category_id))
+                                    <div class="alert alert-danger">
+                                        {{ $errors->first('category_' . $category->category_id) }}
+                                    </div>
+                                @endif
+                            </td>
                             <td>
                                 <div class="d-flex justify-content-center">
                                     <a href="{{ route('categories.edit', $category->category_id)}}" class="mr-2 text-success">
@@ -68,7 +75,7 @@
                                          'id' => 'confirm-delete-modal-'.$category->category_id,
                                          'labelId' => 'confirm-delete-modal-label-'.$category->category_id,
                                          'title' => 'Confirm Delete',
-                                         'body' => 'Are you sure you want to delete this order?',
+                                         'body' => 'Are you sure you want to delete this category?',
                                          'formId' => 'delete-form-'.$category->category_id,
                                          'formAction' => route('categories.destroy', ['id' => $category->category_id]),
                                          'method' => 'DELETE',
