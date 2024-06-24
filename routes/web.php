@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AddressController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\CommonController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,6 +43,7 @@ Route::prefix('admin')->group(function () {
     Route::post('login', [AuthController::class, 'login'])->name('admin.login.submit');
     Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
     Route::get('/', [DashboardController::class, 'indexPage'])->name('admin.dashboard');
+    Route::post('show-confirm-modal', [CommonController::class, 'showConfirmModal'])->name('admin.show-confirm-modal');
 
     Route::middleware(['auth.admin'])->group(function () {
         Route::get('profile', [AuthController::class, 'showProfile'])->name('admin.profile');
@@ -81,3 +83,6 @@ Route::prefix('admin')->group(function () {
         });
     });
 });
+
+
+Route::post('/common/show-confirm-modal', [CommonController::class, 'showConfirmModal'])->name('common.showConfirmModal');

@@ -181,7 +181,7 @@ class AuthorController extends Controller
             $authorIds = array_filter($authorIdsArray, function($value) {
                 return !empty($value) && is_numeric($value);
             });
-
+            dd($authorIds, $authorIdsArray, $authorIdsInput);
             Author::whereIn('author_id', $authorIds)->delete();
 
             return redirect()->back()->with('success', __('messages.author.selected_deleted_success'));

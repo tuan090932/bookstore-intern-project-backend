@@ -3,7 +3,11 @@
 @section('content')
     <!-- Begin Page Content -->
     <div class="container-fluid">
-
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <!-- Page Heading -->
         <div class="d-grid d-flex justify-content-between mb-3">
             <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">Admin Accounts</h1>
@@ -22,14 +26,10 @@
                 </button>
                 <!-- Confirm Delete Selected Modal -->
                 @component('components.confirm-modal', [
-                    'id' => 'confirm-delete-modal',
-                    'labelId' => 'confirm-delete-modal-label',
                     'title' => 'Confirm Delete',
                     'body' => 'Bạn có chắc chắn muốn xóa những admin được chọn này không?',
-                    'formId' => 'bulk-delete-form',
                     'formAction' => route('admins.delete-selected'),
                     'method' => 'DELETE',
-                    'inputId' => 'admin_ids',
                     'confirmText' => 'Delete'
                 ])
                 @endcomponent
@@ -71,7 +71,6 @@
                         <thead>
                             <tr>
                                 <th><input type="checkbox" id="select-all"></th>
-                                <th>ID</th>
                                 <th>Họ tên</th>
                                 <th>Email</th>
                                 <th>Quyền</th>
@@ -81,7 +80,6 @@
                         <tfoot>
                             <tr>
                                 <th><input type="checkbox" id="select-all-footer"></th>
-                                <th>ID</th>
                                 <th>Họ tên</th>
                                 <th>Email</th>
                                 <th>Quyền</th>
@@ -92,7 +90,6 @@
                             @foreach($admins as $admin)
                                 <tr>
                                     <td><input type="checkbox" name="admin_ids[]" value="{{ $admin->admin_id }}"></td>
-                                    <td>{{ $admin->admin_id }}</td>
                                     <td>{{ $admin->admin_name }}</td>
                                     <td>{{ $admin->email }}</td>
                                     <td>{{ $admin->roles->role_name }}</td>
@@ -143,10 +140,5 @@
     <script src="{{ asset('assets/vendor/bootstrap/scss/_tables.scss') }}"></script>
     <script src="{{ asset('/assets/js/demo/datatables-demo.js') }}"></script>
     <script src="{{ asset('/assets/js/checkbox-handler.js') }}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            initializeCheckboxes('select-all', 'select-all-footer', 'admin_ids[]', 'admins-selected-delete-btn', 'admin_ids');
-        });
-    </script>
 
 @endsection

@@ -8,46 +8,6 @@
     <div class="d-grid d-flex justify-content-between mb-3">
         <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">Restore Authors</h1>
         <div>
-            <button class="btn btn-success btn-icon-split" id="selected-restore-btn" data-toggle="modal" data-target="#confirm-restore-modal">
-                <span class="icon text-white-50">
-                    <i class="fas fa-trash-restore"></i>
-                </span>
-                <span class="text">Restore Selected</span>
-            </button>
-            <!-- Confirm Restore Selected Modal -->
-            @component('components.confirm-modal', [
-                'id' => 'confirm-restore-modal',
-                'labelId' => 'confirm-restore-modal-label',
-                'title' => 'Confirm Restore',
-                'body' => 'Bạn có chắc chắn muốn khôi phục những tác giả được chọn này không?',
-                'formId' => 'bulk-restore-form',
-                'formAction' => route('authors.restore-selected'),
-                'method' => 'PATCH',
-                'inputId' => 'author_ids',
-                'confirmText' => 'Restore'
-            ])
-            @endcomponent
-
-            <button class="btn btn-success btn-icon-split" id="restore-all-btn" data-toggle="modal" data-target="#confirm-restore-all-modal">
-                <span class="icon text-white-50">
-                    <i class="fas fa-trash-restore"></i>
-                </span>
-                <span class="text">Delete All</span>
-            </button>
-            <!-- Confirm Restore All Modal -->
-            @component('components.confirm-modal', [
-                'id' => 'confirm-restore-all-modal',
-                'labelId' => 'confirm-restore-all-modal-label',
-                'title' => 'Confirm Restore',
-                'body' => 'Bạn có chắc chắn muốn xóa tất cả các tác giả không?',
-                'formId' => 'restore-all-form',
-                'formAction' => route('authors.restore-all'),
-                'method' => 'PATCH',
-                'inputId' => 'author_ids',
-                'confirmText' => 'Restore'
-            ])
-            @endcomponent
-
             <a href="{{ route('authors.index') }}" class="btn btn-secondary btn-icon-split">
                 <span class="icon text-white-50">
                     <i class="fas fa-arrow-left"></i>
@@ -98,19 +58,6 @@
                                         <button type="button" class="btn btn-link p-0 m-0" id="restore-btn" data-toggle="modal" data-target="#confirm-restore-modal-{{ $author->author_id }}">
                                             <i style="font-size: 28px; color: #18b97e;" class="fa-solid fa-trash-can-arrow-up"></i>
                                         </button>
-                                        <!-- Confirm Restore Modal -->
-                                        @component('components.confirm-modal', [
-                                            'id' => 'confirm-restore-modal-'.$author->author_id,
-                                            'labelId' => 'confirm-restore-modal-label-'.$author->author_id,
-                                            'title' => 'Confirm Restore',
-                                            'body' => 'Bạn có chắc chắn muốn khôi phục tác giả này không?',
-                                            'formId' => 'restore-form-'.$author->author_id,
-                                            'formAction' => route('authors.restore', ['id' => $author->author_id]),
-                                            'method' => 'PATCH',
-                                            'inputId' => $author->author_id,
-                                            'confirmText' => 'Restore'
-                                        ])
-                                        @endcomponent
                                     </div>
                                 </td>
                             </tr>
@@ -125,7 +72,6 @@
 <script src="{{ asset('/assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('/assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('/assets/js/demo/datatables-demo.js') }}"></script>
-<script src="{{ asset('/assets/js/checkbox-handler.js') }}"></script>
 
 @endsection
 

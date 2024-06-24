@@ -60,14 +60,6 @@ class AdminController extends Controller
         return redirect()->route('admins.index')->with('success', 'Admin user created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
    /**
      * Show the form for editing the specified resource.
      */
@@ -114,7 +106,9 @@ class AdminController extends Controller
         try {
             $admin = AdminUser::findOrFail($id);
 
-
+            if ($admin->role_id === 'ALL') {
+                return redirect()->route('admins.index')->with('error', 'Admin user with role ALL cannot be delete.');
+            }
 
             $admin->delete();
             return redirect()->route('admins.index')->with('success', 'Admin user deleted successfully.');
@@ -124,42 +118,21 @@ class AdminController extends Controller
         }
     }
 
-    public function restore($id)
-    {
-        try {
-            $admin = AdminUser::onlyTrashed()->findOrFail($id);
-            $admin->restore();
-            return redirect()->route('admins.index')->with('success', 'Admin user restored successfully.');
-        } catch (Exception $e) {
-            Log::error('Error restoring admin: ' . $e->getMessage());
-            return redirect()->route('admins.index')->with('error', 'Failed to restore admin user.');
-        }
-    }
-
     public function deleteSelected(Request $request)
     {
-        $adminIdsInput = $request->input('admin_ids', '');
-        $adminIdsArray = explode(',', $adminIdsInput);
-        $adminIds = array_filter($adminIdsArray, function($value) {
-            return !empty($value) && is_numeric($value);
-        });
-
-        dd($adminIds);
-
-        AdminUser::whereIn('admin_id', $adminIds)->delete();
-
-        return redirect()->back()->with('success', __('Admin user deleted successfully.'));
-    }
-
-    public function restoreSelected(Request $request)
-    {
-        $adminIds = $request->input('admin_ids', []);
         try {
-            AdminUser::onlyTrashed()->whereIn('id', $adminIds)->restore();
-            return redirect()->route('admins.index')->with('success', 'Selected admin users restored successfully.');
+            $adminidsInput = $request->input('admin_ids', '');
+            $adminidsArray = explode(',', $adminidsInput);
+            $adminids = array_filter($adminidsArray, function($value) {
+                return !empty($value) && is_numeric($value);
+            });
+            dd($adminids, $adminidsArray,  $adminidsInput);
+            AdminUser::whereIn('admin_id', $adminids)->delete();
+
+            return redirect()->back()->with('success', __('messages.admin.selected_deleted_success'));
         } catch (Exception $e) {
-            Log::error('Error restoring selected admins: ' . $e->getMessage());
-            return redirect()->route('admins.index')->with('error', 'Failed to restore selected admin users.');
+            Log::error('Error deleting selected admins: ' . $e->getMessage());
+            return redirect()->back()->with('error', __('messages.admin.selected_deleted_error'));
         }
     }
 }
