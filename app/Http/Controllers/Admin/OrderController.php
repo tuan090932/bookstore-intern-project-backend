@@ -79,10 +79,7 @@ class OrderController extends Controller
     {
         try {
             $order = BookOrder::where('order_id', $id)->firstOrFail();
-            $bookOrderDetails = BookOrderDetail::where('order_id', $id)->get();
-            foreach ($bookOrderDetails as $bookOrderDetail) {
-                $bookOrderDetail->delete();
-            }
+            BookOrderDetail::where('order_id', $id)->delete();
             $order->delete();
             return redirect()->route('orders.index')->with('success', 'Order deleted successfully.');
         } catch (ModelNotFoundException $e) {
