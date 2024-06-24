@@ -87,7 +87,6 @@
                                          'confirmText' => 'Delete'
                                          ])
                                     @endcomponent
-
                                 </div>
                             </td>
                         </tr>
