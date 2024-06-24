@@ -64,7 +64,7 @@
                     <span class="text">Back</span>
                 </a>
 
-                <!------ Button Cập Nhật ------>
+                <!------ Update Button ------>
                 <a class="form-group btn btn-success btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-check"></i>

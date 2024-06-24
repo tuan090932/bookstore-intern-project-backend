@@ -66,14 +66,6 @@ class AuthorController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified author resource.
      *
      * @param int $id The ID of the author to be edited.
@@ -94,8 +86,7 @@ class AuthorController extends Controller
      */
     public function update(AuthorRequest $request, $id)
     {
-        try
-        {
+        try {
             $authorName = $request->input('author_name');
             $birthDate = Carbon::createFromFormat('d/m/Y', $request->input('birth_date'));
             $deathDate = $request->input('death_date') ? Carbon::createFromFormat('d/m/Y', $request->input('death_date')) : null;
@@ -113,10 +104,7 @@ class AuthorController extends Controller
             ]);
 
             return redirect()->back()->with('success', 'Cập nhật tác giả thành công.');
-        }
-        catch (Exception $e)
-        {
-            // Logging the exception can be useful for debugging purposes
+        } catch (Exception $e) {
             Log::error('Error updating author: '.$e->getMessage());
 
             return redirect()->back()->with('error', 'Đã xảy ra lỗi khi cập nhật tác giả. Vui lòng thử lại.');
