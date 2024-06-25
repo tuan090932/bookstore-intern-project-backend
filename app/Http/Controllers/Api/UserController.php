@@ -26,7 +26,7 @@ class UserController extends Controller
                 return response()->json(['error' => __('user.not_authorized')], 403);
             }
 
-            $user = User::findOrFail($userId);
+            $user = User::findOrFail($authUser -> user_id);
             return response()->json($user);
         } catch (Exception $ex) {
             return ApiUserExceptionHandler::handle($ex);
