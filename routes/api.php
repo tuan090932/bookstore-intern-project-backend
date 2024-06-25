@@ -165,8 +165,7 @@ Route::prefix('favorite')->group(function () {
  * - GET /api/order: Retrieves a list of all orders.
  * - POST /api/order: Creates a new order.
  * - GET /api/order/{id}: Retrieves a specific order by ID.
- * - PUT /api/order/{id}: Updates a specific order by ID.
- * - DELETE /api/order/{id}: Deletes a specific order by ID.
+ * - PATCH /api/order/{id}/status: Updates the status of a specific order by ID.
  *
  * These endpoints use the `BookOrderController` to handle the corresponding logic.
  *
