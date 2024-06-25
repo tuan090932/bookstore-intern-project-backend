@@ -49,7 +49,7 @@ class AdminController extends Controller
 
         $admin->save();
 
-        return redirect()->route('admins.index')->with('success', 'Admin user created successfully.');
+        return redirect()->route('admins.index')->with('success', __('messages.admin.created_success'));
     }
 
    /**
@@ -72,7 +72,7 @@ class AdminController extends Controller
         $admin->fill($request->validated());
         $admin->save();
 
-        return redirect()->route('admins.index')->with('success', 'Admin user updated successfully.');
+        return redirect()->route('admins.index')->with('success', __('messages.admin.updated_success'));
     }
 
     /**
@@ -84,14 +84,14 @@ class AdminController extends Controller
             $admin = AdminUser::findOrFail($id);
 
             if ($admin->role_id === 'ALL') {
-                return redirect()->route('admins.index')->with('error', 'Admin user with role ALL cannot be delete.');
+                return redirect()->route('admins.index')->with('error', __('messages.admin.delete_all_role_error'));
             }
 
             $admin->delete();
-            return redirect()->route('admins.index')->with('success', 'Admin user deleted successfully.');
+            return redirect()->route('admins.index')->with('success', __('messages.admin.deleted_success'));
         } catch (Exception $e) {
             Log::error('Error deleting admin: ' . $e->getMessage());
-            return redirect()->route('admins.index')->with('error', 'Failed to delete admin user.');
+            return redirect()->route('admins.index')->with('error', __('messages.admin.deleted_error'));
         }
     }
 
@@ -110,7 +110,7 @@ class AdminController extends Controller
             AdminUser::whereIn('admin_id', $adminsToDeleteIds)->delete();
 
             if ($admins->count() !== $adminsToDelete->count()) {
-                return redirect()->back()->with('error', 'Admin user with role ALL cannot be deleted.');
+                return redirect()->back()->with('error', __('messages.admin.delete_all_role_error'));
             }
 
             return redirect()->back()->with('success', __('messages.admin.selected_deleted_success'));
@@ -143,10 +143,10 @@ class AdminController extends Controller
             $admin = AdminUser::onlyTrashed()->findOrFail($id);
             $admin->restore();
 
-            return redirect()->route('admins.trashed')->with('success', 'Admin user restored successfully.');
+            return redirect()->route('admins.trashed')->with('success', __('messages.admin.restored_success'));
         } catch (Exception $e) {
             Log::error('Error restoring admin: ' . $e->getMessage());
-            return redirect()->route('admins.trashed')->with('error', 'Failed to restore admin user.');
+            return redirect()->route('admins.trashed')->with('error', __('messages.admin.restored_error'));
         }
     }
 
@@ -160,14 +160,12 @@ class AdminController extends Controller
     {
         try {
             $adminIds = $request->input('ids', []);
-            // dd($adminIds);
-
             AdminUser::onlyTrashed()->whereIn('admin_id', $adminIds)->restore();
 
-            return redirect()->back()->with('success', 'Selected admin users restored successfully.');
+            return redirect()->back()->with('success', __('messages.admin.selected_restored_success'));
         } catch (Exception $e) {
             Log::error('Error restoring selected admins: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to restore selected admin users.');
+            return redirect()->back()->with('error', __('messages.admin.selected_restored_error'));
         }
     }
 
@@ -181,10 +179,10 @@ class AdminController extends Controller
         try {
             AdminUser::onlyTrashed()->restore();
 
-            return redirect()->back()->with('success', 'All admin users restored successfully.');
+            return redirect()->back()->with('success', __('messages.admin.all_restored_success'));
         } catch (Exception $e) {
             Log::error('Error restoring all admins: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Failed to restore all admin users.');
+            return redirect()->back()->with('error', __('messages.admin.all_restored_error'));
         }
     }
 }
