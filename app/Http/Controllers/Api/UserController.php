@@ -12,11 +12,22 @@ use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {
+    /**
+     * Create a new UserController instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth:api');
     }
 
+    /**
+     * Display the specified user by its ID.
+     *
+     * @param  int  $userId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function show($userId): JsonResponse
     {
         try {
@@ -32,6 +43,13 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Update the specified user in storage.
+     *
+     * @param UpdateProfileRequest $request
+     * @param  int  $userId
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function update(UpdateProfileRequest $request, $userId): JsonResponse
     {
         try {
