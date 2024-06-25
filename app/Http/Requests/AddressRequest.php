@@ -7,24 +7,33 @@ use Illuminate\Foundation\Http\FormRequest;
 class AddressRequest extends FormRequest
 {
     /**
-     * Determine if the user is authorized to make this request.
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
      */
-    public function authorize(): bool
+    public function rules()
     {
-        return true;
+        return [
+            'shipping_address' => 'required|string',
+            'city' => 'required|string',
+            'country_name' => 'required|string',
+        ];
     }
 
     /**
-     * Get the validation rules that apply to the request.
+     * Get the error messages for the defined validation rules.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array
      */
-    public function rules(): array
+    public function messages()
     {
         return [
-            'city' => 'required|string|max:250',
-            'country_name' => 'required|string|max:250',
-            'shipping_address' => 'required',
+            'shipping_address.required' => __('validation.required', ['attribute' => __('attributes.shipping_address')]),
+            'shipping_address.string' => __('validation.string', ['attribute' => __('attributes.shipping_address')]),
+            'city.required' => __('validation.required', ['attribute' => __('attributes.city')]),
+            'city.string' => __('validation.string', ['attribute' => __('attributes.city')]),
+            'country_name.required' => __('validation.required', ['attribute' => __('attributes.country_name')]),
+            'country_name.string' => __('validation.string', ['attribute' => __('attributes.country_name')]),
         ];
     }
 }
