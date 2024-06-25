@@ -169,42 +169,6 @@ class UserSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'user_name' => 'user21',
-                'name' => 'User Twenty-One',
-                'email' => 'user21@gmail.com',
-                'password' => Hash::make('123456'),
-                'phone_number' => '0987123462',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'user_name' => 'user22',
-                'name' => 'User Twenty-Two',
-                'email' => 'user22@gmail.com',
-                'password' => Hash::make('123456'),
-                'phone_number' => '0987654328',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'user_name' => 'user23',
-                'name' => 'User Twenty-Three',
-                'email' => 'user23@gmail.com',
-                'password' => Hash::make('123456'),
-                'phone_number' => '0998877669',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'user_name' => 'user24',
-                'name' => 'User Twenty-Four',
-                'email' => 'user24@gmail.com',
-                'password' => Hash::make('123456'),
-                'phone_number' => '0987123463',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
         ];
 
         DB::table('users')->insert($users);

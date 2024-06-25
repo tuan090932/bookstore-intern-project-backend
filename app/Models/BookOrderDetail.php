@@ -9,9 +9,9 @@ class BookOrderDetail extends Model
 {
     use HasFactory;
     protected $table = 'book_order_details';
-    protected $primaryKey = 'order_id';
+    protected $primaryKey = ['book_id', 'order_id'];
+    public $incrementing = false; // Important for composite keys
     protected $fillable = [
-        'book_id',
         'quantity',
         'price',
     ];

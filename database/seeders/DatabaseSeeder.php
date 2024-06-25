@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
             CategoriesSeeder::class,
             UserSeeder::class,
             BookSeeder::class,
-            UserSeeder::class,
+            //UserSeeder::class,
             AddressSeeder::class,
             OrderStatusSeeder::class,
             BookOrderSeeder::class,

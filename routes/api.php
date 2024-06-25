@@ -79,6 +79,12 @@ Route::group([
 ], function () {
     Route::get('/', [BookController::class, 'index']);
     Route::get('/{id}', [BookController::class, 'show']);
+    Route::get('/category/{category_id}', [BookController::class, 'getBookByCategory']);
+    Route::get('/author/{author_id}', [BookController::class, 'getBookByAuthor']);
+    Route::get('/publisher/{publisher_id}', [BookController::class, 'getBookByPublisher']);
+    Route::get('/language/{language_id}', [BookController::class, 'getBookByLanguage']);
+    Route::get('/price-range/{minPrice}/{maxPrice}', [BookController::class, 'getBooksByPriceRange']);
+
 });
 
 /**
@@ -153,3 +159,5 @@ Route::prefix('favorite')->group(function () {
     Route::post('/', [FavoriteController::class, 'addFavorite']);
     Route::delete('/{favorite}', [FavoriteController::class, 'removeFavorite']);
 });
+
+
