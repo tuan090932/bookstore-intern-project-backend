@@ -81,4 +81,14 @@ class BookOrder extends Model
             return null;
         }
     }
+
+    /**
+     * Get total revenue from completed orders
+     *
+     * @return float
+     */
+    public static function getTotalRevenue()
+    {
+        return self::where('status_id', 3)->sum('total_price');
+    }
 }

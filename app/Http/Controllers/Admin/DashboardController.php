@@ -13,11 +13,9 @@ class DashboardController extends Controller
     {
         $totalBooksInStock = Book::totalBooksInStock();
         $totalDistinctTitles = Book::totalDistinctTitles();
-        $recentCustomers = User::orderBy('created_at', 'desc')->take(10)->get();
-        $recentOrders = BookOrder::with(['user', 'orderStatus'])
-            ->orderBy('order_date', 'desc')
-            ->take(5)
-            ->get();
-        return view('admin.pages.dashboard.index', compact('totalBooksInStock', 'totalDistinctTitles', 'recentCustomers', 'recentOrders'));
+        $recentCustomers = User::latest('created_at')->limit(10)->get();
+        $recentOrders = BookOrder::with(['user', 'orderStatus', 'bookOrderDetails'])->latest('order_date')->limit(10)->get();
+        $getTotalRevenue = BookOrder::getTotalRevenue();
+        return view('admin.pages.dashboard.index', compact('totalBooksInStock', 'totalDistinctTitles', 'recentCustomers', 'recentOrders', 'getTotalRevenue'));
     }
 }

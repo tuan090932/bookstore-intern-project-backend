@@ -48,7 +48,7 @@
             </div>
             <div class="card">
                 <div>
-                    <div class="number">90,000,000</div>
+                    <div class="number">{{ number_format($getTotalRevenue, 0, ',', '.') }}đ</div>
                     <div class="cardName">Income</div>
                 </div>
                 <div class="iconBox">
