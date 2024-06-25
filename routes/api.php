@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CategoryController;
-use App\Http\Controllers\Api\CartController;
+use App\Http\Controllers\Api\FavoriteController;use App\Http\Controllers\Api\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -149,4 +149,46 @@ Route::prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'index']);
     Route::post('/', [CartController::class, 'store']);
     Route::delete('/item/{id}', [CartController::class, 'destroyItem']);
+});
+
+
+/**
+ * API Routes for Cart
+ *
+ * This route group handles all cart-related API endpoints.
+ * The group is prefixed with 'api/cart'.
+ *
+ * Endpoints:
+ * - GET /api/cart/{id}: Get the cart items for a specific user.
+ * - POST /api/cart: Adds a new item to the cart.
+ * - DELETE /api/cart/item/{id}: Removes a specific item from the cart by ID.
+ *
+ * These endpoints use the `CartController` to handle the corresponding logic.
+ */
+Route::prefix('cart')->group(function () {
+    Route::get('/', [CartController::class, 'index']);
+    Route::post('/', [CartController::class, 'store']);
+    Route::delete('/item/{id}', [CartController::class, 'destroyItem']);
+});
+
+
+/**
+ * API Routes for Favorites
+ *
+ * This route group handles all favorite-related API endpoints.
+ * The group is prefixed with 'api/favorite'.
+ *
+ * Endpoints:
+ * - GET /api/favorite: Retrieves a list of all favorites.
+ * - POST /api/favorite: Adds a new favorite.
+ * - DELETE /api/favorite/{id}: Removes a specific favorite by ID.
+ *
+ * These endpoints use the `FavoriteController` to handle the corresponding logic.
+ *
+ * The following api with API routes bellow:
+ */
+Route::prefix('favorite')->group(function () {
+    Route::get('/', [FavoriteController::class, 'getFavorites']);
+    Route::post('/', [FavoriteController::class, 'addFavorite']);
+    Route::delete('/{favorite}', [FavoriteController::class, 'removeFavorite']);
 });

@@ -42,10 +42,22 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Address::class, 'user_id', 'user_id');
     }
 
+
+    
+    /**
+     * Get the orders associated with the user.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class, 'user_id');
+    }
+
     /**
      * Get the cart associated with the user.
      *
-     * @return Illuminate\Database\Eloquent\Relations\HasOne
+     * @var array<string, string>
      */
     public function cart(): HasOne
     {

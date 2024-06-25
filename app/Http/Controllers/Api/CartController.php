@@ -35,8 +35,6 @@ class CartController extends Controller
             return response()->json($cart->cartItems);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Cart not found.', 'exception' => $e->getMessage()], 404);
-        } catch (JWTException $e){
-            return response()->json(['error' => 'Token not provided'], 401);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
