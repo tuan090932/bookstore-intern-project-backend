@@ -68,13 +68,8 @@ class AdminController extends Controller
      */
     public function update(AdminRequest $request, $id)
     {
-        $admin = AdminUser::where('admin_id', $id)->firstOrFail();
-
-        $admin->admin_name = $request->admin_name;
-        $admin->role_id = $request->role_id;
-        $admin->address = $request->address;
-        $admin->phone = $request->phone;
-
+        $admin = AdminUser::findOrFail($id);
+        $admin->fill($request->validated());
         $admin->save();
 
         return redirect()->route('admins.index')->with('success', 'Admin user updated successfully.');

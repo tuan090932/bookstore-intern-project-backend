@@ -41,7 +41,7 @@ class AdminRequest extends FormRequest
                 'string',
                 'email',
                 'max:255',
-                Rule::unique('admin')->ignore($this->route('admin')),
+                Rule::unique('admin')->ignore($this->route('admin'), 'admin_id'),
             ];
         }
 
