@@ -18,7 +18,11 @@
     }
 </style>
 <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">Dashboard</h1>
-
+    @if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+    @endif
     <!-- cards -->
     <div class="cardBox">
         <div class="card">

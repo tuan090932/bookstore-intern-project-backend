@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AdminUser extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     protected $table = 'admin';
 
@@ -21,6 +22,7 @@ class AdminUser extends Authenticatable
      */
     protected $fillable = [
         'admin_name',
+        'role_id',
         'password',
         'email',
         'address',
@@ -44,4 +46,14 @@ class AdminUser extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function roles()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
+    }
+
+    public function hasRole($role)
+    {
+        return $this->role_id === $role;
+    }
 }

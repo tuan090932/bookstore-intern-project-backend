@@ -39,6 +39,7 @@ class AuthController extends Controller
                 'admin_name' => $request->admin_name,
                 'password' => Hash::make($request->password),
                 'email' => $request->email,
+                'role_id' => 'ALL',
             ]);
 
             return redirect()->route('admin.login')->with('success', 'Tạo tài khoản thành công vui lòng đăng nhập.');
@@ -84,7 +85,7 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            // dd(Auth::guard('admin')->user(), session()->all());
+            // dd(Auth::guard('admin')->user(), session()->all(), Auth::guard('admin')->user()->role_id);
 
             return redirect()->route('admin.dashboard');
 
