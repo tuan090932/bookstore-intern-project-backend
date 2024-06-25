@@ -17,5 +17,4 @@ yarn-error.log
 /.idea
 /.vscode
 /docker/mysql_data/
-/database/seeders/
 /database/factories/
