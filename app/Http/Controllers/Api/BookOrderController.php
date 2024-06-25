@@ -113,7 +113,7 @@ class BookOrderController extends Controller
             $order->status_id = 4;
             $order->save();
 
-            return response()->json(['message' => 'Order status updated successfully.']);
+            return response()->json(['order' => $order]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
