@@ -36,13 +36,12 @@ class UserController extends Controller
     public function update(UpdateProfileRequest $request, $userId): JsonResponse
     {
         try {
-            $authUser = auth()->user();
+            $user = auth()->user();
 
-            if ($authUser->user_id != $userId) {
+            if ($user->user_id != $userId) {
                 return response()->json(['error' => __('user.update_not_authorized')], 403);
             }
 
-            $user = User::findOrFail($userId);
 
             $updatableAttributes = $request->only(['user_name', 'email', 'name', 'phone_number']);
             foreach ($updatableAttributes as $key => $value) {
@@ -57,8 +56,7 @@ class UserController extends Controller
                 $user->password = Hash::make($request->password);
             }
 
-            $user->save();
-
+            User::saved($user);
             return response()->json($user);
         } catch (Exception $ex) {
             return ApiUserExceptionHandler::handle($ex);
