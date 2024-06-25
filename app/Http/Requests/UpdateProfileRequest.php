@@ -27,17 +27,15 @@ class UpdateProfileRequest extends FormRequest
     public function messages()
     {
         return [
-            'phone.string' => 'Số điện thoại phải là một chuỗi.',
-            'phone.max' => 'Số điện thoại không được vượt quá 15 ký tự.',
-            'phone.regex' => 'Số điện thoại chỉ được chứa các chữ số.',
-            'address.string' => 'Địa chỉ phải là một chuỗi.',
-            'address.max' => 'Địa chỉ không được vượt quá 255 ký tự.',
-            'user_name.unique' => 'Tên người dùng đã tồn tại.',
-            'user_name.string' => 'Tên người dùng phải là một chuỗi.',
-            'email.email' => 'Email không hợp lệ.',
-            'email.max' => 'Email không được vượt quá 255 ký tự.',
-            'email.unique' => 'Email đã tồn tại.',
-            'old_password.required_with' => 'Cần nhập mật khẩu cũ khi thay đổi mật khẩu.',
+            'phone_number.string' => __('validation.phone_number.string'),
+            'phone_number.max' => __('validation.phone_number.max'),
+            'phone_number.regex' => __('validation.phone_number.regex'),
+            'user_name.unique' => __('validation.user_name.unique'),
+            'user_name.string' => __('validation.user_name.string'),
+            'email.email' => __('validation.email.email'),
+            'email.max' => __('validation.email.max'),
+            'email.unique' => __('validation.email.unique'),
+            'old_password.required_with' => __('validation.old_password.required_with'),
         ];
     }
 }
