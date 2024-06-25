@@ -30,12 +30,12 @@ class AdminLoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required' => 'Email là bắt buộc.',
-            'email.email' => 'Email không đúng định dạng.',
-            'password.required' => 'Mật khẩu là bắt buộc.',
-            'password.string' => 'Mật khẩu phải là một chuỗi ký tự.',
-            'password.min' => 'Mật khẩu phải ít nhất 6 ký tự.',
-            'password.regex' => 'Mật khẩu phải chứa ít nhất một chữ thường, một chữ hoa, một chữ số và một ký tự đặc biệt.',
+            'email.required' => '*Email is required.',
+            'email.email' => '*Email must be a valid email address.',
+            'password.required' => '*Password is required.',
+            'password.string' => '*Password must be a string.',
+            'password.min' => '*Password must be at least 6 characters.',
+            'password.regex' => '*Password must include 1 uppercase, 1 number, 1 special character, and be 6+ characters long.',
         ];
     }
 }
