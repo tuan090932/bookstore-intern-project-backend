@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\FavoriteController;
+use App\Http\Controllers\Api\BookOrderController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -152,4 +153,29 @@ Route::prefix('favorite')->group(function () {
     Route::get('/', [FavoriteController::class, 'getFavorites']);
     Route::post('/', [FavoriteController::class, 'addFavorite']);
     Route::delete('/{favorite}', [FavoriteController::class, 'removeFavorite']);
+});
+
+/**
+ * API Routes for Orders
+ *
+ * This route group handles all order-related API endpoints.
+ * The group is prefixed with 'api/order'.
+ *
+ * Endpoints:
+ * - GET /api/order: Retrieves a list of all orders.
+ * - POST /api/order: Creates a new order.
+ * - GET /api/order/{id}: Retrieves a specific order by ID.
+ * - PUT /api/order/{id}: Updates a specific order by ID.
+ * - DELETE /api/order/{id}: Deletes a specific order by ID.
+ *
+ * These endpoints use the `BookOrderController` to handle the corresponding logic.
+ *
+ * The following api with API routes bellow:
+ */
+Route::prefix('order')->group(function () {
+    Route::get('/', [BookOrderController::class, 'index']);
+    Route::post('/', [BookOrderController::class, 'store']);
+    Route::get('/{id}', [BookOrderController::class, 'show']);
+    Route::put('/{id}', [BookOrderController::class, 'update']);
+    Route::delete('/{id}', [BookOrderController::class, 'destroy']);
 });
