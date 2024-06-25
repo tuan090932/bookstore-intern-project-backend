@@ -176,6 +176,5 @@ Route::prefix('order')->group(function () {
     Route::get('/', [BookOrderController::class, 'index']);
     Route::post('/', [BookOrderController::class, 'store']);
     Route::get('/{id}', [BookOrderController::class, 'show']);
-    Route::put('/{id}', [BookOrderController::class, 'update']);
-    Route::delete('/{id}', [BookOrderController::class, 'destroy']);
+    Route::patch('/{id}/status', [BookOrderController::class, 'updateStatus']);
 });

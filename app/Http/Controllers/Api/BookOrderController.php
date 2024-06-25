@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBookOrderRequest;
 use App\Models\BookOrder;
 use App\Models\BookOrderDetail;
 use App\Models\Address;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class BookOrderController extends Controller
 {
@@ -42,35 +42,21 @@ class BookOrderController extends Controller
     /**
      * Store a newly created order in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreBookOrderRequest  $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(StoreBookOrderRequest $request)
     {
         try {
             $user = auth('api')->user();
-    
-            // Validate the incoming request data
-            $validator = Validator::make($request->all(), [
-                'order_date' => 'required|date',
-                'address_id' => 'required|exists:addresses,address_id',
-                'books' => 'required|array',
-                'books.*.book_id' => 'required|exists:books,book_id',
-                'books.*.quantity' => 'required|integer|min:1',
-                'books.*.price' => 'required|numeric|min:0',
-            ]);
-    
-            if ($validator->fails()) {
-                return response()->json(['error' => $validator->errors()], 400);
-            }
-    
+ 
             // Set default status_id to 1 if not provided
             $status_id = $request->input('status_id', 1);
-    
+ 
             // Retrieve address details
             $address = Address::findOrFail($request->input('address_id'));
             $order_address = "{$address->shipping_address}, {$address->city}, {$address->country_name}";
-    
+ 
             // Create the book order
             $order = BookOrder::create([
                 'user_id' => $user->user_id,
@@ -80,7 +66,7 @@ class BookOrderController extends Controller
                 'order_address' => $order_address,
                 'total_price' => array_sum(array_column($request->books, 'price')),
             ]);
-    
+ 
             if (!$order->order_id) {
                 throw new Exception('Failed to create order');
             }
@@ -94,15 +80,13 @@ class BookOrderController extends Controller
                     'price' => $book['price'],
                 ]);
             }
-    
+ 
             // Return the created order with loaded details and associated books
             return response()->json($order->load('bookOrderDetails.book'), 201);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-    
-    
 
     /**
      * Display the specified order.
@@ -123,68 +107,21 @@ class BookOrderController extends Controller
     }
 
     /**
-     * Update the specified order in storage.
+     * Update the status_id of the specified order to 4.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $order_id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $order_id)
+    public function updateStatus($order_id)
     {
         try {
             $user = auth('api')->user();
             $order = BookOrder::where('user_id', $user->user_id)->where('order_id', $order_id)->firstOrFail();
 
-            $validator = Validator::make($request->all(), [
-                'order_date' => 'required|date',
-                'status_id' => 'required|exists:order_status,status_id',
-                'address_id' => 'required|exists:addresses,address_id',
-                'order_address' => 'required|string',
-                'books' => 'required|array',
-                'books.*.book_id' => 'required|exists:books,book_id',
-                'books.*.quantity' => 'required|integer|min:1',
-                'books.*.price' => 'required|numeric|min:0',
-            ]);
+            $order->status_id = 4;
+            $order->save();
 
-            if ($validator->fails()) {
-                return response()->json(['error' => $validator->errors()], 400);
-            }
-
-            $order->update($request->all());
-
-            $order->bookOrderDetails()->delete();
-
-            foreach ($request->books as $book) {
-                BookOrderDetail::create([
-                    'order_id' => $order->order_id,
-                    'book_id' => $book['book_id'],
-                    'quantity' => $book['quantity'],
-                    'price' => $book['price'],
-                ]);
-            }
-
-            return response()->json($order->load('bookOrderDetails.book'), 200);
-        } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
-
-    /**
-     * Remove the specified order from storage.
-     *
-     * @param  int  $order_id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function destroy($order_id)
-    {
-        try {
-            $user = auth('api')->user();
-            $order = BookOrder::where('user_id', $user->user_id)->where('order_id', $order_id)->firstOrFail();
-
-            $order->bookOrderDetails()->delete();
-            $order->delete();
-
-            return response()->json(['message' => 'Order deleted successfully'], 200);
+            return response()->json(['message' => 'Order status updated successfully.']);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

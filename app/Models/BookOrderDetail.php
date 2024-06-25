@@ -10,7 +10,7 @@ class BookOrderDetail extends Model
     use HasFactory;
 
     protected $table = 'book_order_details';
-    protected $primaryKey = 'id'; // Primary key field should be 'id' instead of 'order_id'
+    protected $primaryKey = 'id'; 
     protected $fillable = [
         'order_id',
         'book_id',
