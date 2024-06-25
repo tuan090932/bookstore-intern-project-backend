@@ -48,6 +48,16 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
+     * Get the orders associated with the user.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class, 'user_id');
+    }
+
+    /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
