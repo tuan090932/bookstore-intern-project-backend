@@ -49,10 +49,7 @@ class BookOrderController extends Controller
     {
         try {
             $user = auth('api')->user();
- 
-            // Set default status_id to 1 if not provided
-            $status_id = $request->input('status_id', 1);
- 
+  
             // Retrieve address details
             $address = Address::findOrFail($request->input('address_id'));
             $order_address = "{$address->shipping_address}, {$address->city}, {$address->country_name}";
@@ -61,17 +58,12 @@ class BookOrderController extends Controller
             $order = BookOrder::create([
                 'user_id' => $user->user_id,
                 'order_date' => $request->input('order_date'),
-                'status_id' => $status_id,
+                'status_id' => 1,
                 'address_id' => $request->input('address_id'),
                 'order_address' => $order_address,
                 'total_price' => array_sum(array_column($request->books, 'price')),
             ]);
  
-            if (!$order->order_id) {
-                throw new Exception('Failed to create order');
-            }
-            
-            // Create book order details
             foreach ($request->books as $book) {
                 BookOrderDetail::create([
                     'order_id' => $order->order_id,
