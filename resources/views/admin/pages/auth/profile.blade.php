@@ -22,6 +22,10 @@
                 <label>Phone</label>
                 <input type="text" readonly class="form-control" value="{{ $admin->phone }}">
             </div>
+            <div class="form-group col-md-6">
+                <label>Role</label>
+                <input type="text" readonly class="form-control" value="{{ $role->role_name }}">
+            </div>
         </div>
         <a href="{{ route('admin.profile.edit') }}" class="btn btn-primary">Edit Profile</a>
     </div>

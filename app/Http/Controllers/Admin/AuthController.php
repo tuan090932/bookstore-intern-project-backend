@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Models\Role;
 use Exception;
 
 class AuthController extends Controller
@@ -119,8 +120,9 @@ class AuthController extends Controller
     {
         // $admin = session('adminUser') ?? Auth::guard('admin')->user();
         $admin = Auth::guard('admin')->user();
+        $role = Role::find($admin->role_id);
 
-        return view('admin.pages.auth.profile', compact('admin'));
+        return view('admin.pages.auth.profile', compact('admin', 'role'));
     }
 
     /**
