@@ -58,7 +58,7 @@
                             <th>Tuổi</th>
                             <th>Ngày sinh</th>
                             <th>Ngày mất</th>
-                            <th>Quốc tịch</th>
+                            <th>Quốc t��ch</th>
                             <th>Options</th>
                         </tr>
                     </tfoot>
@@ -106,6 +106,7 @@
         ACTION_URL = "{{ route('authors.delete-selected') }}";
         title = "Confirm Delete";
         body = "Are you sure you want to delete the selected authors?";
+        method = 'DELETE';
         confirmText = "Delete";
         initializeCheckboxes('select-all-header', 'select-all-footer', 'author_ids[]', 'authors-selected-delete-btn');
 
@@ -115,9 +116,10 @@
                 ACTION_URL = "{{ route('authors.delete-all') }}";
                 title = "Confirm Delete";
                 body = "Are you sure you want to delete all authors?";
+                method = 'DELETE';
                 confirmText = "Delete";
 
-                showModalConfirmation([], ACTION_URL, title, body, confirmText);
+                showModalConfirmation([], ACTION_URL, title, body, method, confirmText);
             });
         }
 
@@ -128,9 +130,10 @@
                 ACTION_URL = "{{ route('authors.destroy', ':id') }}".replace(':id', authorId);
                 title = "Confirm Delete";
                 body = "Are you sure you want to delete this author?";
+                method = 'DELETE';
                 confirmText = "Delete";
 
-                showModalConfirmation([authorId], ACTION_URL, title, body, confirmText);
+                showModalConfirmation([authorId], ACTION_URL, title, body, method, confirmText);
             });
         });
     });

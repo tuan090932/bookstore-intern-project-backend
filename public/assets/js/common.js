@@ -3,8 +3,7 @@ var ACTION_URL;
 var MODAL_CONFIRM_URL;
 
 document.addEventListener('DOMContentLoaded', function () {
-    window.showModalConfirmation = function(ids) {
-        var url = ACTION_URL;
+    window.showModalConfirmation = function(ids, url, title, body, method, confirmText) {
         $.ajax({
             url: MODAL_CONFIRM_URL,
             method: 'POST',
@@ -13,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 url: url,
                 title: title,
                 body: body,
+                method: method,
                 confirmText: confirmText,
                 _token: $('meta[name="csrf-token"]').attr('content')
             },

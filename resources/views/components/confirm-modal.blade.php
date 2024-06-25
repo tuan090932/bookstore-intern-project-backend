@@ -15,7 +15,7 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <form method="POST" action="{{ $url }}">
                     @csrf
-                    @method('DELETE')
+                    @method($method)
                     @if(!empty($ids))
                         @foreach($ids as $id)
                             <input type="hidden" name="ids[]" value="{{ $id }}">

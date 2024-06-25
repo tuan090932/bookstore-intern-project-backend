@@ -8,6 +8,18 @@
     <div class="d-grid d-flex justify-content-between mb-3">
         <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">Restore Authors</h1>
         <div>
+            <button class="btn btn-success btn-icon-split" id="authors-selected-restore-btn" data-toggle="modal">
+                <span class="icon text-white-50">
+                    <i class="fas fa-trash-restore"></i>
+                </span>
+                <span class="text">Restore Selected</span>
+            </button>
+            <button class="btn btn-success btn-icon-split" id="authors-restore-all-btn" data-toggle="modal">
+                <span class="icon text-white-50">
+                    <i class="fas fa-trash-restore"></i>
+                </span>
+                <span class="text">Restore All</span>
+            </button>
             <a href="{{ route('authors.index') }}" class="btn btn-secondary btn-icon-split">
                 <span class="icon text-white-50">
                     <i class="fas fa-arrow-left"></i>
@@ -24,7 +36,7 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th><input type="checkbox" id="select-all"></th>
+                            <th><input type="checkbox" id="select-all-header"></th>
                             <th>Tên tác giả</th>
                             <th>Tuổi</th>
                             <th>Ngày sinh</th>
@@ -55,7 +67,7 @@
                                 <td>{{ $author->national }}</td>
                                 <td>
                                     <div class="d-flex justify-content-center">
-                                        <button type="button" class="btn btn-link p-0 m-0" id="restore-btn" data-toggle="modal" data-target="#confirm-restore-modal-{{ $author->author_id }}">
+                                        <button type="button" class="btn btn-link p-0 m-0" data-author-id="{{ $author->author_id }}" id="restore-btn">
                                             <i style="font-size: 28px; color: #18b97e;" class="fa-solid fa-trash-can-arrow-up"></i>
                                         </button>
                                     </div>
@@ -64,6 +76,11 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="d-flex">
+                    <nav>
+                        {{ $authors->links('vendor.pagination.bootstrap-4') }}
+                    </nav>
+                </div>
             </div>
         </div>
     </div>
@@ -73,5 +90,43 @@
 <script src="{{ asset('/assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('/assets/js/demo/datatables-demo.js') }}"></script>
 
-@endsection
+<script src="{{ asset('assets/js/common.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        ACTION_URL = "{{ route('authors.restore-selected') }}";
+        title = "Confirm Restore";
+        body = "Are you sure you want to restore the selected authors?";
+        method = 'PATCH';
+        confirmText = "Restore";
+        initializeCheckboxes('select-all-header', 'select-all-footer', 'author_ids[]', 'authors-selected-restore-btn');
 
+        const restoreAllBtn = document.getElementById('authors-restore-all-btn');
+        if (restoreAllBtn) {
+            restoreAllBtn.addEventListener('click', function() {
+                ACTION_URL = "{{ route('authors.restore-all') }}";
+                title = "Confirm Restore";
+                body = "Are you sure you want to restore all authors?";
+                method = 'PATCH';
+                confirmText = "Restore";
+
+                showModalConfirmation([], ACTION_URL, title, body, method, confirmText);
+            });
+        }
+
+        const restoreButtons = document.querySelectorAll('#restore-btn');
+        restoreButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const authorId = this.getAttribute('data-author-id');
+                ACTION_URL = "{{ route('authors.restore', ':id') }}".replace(':id', authorId);
+                title = "Confirm Restore";
+                body = "Are you sure you want to restore this author?";
+                method = 'PATCH';
+                confirmText = "Restore";
+
+                showModalConfirmation([authorId], ACTION_URL, title, body, method, confirmText);
+            });
+        });
+    });
+</script>
+
+@endsection
