@@ -14,22 +14,22 @@ class OrderStatusSeeder extends Seeder
     {
         $statuses = [
             [
-                'status_name' => 'pending',
+                'status_name' => 'Pending',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'status_name' => 'processing',
+                'status_name' => 'Processing',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'status_name' => 'completed',
+                'status_name' => 'Completed',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
             [
-                'status_name' => 'cancel',
+                'status_name' => 'Cancel',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],

@@ -2,16 +2,16 @@
 @section('title', 'Orders')
 @section('content')
 <!-- Begin Page Content -->
-@if (session('success'))
-<div class="alert alert-success">
-    {{ session('success') }}
-</div>
-@elseif (session('error'))
-<div class="alert alert-danger">
-    {{ session('error') }}
-</div>
-@endif
 <div class="container-fluid">
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @elseif (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+    @endif
     <!-- Page Heading -->
     <div class="d-grid d-flex justify-content-between mb-3">
         <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">Orders</h1>
@@ -28,9 +28,9 @@
                             <th>Phone Number</th>
                             <th>Email</th>
                             <th>Order Date</th>
-                            <th>Status</th>
                             <th>Total Price</th>
                             <th>Address</th>
+                            <th>Status</th>
                             <th>Options</th>
                         </tr>
                     </thead>
@@ -41,9 +41,9 @@
                             <th>Phone Number</th>
                             <th>Email</th>
                             <th>Order Date</th>
-                            <th>Status</th>
                             <th>Total Price</th>
                             <th>Address</th>
+                            <th>Status</th>
                             <th>Options</th>
                         </tr>
                     </tfoot>
@@ -55,38 +55,21 @@
                             <td>{{ $order->user->phone_number }}</td>
                             <td>{{ $order->user->email }}</td>
                             <td>{{ $order->order_date }}</td>
+                            <td>{{ number_format($order->total_price, 0, ',', '.') }}đ</td>
+                            <td>{{ $order->order_address }}</td>
                             <td>
                                 <span class="badge badge{{$order->orderStatus->status_id }}">
                                     {{ $order->orderStatus->status_name }}
                                 </span>
                             </td>
-                            <td>{{ $order->total_price }}</td>
-                            <td>{{ $order->order_address }}</td>
                             <td>
                                 <div class="d-flex justify-content-center">
                                     <a href="{{ route('orders.show', $order->order_id) }}" class="mr-2 text-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zm-8 4a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                                        </svg>
+                                        <i class="fa-regular fa-eye fa-2xl" style="color: #96baf8;"></i>
                                     </a>
                                     <button type="button" class="btn btn-link p-0 m-0" id="delete_btn" data-toggle="modal" data-target="#confirm_delete_modal_{{ $order->order_id }}">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="red" class="bi bi-trash-fill" viewBox="0 0 16 16">
-                                                <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z" />
-                                            </svg>
+                                        <i style="color: red" class="fa-regular fa-trash-can fa-2xl"></i>
                                     </button>
-                                     <!-- Modal for Delete Confirmation -->
-                                     @component('components.confirm-modal', [
-                                         'id' => 'confirm_delete_modal_'.$order->order_id,
-                                         'labelId' => 'confirm_delete_modal_label_'.$order->order_id,
-                                         'title' => 'Confirm Delete',
-                                         'body' => 'Are you sure you want to delete this order?',
-                                         'formId' => 'delete_form_'.$order->order_id,
-                                         'formAction' => route('orders.destroy', ['id' => $order->order_id]),
-                                         'method' => 'DELETE',
-                                         'inputId' => $order->order_id,
-                                         'confirmText' => 'Delete'
-                                         ])
-                                    @endcomponent
                                 </div>
                             </td>
                         </tr>

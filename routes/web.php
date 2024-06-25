@@ -37,7 +37,7 @@ Route::get('/books/search', [BookController::class, 'search'])->name('books.sear
 Route::resource('admin/books', BookController::class);
 
 Route::get('/', function () {
-    return redirect('/admin');
+    return redirect('/admin/dashboard');
 });
 
 Route::prefix('admin')->group(function () {
@@ -46,7 +46,7 @@ Route::prefix('admin')->group(function () {
     Route::get('login', [AuthController::class, 'loginForm'])->name('admin.login');
     Route::post('login', [AuthController::class, 'login'])->name('admin.login.submit');
     Route::post('logout', [AuthController::class, 'logout'])->name('admin.logout');
-    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::post('/common/show-confirm-modal', [CommonController::class, 'showConfirmModal'])->name('common.showConfirmModal');
 
     Route::middleware(['auth.admin'])->group(function () {

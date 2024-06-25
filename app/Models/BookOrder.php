@@ -4,12 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class BookOrder extends Model
 {
     use HasFactory;
     protected $table = 'book_order';
+
     protected $primaryKey = 'order_id';
+
     protected $fillable = [
         'user_id',
         'order_date',
@@ -17,6 +20,10 @@ class BookOrder extends Model
         'total_price',
         'address_id',
         'order_address',
+    ];
+
+    protected $casts = [
+        'order_date' => 'date',
     ];
 
     /**
@@ -29,7 +36,7 @@ class BookOrder extends Model
     {
         return $this->hasMany(BookOrderDetail::class, 'order_id', 'order_id');
     }
-    
+
     /**
      * Defines a many-to-one relationship with User
      * A book order belongs to a user
@@ -63,5 +70,15 @@ class BookOrder extends Model
         return $this->bookOrderDetails->sum(function ($detail) {
             return $detail->quantity * $detail->price;
         });
+    }
+
+    public function getOrderDateAttribute($value)
+    {
+        if ($value) {
+            $orderDate = Carbon::parse($value);
+            return $orderDate->format('d/m/Y');
+        } else {
+            return null;
+        }
     }
 }
