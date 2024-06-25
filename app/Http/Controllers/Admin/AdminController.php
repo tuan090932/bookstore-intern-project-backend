@@ -138,7 +138,7 @@ class AdminController extends Controller
             AdminUser::whereIn('admin_id', $adminsToDeleteIds)->delete();
 
             if ($admins->count() !== $adminsToDelete->count()) {
-                return redirect()->back()->with('error', __('messages.admin.delete_all_role_error'));
+                return redirect()->back();
             }
 
             return redirect()->back()->with('success', __('messages.admin.all_deleted_success'));
