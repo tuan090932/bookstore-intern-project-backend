@@ -14,7 +14,7 @@ use App\Http\Requests\AdminRequest;
 class AdminController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the admin users.
      *
      * @return \Illuminate\Http\Response
      */
@@ -25,8 +25,11 @@ class AdminController extends Controller
 
         return view('admin.pages.admins.index', compact('admins', 'currentAdmin'));
     }
+
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new admin user.
+     *
+     * @return \Illuminate\Http\Response
      */
     public function create()
     {
@@ -35,25 +38,36 @@ class AdminController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created admin user in storage.
+     *
+     * @param  \App\Http\Requests\AdminRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(AdminRequest $request)
     {
-        $admin = new AdminUser();
-        $admin->admin_name = $request->admin_name;
-        $admin->role_id = $request->role_id;
-        $admin->password = Hash::make($request->password);
-        $admin->email = $request->email;
-        $admin->address = $request->address;
-        $admin->phone = $request->phone;
+        try {
+            $admin = new AdminUser();
+            $admin->admin_name = $request->admin_name;
+            $admin->role_id = $request->role_id;
+            $admin->password = Hash::make($request->password);
+            $admin->email = $request->email;
+            $admin->address = $request->address;
+            $admin->phone = $request->phone;
 
-        $admin->save();
+            $admin->save();
 
-        return redirect()->route('admins.index')->with('success', __('messages.admin.created_success'));
+            return redirect()->route('admins.index')->with('success', __('messages.admin.created_success'));
+        } catch (Exception $e) {
+            Log::error('Error creating admin: ' . $e->getMessage());
+            return redirect()->route('admins.create')->with('error', __('messages.admin.created_error'));
+        }
     }
 
    /**
-     * Show the form for editing the specified resource.
+     * Show the form for editing the specified admin user.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
@@ -64,19 +78,31 @@ class AdminController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified admin user in storage.
+     *
+     * @param  \App\Http\Requests\AdminRequest  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(AdminRequest $request, $id)
     {
-        $admin = AdminUser::findOrFail($id);
-        $admin->fill($request->validated());
-        $admin->save();
+        try {
+            $admin = AdminUser::findOrFail($id);
+            $admin->fill($request->validated());
+            $admin->save();
 
-        return redirect()->route('admins.index')->with('success', __('messages.admin.updated_success'));
+            return redirect()->route('admins.index')->with('success', __('messages.admin.updated_success'));
+        } catch (Exception $e) {
+            Log::error('Error updating admin: ' . $e->getMessage());
+            return redirect()->route('admins.index')->with('error', __('messages.admin.updated_error'));
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified admin user from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function destroy($id)
     {
@@ -95,6 +121,12 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Delete selected admin users from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function deleteSelected(Request $request)
     {
         try {
@@ -121,7 +153,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Delete all author resources from the database.
+     * Delete all admin users except those with 'ALL' role.
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -149,7 +181,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Display a listing of the trashed resources.
+     * Display a listing of the trashed admin users.
      *
      * @return \Illuminate\Http\Response
      */
@@ -160,10 +192,10 @@ class AdminController extends Controller
     }
 
     /**
-     * Restore the specified resource from storage.
+     * Restore the specified trashed admin user.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function restore($id)
     {
@@ -179,10 +211,10 @@ class AdminController extends Controller
     }
 
     /**
-     * Restore selected resources from storage.
+     * Restore selected trashed admin users.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function restoreSelected(Request $request)
     {
@@ -198,9 +230,9 @@ class AdminController extends Controller
     }
 
     /**
-     * Restore all trashed resources from storage.
+     * Restore all trashed admin users.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function restoreAll()
     {
