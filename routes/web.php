@@ -83,9 +83,8 @@ Route::prefix('admin')->group(function () {
                 Route::patch('restore-selected', [AuthorController::class, 'restoreSelected'])->name('authors.restore-selected');
                 Route::patch('restore-all', [AuthorController::class, 'restoreAll'])->name('authors.restore-all');
                 Route::patch('{id}/restore', [AuthorController::class, 'restore'])->name('authors.restore');
-
-                Route::resource('/', AuthorController::class);
             });
+            Route::resource('authors', AuthorController::class);
         });
         Route::prefix('orders')->group(function () {
             Route::get('/', [OrderController::class, 'index'])->name('orders.index');

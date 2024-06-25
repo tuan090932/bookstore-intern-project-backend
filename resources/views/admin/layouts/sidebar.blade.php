@@ -30,22 +30,36 @@ $currentRoute = request()->route()->getName();
             <!-- Nav Item - Users -->
             <li class="nav-item {{ $currentRoute=='users.index' ? 'active':'' }}">
                 <a class="nav-link" href="{{ route('users.index') }}">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fa-solid fa-user"></i>
                     <span>Users</span></a>
             </li>
 
             <!-- Nav Item - Books -->
             <li class="nav-item {{ $currentRoute=='books.index' ? 'active':'' }}">
                 <a class="nav-link" href="{{ route('books.index') }}">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fa-solid fa-book"></i>
                     <span>Books</span></a>
             </li>
 
             <!-- Nav Item - Authors -->
             <li class="nav-item {{ in_array($currentRoute, ['authors.index', 'authors.create', 'authors.edit', 'authors.trashed']) ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('authors.index') }}">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fa-solid fa-pen-nib"></i>
                     <span>Authors</span></a>
+            </li>
+
+            <!-- Nav Item - Categories -->
+            <li class="nav-item {{ $currentRoute=='categories.index' ? 'active':'' }}">
+                <a class="nav-link" href="{{ route('categories.index') }}">
+                    <i class="fa-solid fa-list"></i>
+                    <span>Categories</span></a>
+            </li>
+
+            <!-- Nav Item - Orders -->
+            <li class="nav-item {{ $currentRoute=='orders.index' ? 'active':'' }}">
+                <a class="nav-link" href="{{ route('orders.index') }}">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Orders</span></a>
             </li>
         @endif
 
@@ -65,7 +79,7 @@ $currentRoute = request()->route()->getName();
             <!-- Nav Item - Users -->
             <li class="nav-item {{ $currentRoute=='users.index' ? 'active':'' }}">
                 <a class="nav-link" href="{{ route('users.index') }}">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fa-solid fa-user"></i>
                     <span>Users</span></a>
             </li>
         @endif
@@ -74,7 +88,7 @@ $currentRoute = request()->route()->getName();
             <!-- Nav Item - Books -->
             <li class="nav-item {{ $currentRoute=='books.index' ? 'active':'' }}">
                 <a class="nav-link" href="{{ route('books.index') }}">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fa-solid fa-book"></i>
                     <span>Books</span></a>
             </li>
         @endif
@@ -83,23 +97,28 @@ $currentRoute = request()->route()->getName();
             <!-- Nav Item - Authors -->
             <li class="nav-item {{ in_array($currentRoute, ['authors.index', 'authors.create', 'authors.edit', 'authors.trashed']) ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('authors.index') }}">
-                    <i class="fas fa-fw fa-table"></i>
+                    <i class="fa-solid fa-pen-nib"></i>
                     <span>Authors</span></a>
             </li>
         @endif
 
-    <li class="nav-item {{ $currentRoute=='categories.index' ? 'active':'' }}" href="{{ route('categories.index') }}">
-        <a class="nav-link" href="{{ route('categories.index') }}">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Categories</span></a>
-    </li>
+        @if(Auth::guard('admin')->user()->hasRole('CAT'))
+            <!-- Nav Item - Categories -->
+            <li class="nav-item {{ $currentRoute=='categories.index' ? 'active':'' }}">
+                <a class="nav-link" href="{{ route('categories.index') }}">
+                    <i class="fa-solid fa-list"></i>
+                    <span>Categories</span></a>
+            </li>
+        @endif
 
-
-    <li class="nav-item {{ $currentRoute=='orders.index' ? 'active':'' }}" href="{{ route('orders.index') }}">
-        <a class="nav-link" href="{{ route('orders.index') }}">
-            <i class="fas fa-fw fa-table"></i>
-            <span>Orders</span></a>
-    </li>
+        @if(Auth::guard('admin')->user()->hasRole('ORD'))
+            <!-- Nav Item - Orders -->
+            <li class="nav-item {{ $currentRoute=='orders.index' ? 'active':'' }}">
+                <a class="nav-link" href="{{ route('orders.index') }}">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Orders</span></a>
+            </li>
+        @endif
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
