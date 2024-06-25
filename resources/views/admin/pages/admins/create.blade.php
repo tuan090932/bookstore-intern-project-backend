@@ -34,14 +34,28 @@
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="password" name="password" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
                 @if ($errors->has('password'))
                     <span class="text-danger">{{ $errors->first('password') }}</span>
                 @endif
             </div>
             <div class="form-group">
                 <label for="password_confirmation">Confirm Password</label>
-                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" required>
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="button" id="togglePasswordConfirmation">
+                            <i class="fa fa-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
                 @if ($errors->has('password_confirmation'))
                     <span class="text-danger">{{ $errors->first('password_confirmation') }}</span>
                 @endif
@@ -62,6 +76,14 @@
     </div>
 </div>
 
+<style>
+    input[type=password]::-ms-reveal,
+    input[type=password]::-ms-clear
+    {
+        display: none;
+    }
+</style>
+
 <script>
     document.addEventListener('DOMContentLoaded', function()
     {
@@ -76,6 +98,18 @@
             }
             authorNameInput.value = words.join(' ');
         });
+
+        function togglePasswordVisibility(toggleButton, passwordField) {
+            toggleButton.addEventListener('click', function () {
+                const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordField.setAttribute('type', type);
+                this.querySelector('i').classList.toggle('fa-eye');
+                this.querySelector('i').classList.toggle('fa-eye-slash');
+            });
+        }
+
+        togglePasswordVisibility(document.querySelector('#togglePassword'), document.querySelector('#password'));
+        togglePasswordVisibility(document.querySelector('#togglePasswordConfirmation'), document.querySelector('#password_confirmation'));
     });
 </script>
 @endsection
