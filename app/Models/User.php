@@ -27,6 +27,11 @@ class User extends Authenticatable implements JWTSubject
         'password',
     ];
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
     protected $hidden = [
         'password',
         'remember_token',
@@ -41,9 +46,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Address::class, 'user_id', 'user_id');
     }
-
-
-
+    
     /**
      * Get the orders associated with the user.
      *
@@ -55,10 +58,10 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Get the cart associated with the user.
-     *
-     * @var array<string, string>
-     */
+    * Retrieve the cart associated with the user.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    */
     public function cart()
     {
         return $this->hasOne(Cart::class, 'user_id', 'user_id');
