@@ -21,4 +21,21 @@ return [
         'all_restored_success' => 'All authors restored successfully.',
         'all_restored_error' => 'Failed to restore all authors.',
     ],
+
+    'category' => [
+        'created_success' => 'Category created successfully.',
+        'created_error' => 'Failed to create category.',
+
+        'updated_success' => 'Category updated successfully.',
+        'updated_error' => 'Failed to update category.',
+
+        'deleted_success' => 'Category deleted successfully.',
+        'deleted_error' => 'Failed to delete category.',
+
+        'not_found' => 'Category not found.',
+
+        'associated_books' => 'Cannot delete category because it is associated with one or more books.',
+
+        'fetch_error' => 'Failed to fetch category data.',
+    ],
 ];

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AddressController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Models\Author;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\LocationController;
@@ -67,5 +68,13 @@ Route::prefix('admin')->group(function () {
         Route::get('/{id}', [OrderController::class, 'show'])->name('orders.show');
         Route::put('/{id}', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
         Route::delete('delete/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+    });    
+    Route::prefix('categories')->group(function () {
+        Route::get('/', [CategoryController::class, 'index'])->name('categories.index');
+        Route::get('create', [CategoryController::class, 'create'])->name('categories.create');
+        Route::post('store', [CategoryController::class, 'store'])->name('categories.store');
+        Route::get('edit/{id}', [CategoryController::class, 'edit'])->name('categories.edit');
+        Route::put('update/{id}', [CategoryController::class, 'update'])->name('categories.update');
+        Route::delete('destroy/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     });
 });
