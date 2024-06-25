@@ -25,7 +25,7 @@ class CartItem extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function cart(): BelongsTo
+    public function cart()
     {
         return $this->belongsTo(Cart::class, 'cart_id', 'cart_id');
     }
@@ -35,7 +35,7 @@ class CartItem extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function book(): BelongsTo
+    public function book()
     {
         return $this->belongsTo(Book::class, 'book_id', 'book_id');
     }

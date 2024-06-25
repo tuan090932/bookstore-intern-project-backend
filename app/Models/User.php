@@ -43,7 +43,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
 
-    
+
     /**
      * Get the orders associated with the user.
      *
@@ -59,7 +59,7 @@ class User extends Authenticatable implements JWTSubject
      *
      * @var array<string, string>
      */
-    public function cart(): HasOne
+    public function cart()
     {
         return $this->hasOne(Cart::class, 'user_id', 'user_id');
     }

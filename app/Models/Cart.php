@@ -28,7 +28,7 @@ class Cart extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function users(): BelongsTo
+    public function users()
     {
         return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
@@ -38,7 +38,7 @@ class Cart extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function cartItems(): HasMany
+    public function cartItems()
     {
         return $this->hasMany(CartItem::class, 'cart_id', 'cart_id');
     }
