@@ -130,7 +130,6 @@ class AuthorController extends Controller
     {
         try {
             $authorIds = $request->input('ids', []);
-            // dd($authorIds);
 
             Author::onlyTrashed()->whereIn('author_id', $authorIds)->restore();
 
@@ -151,7 +150,6 @@ class AuthorController extends Controller
     {
         try {
             $authorIds = $request->input('ids', []);
-            // dd($authorIds);
 
             Author::whereIn('author_id', $authorIds)->delete();
 
