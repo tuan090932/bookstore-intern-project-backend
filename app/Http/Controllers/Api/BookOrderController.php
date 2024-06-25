@@ -81,6 +81,10 @@ class BookOrderController extends Controller
                 'total_price' => array_sum(array_column($request->books, 'price')),
             ]);
     
+            if (!$order->order_id) {
+                throw new Exception('Failed to create order');
+            }
+            
             // Create book order details
             foreach ($request->books as $book) {
                 BookOrderDetail::create([

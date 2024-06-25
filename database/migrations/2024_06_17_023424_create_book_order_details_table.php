@@ -12,15 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('book_order_details', function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('book_id');
             $table->integer('quantity');
             $table->double('price');
             $table->timestamps();
 
-            $table->primary(['order_id', 'book_id']);
-            $table->foreign('order_id')->references('order_id')->on('book_order');
-            $table->foreign('book_id')->references('book_id')->on('books');
+            $table->foreign('order_id')->references('order_id')->on('book_order')->onDelete('cascade');
+            $table->foreign('book_id')->references('book_id')->on('books')->onDelete('cascade');
+
+            $table->unique(['order_id', 'book_id']); // Unique constraint on order_id, book_id combination
         });
     }
 

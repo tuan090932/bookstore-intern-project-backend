@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class BookOrderDetail extends Model
 {
     use HasFactory;
+
     protected $table = 'book_order_details';
-    protected $primaryKey = 'order_id';
+    protected $primaryKey = 'id'; // Primary key field should be 'id' instead of 'order_id'
     protected $fillable = [
+        'order_id',
         'book_id',
         'quantity',
         'price',
