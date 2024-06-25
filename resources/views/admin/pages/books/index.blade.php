@@ -75,12 +75,16 @@
                                 <td>{{ ($book->languages)->language_name }}</td>
                                 <td>
                                     <div class="d-flex  justify-content-center">
-                                        <a href="{{ route('books.edit', $book->book_id)}}" type="button" class="btn btn-warning">Edit</a>
+                                        <a href="{{ route('books.edit', $book->book_id)}}" class="mr-2 text-success">
+                                            <i style="color: #1CC88A" class="fa-regular fa-pen-to-square fa-2xl"></i>
+                                        </a>
                                         <div class="d-flex justify-content-center">
-                                            <form action="{{ route('books.destroy', $book->book_id) }}" method="POST" class="btn btn-danger p-0" onsubmit="return confirm('Are you sure you want to delete?')">
+                                            <form action="{{ route('books.destroy', $book->book_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete?')">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button class="btn btn-danger m-0">Delete</button>
+                                                <button type="button" class="btn btn-link p-0 m-0" id="delete-btn">
+                                                    <i style="color: red" class="fa-regular fa-trash-can fa-2xl"></i>
+                                                </button>
                                             </form>
                                         </div>
                                     </div>
