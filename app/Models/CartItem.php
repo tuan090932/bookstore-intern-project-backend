@@ -11,11 +11,8 @@ use App\Models\Book;
 class CartItem extends Model
 {
     use HasFactory;
-
     protected $table = 'cart_item';
-
     protected $primaryKey = 'item_id';
-
     protected $fillable = [
         'cart_id', 'book_id', 'quantity'
     ];
