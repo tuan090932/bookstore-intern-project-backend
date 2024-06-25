@@ -148,4 +148,3 @@
 <script src="{{ asset('/assets/js/checkbox-handler.js') }}"></script>
 
 @endsection
-

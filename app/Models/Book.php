@@ -59,4 +59,14 @@ class Book extends Model
     {
         return $this->belongsTo(Author::class, 'author_id', 'author_id');
     }
+
+    /**
+     * Get the favorites associated with the book.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class, 'book_id');
+    }
 }
