@@ -93,37 +93,45 @@
 <script src="{{ asset('assets/js/common.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        ACTION_URL = "{{ route('authors.restore-selected') }}";
-        title = "Confirm Restore";
-        body = "Are you sure you want to restore the selected authors?";
-        method = 'PATCH';
-        confirmText = "Restore";
-        initializeCheckboxes('select-all-header', 'select-all-footer', 'author_ids[]', 'authors-selected-restore-btn');
+        initializeCheckboxes('select-all-header', 'select-all-footer', 'author_ids[]');
+
+        const commonConfig = {
+            title: "Confirm Restore",
+            method: 'PATCH',
+            confirmText: "Restore"
+        };
+
+        const restoreSelected = document.getElementById('authors-selected-restore-btn');
+        if (restoreSelected) {
+            restoreSelected.addEventListener('click', function() {
+                const selectedIds = Array.from(document.querySelectorAll('input[name="author_ids[]"]:checked'))
+                    .map(checkbox => checkbox.value);
+
+                ACTION_URL = "{{ route('authors.restore-selected') }}";
+                body = "Are you sure you want to restore the selected authors?";
+
+                showModalConfirmation(selectedIds, ACTION_URL, commonConfig.title, body, commonConfig.method, commonConfig.confirmText);
+            });
+        }
 
         const restoreAllBtn = document.getElementById('authors-restore-all-btn');
         if (restoreAllBtn) {
             restoreAllBtn.addEventListener('click', function() {
                 ACTION_URL = "{{ route('authors.restore-all') }}";
-                title = "Confirm Restore";
                 body = "Are you sure you want to restore all authors?";
-                method = 'PATCH';
-                confirmText = "Restore";
 
-                showModalConfirmation([], ACTION_URL, title, body, method, confirmText);
+                showModalConfirmation([], ACTION_URL, commonConfig.title, body, commonConfig.method, commonConfig.confirmText);
             });
         }
 
         const restoreButtons = document.querySelectorAll('#restore-btn');
         restoreButtons.forEach(button => {
             button.addEventListener('click', function() {
-                const authorId = this.getAttribute('data-author-id');
+                authorId = this.getAttribute('data-author-id');
                 ACTION_URL = "{{ route('authors.restore', ':id') }}".replace(':id', authorId);
-                title = "Confirm Restore";
                 body = "Are you sure you want to restore this author?";
-                method = 'PATCH';
-                confirmText = "Restore";
 
-                showModalConfirmation([authorId], ACTION_URL, title, body, method, confirmText);
+                showModalConfirmation([authorId], ACTION_URL, commonConfig.title, body, commonConfig.method, commonConfig.confirmText);
             });
         });
     });

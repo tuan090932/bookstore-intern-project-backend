@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    window.initializeCheckboxes = function(selectAllHeaderId, selectAllFooterId, individualCheckboxName, buttonId) {
+    window.initializeCheckboxes = function(selectAllHeaderId, selectAllFooterId, individualCheckboxName) {
         function updateAllCheckboxes(isChecked) {
             var checkboxes = document.querySelectorAll(`input[name="${individualCheckboxName}"]`);
             checkboxes.forEach(function(checkbox) {
@@ -57,18 +57,6 @@ document.addEventListener('DOMContentLoaded', function () {
         var individualCheckboxes = document.querySelectorAll(`input[name="${individualCheckboxName}"]`);
         individualCheckboxes.forEach(function(checkbox) {
             checkbox.addEventListener('change', updateSelectAllCheckboxes);
-        });
-
-        // Add event listener for the delete selected button
-        document.getElementById(buttonId).addEventListener('click', function() {
-            var selectedIds = Array.from(document.querySelectorAll(`input[name="${individualCheckboxName}"]:checked`))
-                .map(checkbox => checkbox.value);
-
-            if (selectedIds.length > 0) {
-                showModalConfirmation(selectedIds);
-            } else {
-                alert('Please select at least one item to delete.');
-            }
         });
     }
 });

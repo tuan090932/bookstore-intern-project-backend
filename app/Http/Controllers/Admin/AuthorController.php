@@ -153,11 +153,8 @@ class AuthorController extends Controller
     public function restoreSelected(Request $request)
     {
         try {
-            $authorIdsInput = $request->input('author_ids', '');
-            $authorIdsArray = explode(',', $authorIdsInput);
-            $authorIds = array_filter($authorIdsArray, function($value) {
-                return !empty($value) && is_numeric($value);
-            });
+            $authorIds = $request->input('ids', []);
+            // dd($authorIds);
 
             Author::onlyTrashed()->whereIn('author_id', $authorIds)->restore();
             return redirect()->back()->with('success', __('messages.author.selected_restored_success'));

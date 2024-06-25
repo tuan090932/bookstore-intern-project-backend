@@ -20,10 +20,10 @@ class AdminController extends Controller
     public function index()
     {
         $admins = AdminUser::paginate(15);
+        $currentAdmin = auth()->guard('admin')->user();
 
-        return view('admin.pages.admins.index', compact('admins'));
+        return view('admin.pages.admins.index', compact('admins', 'currentAdmin'));
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -121,18 +121,93 @@ class AdminController extends Controller
     public function deleteSelected(Request $request)
     {
         try {
-            $adminidsInput = $request->input('admin_ids', '');
-            $adminidsArray = explode(',', $adminidsInput);
-            $adminids = array_filter($adminidsArray, function($value) {
-                return !empty($value) && is_numeric($value);
+            $adminIds = $request->input('ids', []);
+            $admins = AdminUser::whereIn('admin_id', $adminIds)->get();
+
+            $adminsToDelete = $admins->filter(function ($admin) {
+                return $admin->role_id !== 'ALL';
             });
-            dd($adminids, $adminidsArray,  $adminidsInput);
-            AdminUser::whereIn('admin_id', $adminids)->delete();
+
+            $adminsToDeleteIds = $adminsToDelete->pluck('admin_id');
+
+            AdminUser::whereIn('admin_id', $adminsToDeleteIds)->delete();
+
+            if ($admins->count() !== $adminsToDelete->count()) {
+                return redirect()->back()->with('error', 'Admin user with role ALL cannot be deleted.');
+            }
 
             return redirect()->back()->with('success', __('messages.admin.selected_deleted_success'));
         } catch (Exception $e) {
             Log::error('Error deleting selected admins: ' . $e->getMessage());
             return redirect()->back()->with('error', __('messages.admin.selected_deleted_error'));
+        }
+    }
+
+    /**
+     * Display a listing of the trashed resources.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function trashed()
+    {
+        $admins = AdminUser::onlyTrashed()->paginate(15);
+        return view('admin.pages.admins.restore', compact('admins'));
+    }
+
+    /**
+     * Restore the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function restore($id)
+    {
+        try {
+            $admin = AdminUser::onlyTrashed()->findOrFail($id);
+            $admin->restore();
+
+            return redirect()->route('admins.trashed')->with('success', 'Admin user restored successfully.');
+        } catch (Exception $e) {
+            Log::error('Error restoring admin: ' . $e->getMessage());
+            return redirect()->route('admins.trashed')->with('error', 'Failed to restore admin user.');
+        }
+    }
+
+    /**
+     * Restore selected resources from storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function restoreSelected(Request $request)
+    {
+        try {
+            $adminIds = $request->input('ids', []);
+            // dd($adminIds);
+
+            AdminUser::onlyTrashed()->whereIn('admin_id', $adminIds)->restore();
+
+            return redirect()->back()->with('success', 'Selected admin users restored successfully.');
+        } catch (Exception $e) {
+            Log::error('Error restoring selected admins: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to restore selected admin users.');
+        }
+    }
+
+    /**
+     * Restore all trashed resources from storage.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function restoreAll()
+    {
+        try {
+            AdminUser::onlyTrashed()->restore();
+
+            return redirect()->back()->with('success', 'All admin users restored successfully.');
+        } catch (Exception $e) {
+            Log::error('Error restoring all admins: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Failed to restore all admin users.');
         }
     }
 }
