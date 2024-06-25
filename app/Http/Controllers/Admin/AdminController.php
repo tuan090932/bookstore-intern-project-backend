@@ -9,6 +9,7 @@ use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\AdminRequest;
 
 class AdminController extends Controller
 {
@@ -36,17 +37,8 @@ class AdminController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(AdminRequest $request)
     {
-        $request->validate([
-            'admin_name' => 'required|string|max:255',
-            'role_id' => 'required|exists:roles,role_id',
-            'password' => 'required|string|min:6|confirmed',
-            'email' => 'required|string|email|max:255|unique:admin,email',
-            'address' => 'nullable|string|max:255',
-            'phone' => 'nullable|string|max:15',
-        ]);
-
         $admin = new AdminUser();
         $admin->admin_name = $request->admin_name;
         $admin->role_id = $request->role_id;
@@ -74,22 +66,12 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(AdminRequest $request, $id)
     {
-        // Validate the request data
-        $request->validate([
-            'role_id' => 'required|exists:roles,role_id',
-            'password' => 'nullable|string|min:8|confirmed',
-            'address' => 'nullable|string|max:255',
-            'phone' => 'nullable|string|max:15',
-        ]);
+        $admin = AdminUser::where('admin_id', $id)->firstOrFail();
 
-        $admin = AdminUser::findOrFail($id);
-
+        $admin->admin_name = $request->admin_name;
         $admin->role_id = $request->role_id;
-        if ($request->filled('password')) {
-            $admin->password = Hash::make($request->password);
-        }
         $admin->address = $request->address;
         $admin->phone = $request->phone;
 

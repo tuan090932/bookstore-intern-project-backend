@@ -34,18 +34,6 @@
                 @endif
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password">
-                <small class="form-text text-muted">Leave blank if you don't want to change the password.</small>
-                @if ($errors->has('password'))
-                    <span class="text-danger">{{ $errors->first('password') }}</span>
-                @endif
-            </div>
-            <div class="form-group">
-                <label for="password_confirmation">Confirm Password</label>
-                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
-            </div>
-            <div class="form-group">
                 <label for="role_id">Role</label>
                 <select class="form-control" id="role_id" name="role_id">
                     @foreach($roles as $role)

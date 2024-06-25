@@ -69,30 +69,6 @@ class AuthorController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified author resource from the database.
      *
      * @param int $id The ID of the author to be deleted.
@@ -157,6 +133,7 @@ class AuthorController extends Controller
             // dd($authorIds);
 
             Author::onlyTrashed()->whereIn('author_id', $authorIds)->restore();
+
             return redirect()->back()->with('success', __('messages.author.selected_restored_success'));
         } catch (Exception $e) {
             Log::error('Error restoring authors: ' . $e->getMessage());
