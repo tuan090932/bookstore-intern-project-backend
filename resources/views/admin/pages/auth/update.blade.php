@@ -11,7 +11,7 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="admin_name">Name</label>
-                    <input type="text" readonly class="form-control @error('admin_name') is-invalid @enderror" id="admin_name" name="admin_name" value="{{ $admin->admin_name }}">
+                    <input type="text" class="form-control @error('admin_name') is-invalid @enderror" id="admin_name" name="admin_name" value="{{ $admin->admin_name }}">
                     @error('admin_name')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

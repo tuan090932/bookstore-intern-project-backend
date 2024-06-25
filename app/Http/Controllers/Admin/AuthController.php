@@ -146,6 +146,7 @@ class AuthController extends Controller
         try {
             $admin = Auth::guard('admin')->user();
 
+            $admin->admin_name = $request->admin_name;
             $admin->phone = $request->phone;
             $admin->address = $request->address;
 
