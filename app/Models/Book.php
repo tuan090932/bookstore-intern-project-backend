@@ -69,4 +69,14 @@ class Book extends Model
     {
         return self::distinct('title')->count('title');
     }
+
+    /**
+     * Get the favorites associated with the book.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class, 'book_id');
+    }
 }

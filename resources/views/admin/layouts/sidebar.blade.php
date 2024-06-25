@@ -38,10 +38,24 @@ $currentRoute = request()->route()->getName();
             <span>Books</span></a>
     </li>
 
-    <li class="nav-item {{ $currentRoute=='authors.index' ? 'active':'' }}" href="{{ route('authors.index') }}">
+    <li class="nav-item {{ in_array($currentRoute, ['authors.index', 'authors.trashed']) ? 'active' : '' }}">
         <a class="nav-link" href="{{ route('authors.index') }}">
             <i class="fas fa-fw fa-table"></i>
-            <span>Authors</span></a>
+            <span>Authors</span>
+        </a>
+    </li>
+
+    <li class="nav-item {{ $currentRoute=='categories.index' ? 'active':'' }}" href="{{ route('categories.index') }}">
+        <a class="nav-link" href="{{ route('categories.index') }}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Categories</span></a>
+    </li>
+    
+
+    <li class="nav-item {{ $currentRoute=='orders.index' ? 'active':'' }}" href="{{ route('orders.index') }}">
+        <a class="nav-link" href="{{ route('orders.index') }}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Orders</span></a>
     </li>
 
     <!-- Divider -->

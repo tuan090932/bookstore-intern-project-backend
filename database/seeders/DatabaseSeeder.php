@@ -7,6 +7,10 @@ use Database\Seeders\LanguageSeeder;
 use Database\Seeders\AuthorSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Database\Seeder;
+use Database\Seeders\AddressSeeder;
+use Database\Seeders\OrderStatusSeeder;
+use Database\Seeders\BookOrderDetailsSeeder;
+use Database\Seeders\BookOrderSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,11 +26,16 @@ class DatabaseSeeder extends Seeder
             LanguageSeeder::class,
             AuthorSeeder::class,
             CategoriesSeeder::class,
+            UserSeeder::class,
             BookSeeder::class,
             UserSeeder::class,
+            AddressSeeder::class,
+            OrderStatusSeeder::class,
+            BookOrderSeeder::class,
+            BookOrderDetailsSeeder::class,
+
         ]);
 
-        $this->call([
-        ]);
+        $this->call([]);
     }
 }
