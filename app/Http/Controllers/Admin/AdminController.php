@@ -121,6 +121,34 @@ class AdminController extends Controller
     }
 
     /**
+     * Delete all author resources from the database.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteAll()
+    {
+        try {
+            $admins = AdminUser::all();
+            $adminsToDelete = $admins->filter(function ($admin) {
+                return $admin->role_id !== 'ALL';
+            });
+
+            $adminsToDeleteIds = $adminsToDelete->pluck('admin_id');
+
+            AdminUser::whereIn('admin_id', $adminsToDeleteIds)->delete();
+
+            if ($admins->count() !== $adminsToDelete->count()) {
+                return redirect()->back()->with('error', __('messages.admin.delete_all_role_error'));
+            }
+
+            return redirect()->back()->with('success', __('messages.admin.all_deleted_success'));
+        } catch (Exception $e) {
+            Log::error('Error deleting all admins: ' . $e->getMessage());
+            return redirect()->back()->with('error', __('messages.admin.all_deleted_error'));
+        }
+    }
+
+    /**
      * Display a listing of the trashed resources.
      *
      * @return \Illuminate\Http\Response

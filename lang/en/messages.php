@@ -27,6 +27,7 @@ return [
 
         'deleted_success' => 'Admin deleted successfully.',
         'deleted_error' => 'Failed to delete admin.',
+        'delete_all_role_error' => 'Cannot delete all admins because there are admins with the role "All Permissions".',
 
         'restored_success' => 'Admin restored successfully.',
         'restored_error' => 'Failed to restore admin.',
