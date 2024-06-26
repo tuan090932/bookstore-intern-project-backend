@@ -66,13 +66,6 @@ class AuthorController extends Controller
     /**
      * Search for authors.
      *
-     * This method handles search requests for authors based on a query string.
-     * It retrieves the search query from the request, performs a LIKE query on the author_name field,
-     * and returns a paginated list of authors that match the search criteria.
-     * The view is then returned with the search results, the original query, and the search route.
-     * The searchRoute variable is used to ensure the search form submits to the correct search action.
-     * Store a newly created author resource in the database.
-     *
      * @param // \Illuminate\Http\Request  $request
      * @return // \Illuminate\Http\Response
      */
@@ -105,23 +98,12 @@ class AuthorController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified author resource.
-     *
-     * This method is responsible for retrieving the author data based on the provided author ID
-     * and displaying the edit form with the current author information pre-filled.
      *
      * @param int $id The ID of the author to be edited.
      * @return \Illuminate\View\View
      */
-    public function edit($id)
+    public function edit ($id)
     {
         $author = Author::findOrFail($id);
         return view('admin.pages.authors.edit', compact('author'));
@@ -129,11 +111,6 @@ class AuthorController extends Controller
 
     /**
      * Update the specified author resource in the database.
-     *
-     * This method is responsible for updating an existing author record in the database based on the input data provided in the $request object.
-     * It first validates the input data, ensuring that the required fields (author_name, birth_date) are provided and that the death_date field is a valid date if present.
-     * It then calculates the author's age based on the birth_date and either the death_date or the current date if the death_date is not provided.
-     * Finally, it updates the Author record in the database and redirects the user back to the edit page with a success or error message depending on the outcome of the operation.
      *
      * @param \Illuminate\Http\Request $request
      * @param int $id The ID of the author to be updated.
@@ -294,11 +271,6 @@ class AuthorController extends Controller
 
     /**
      * Search for authors.
-     *
-     * This method handles search requests for authors based on a query string.
-     * It retrieves the search query from the request, performs a LIKE query on the author_name field,
-     * and returns a paginated list of authors that match the search criteria.
-     * The view is then returned with the search results, the original query, and the search route.
      *
      * @param \Illuminate\Http\Request $request The request object containing the search query.
      * @return \Illuminate\View\View
