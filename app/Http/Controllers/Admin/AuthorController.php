@@ -100,7 +100,7 @@ class AuthorController extends Controller
     public function edit($id)
     {
         $author = Author::findOrFail($id);
-        return view('admin.pages.authors.edit', compact('author'));
+        return view('admin.pages.authors.edit', ['author' => $author, 'searchRoute' => $this->searchRoute]);
     }
 
     /**
@@ -166,7 +166,7 @@ class AuthorController extends Controller
     {
         $authors = Author::onlyTrashed()->paginate(15);
 
-        return view('admin.pages.authors.restore', compact('authors'));
+        return view('admin.pages.authors.restore', ['authors' => $authors, 'searchRoute' => $this->searchRoute]);
     }
 
     /**

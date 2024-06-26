@@ -42,7 +42,7 @@ $currentRoute = request()->route()->getName();
             </li>
 
             <!-- Nav Item - Authors -->
-            <li class="nav-item {{ in_array($currentRoute, ['authors.index', 'authors.create', 'authors.edit', 'authors.trashed']) ? 'active' : '' }}">
+            <li class="nav-item {{ in_array($currentRoute, ['authors.index', 'authors.create', 'authors.edit', 'authors.trashed', 'authors.search']) ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('authors.index') }}">
                     <i class="fa-solid fa-pen-nib"></i>
                     <span>Authors</span></a>

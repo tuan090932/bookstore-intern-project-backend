@@ -73,7 +73,7 @@
                                 <td>{{ $author->national }}</td>
                                 <td>
                                     <div class="d-flex justify-content-center">
-                                        <a href="" class="mr-2 text-success">
+                                        <a href="{{ route('authors.edit', $author->author_id) }}" class="mr-2 text-success">
                                             <i style="color: #1CC88A" class="fa-regular fa-pen-to-square fa-2xl"></i>
                                         </a>
                                         <button type="button" class="btn btn-link p-0 m-0" data-author-id="{{ $author->author_id }}" id="delete-btn">
