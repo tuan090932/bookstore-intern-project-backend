@@ -4,25 +4,27 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
 
     protected $table = 'users';
+
     // Custom primary key for the User model
     protected $primaryKey = 'user_id';
 
     // Fields that are mass assignable
     protected $fillable = [
-        'user_name',
+        'user_name', 
+        'name',
         'email',
-        'phone_number',
+        'password',
     ];
 
     /**
@@ -43,6 +45,16 @@ class User extends Authenticatable implements JWTSubject
     public function addresses(): HasMany
     {
         return $this->hasMany(Address::class, 'user_id', 'user_id');
+    }
+
+    /**
+     * Get the orders associated with the user.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class, 'user_id');
     }
 
     /**

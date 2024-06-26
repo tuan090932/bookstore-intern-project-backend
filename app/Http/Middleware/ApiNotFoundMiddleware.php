@@ -15,17 +15,11 @@ class ApiNotFoundMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        try
-        {
+        try {
             return $next($request);
-        }
-        catch (NotFoundHttpException $e)
-        {
-            if ($request->is('api/*'))
-            {
-                return response()->json([
-                    'error' => 'Not Found',
-                ], 404);
+        } catch (NotFoundHttpException $e) {
+            if ($request->is('api/*')) {
+                return response()->json(['error' => 'Not Found'], 404);
             }
             throw $e;
         }

@@ -12,8 +12,23 @@ class PublisherSeeder extends Seeder
      */
     public function run(): void
     {
-        $publisher = new Publisher();
-        $publisher->publisher_name = 'publisher1';
-        $publisher->save();
+        $publishers = [
+            'Nhà xuất bản Trẻ',
+            'Nhà xuất bản Kim Đồng',
+            'Nhà xuất bản Giáo dục Việt Nam',
+            'Nhà xuất bản Văn học',
+            'Nhà xuất bản Hội Nhà văn',
+            'Nhà xuất bản Phụ nữ',
+            'Nhà xuất bản Lao động',
+            'Nhà xuất bản Chính trị Quốc gia Sự thật',
+            'Nhà xuất bản Thế giới',
+            'Nhà xuất bản Tổng hợp TP.HCM'
+        ];
+
+        foreach ($publishers as $publisherName) {
+            $publisher = new Publisher();
+            $publisher->publisher_name = $publisherName;
+            $publisher->save();
+        }
     }
 }

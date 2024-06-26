@@ -69,6 +69,29 @@ You can fix it with the following command:
 ```
 composer install --ignore-platform-reqs
 ```
+### JWT Setup
+
+Install JWT composer:
+
+```
+composer require tymon/jwt-auth
+```
+
+Add service provider
+
+```
+'providers' => [
+
+    ...
+
+    Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
+]
+```
+Publish the config
+
+```
+php artisan vendor:publish --provider="Tymon\JWTAuth\Providers\LaravelServiceProvider"
+```
 
 ### Connect database MySQL info
 ```
@@ -125,7 +148,7 @@ Link:
 http://localhost/admin
 ```
 
-# Warning: To access the admin books page, please use the following command:
+To access the admin books page, please use the following command:
 
 ```
 composer dump-autoload
