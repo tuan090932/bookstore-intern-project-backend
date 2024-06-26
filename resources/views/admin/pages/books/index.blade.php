@@ -67,7 +67,7 @@
                                 <td>{{ $book->book_id }}</td>
                                 <td>{{ $book->title }}</td>
                                 <td>{{ ($book->categories)->category_name }}</td>
-                                <td>{{ ($book->price) }}</td>
+                                <td>{{ number_format($book->price, 0, ',', '.') }}đ</td>
                                 <td>{{ $book->stock }}</td>
                                 <td>{{ $book->num_pages }}</td>
                                 <td>{{ ($book->authors)->author_name }}</td>
