@@ -6,11 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Author;
 use Carbon\Carbon;
-use App\Rules\ValidBirthDate;
-use App\Rules\ValidDeathDate;
 use App\Http\Requests\StoreAuthorRequest;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\AuthorRequest;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
@@ -69,7 +66,7 @@ class AuthorController extends Controller
      * @param // \Illuminate\Http\Request  $request
      * @return // \Illuminate\Http\Response
      */
-    public function store(StoreAuthorRequest $request)
+    public function store(AuthorRequest $request)
     {
         try {
             $authorName = $request->input('author_name');
@@ -116,11 +113,11 @@ class AuthorController extends Controller
      */
     public function update(AuthorRequest $request, $id)
     {
-        try
-        {
+        try {
             $authorName = $request->input('author_name');
             $birthDate = Carbon::createFromFormat('d/m/Y', $request->input('birth_date'));
             $deathDate = $request->input('death_date') ? Carbon::createFromFormat('d/m/Y', $request->input('death_date')) : null;
+            $national = $request->input('national');
 
             $age = $deathDate ? $deathDate->year - $birthDate->year : Carbon::now()->year - $birthDate->year;
 
@@ -130,16 +127,14 @@ class AuthorController extends Controller
                 'birth_date' => $birthDate,
                 'death_date' => $deathDate ? $deathDate : null,
                 'age' => $age,
+                'national' => $national,
             ]);
 
-            return redirect()->back()->with('success', 'Cập nhật tác giả thành công.');
-        }
-        catch (Exception $e)
-        {
-            // Logging the exception can be useful for debugging purposes
+            return redirect()->back()->with('success', __('messages.author.update_success'));
+        } catch (Exception $e) {
             Log::error('Error updating author: '.$e->getMessage());
 
-            return redirect()->back()->with('error', 'Đã xảy ra lỗi khi cập nhật tác giả. Vui lòng thử lại.');
+            return redirect()->back()->with('error', __('messages.author.update_error'));
         }
     }
 

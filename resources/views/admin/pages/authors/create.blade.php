@@ -76,37 +76,5 @@
 </div>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function()
-    {
-        flatpickr("#birth_date", {
-            dateFormat: "d/m/Y",
-            altInput: true,
-            altFormat: "d/m/Y",
-            allowInput: true
-        });
-
-        flatpickr("#death_date", {
-            dateFormat: "d/m/Y",
-            altInput: true,
-            altFormat: "d/m/Y",
-            allowInput: true
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function()
-    {
-        const authorNameInput = document.getElementById('author_name');
-
-        authorNameInput.addEventListener('input', function()
-        {
-            let words = authorNameInput.value.split(' ');
-            for (let i = 0; i < words.length; i++)
-            {
-                words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
-            }
-            authorNameInput.value = words.join(' ');
-        });
-    });
-</script>
+<script src="{{ asset('assets/js/author-input-handler.js') }}"></script>
 @endsection
