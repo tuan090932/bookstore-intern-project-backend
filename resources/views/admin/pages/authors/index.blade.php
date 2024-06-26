@@ -29,7 +29,7 @@
                 'id' => 'confirm-delete-modal',
                 'labelId' => 'confirm-delete-modal-label',
                 'title' => 'Confirm Delete',
-                'body' => 'Bạn có chắc chắn muốn xóa những tác giả được chọn này không?',
+                'body' => 'Are you sure you want to delete the selected authors?',
                 'formId' => 'bulk-delete-form',
                 'formAction' => route('authors.delete-selected'),
                 'method' => 'DELETE',
@@ -44,12 +44,12 @@
                 </span>
                 <span class="text">Delete All</span>
             </button>
-            <!-- Confirm Delete Selected Modal -->
+            <!-- Confirm Delete All Modal -->
             @component('components.confirm-modal', [
                 'id' => 'confirm-delete-all-modal',
                 'labelId' => 'confirm-delete-all-modal-label',
                 'title' => 'Confirm Delete',
-                'body' => 'Bạn có chắc chắn muốn xóa tất cả các tác giả không?',
+                'body' => 'Are you sure you want to delete all authors?',
                 'formId' => 'delete-all-form',
                 'formAction' => route('authors.delete-all'),
                 'method' => 'DELETE',
@@ -85,8 +85,8 @@
                 <label for="death_status" class="mr-2">Death Status: </label>
                 <select name="death_status" id="death_status" class="form-control">
                     <option value="">All</option>
-                    <option value="alive" {{ request()->get('death_status') == 'alive' ? 'selected' : '' }}>Những tác giả chưa mất</option>
-                    <option value="deceased" {{ request()->get('death_status') == 'deceased' ? 'selected' : '' }}>Những tác giả đã mất</option>
+                    <option value="alive" {{ request()->get('death_status') == 'alive' ? 'selected' : '' }}>Alive Authors</option>
+                    <option value="deceased" {{ request()->get('death_status') == 'deceased' ? 'selected' : '' }}>Deceased Authors</option>
                 </select>
             </div>
 
@@ -95,13 +95,13 @@
                 <label for="sort_by" class="mr-2">Sort By: </label>
                 <select name="sort_by" id="sort_by" class="form-control">
                     <option value="">Default</option>
-                    <option value="name_asc" {{ request()->get('sort_by') == 'name_asc' ? 'selected' : '' }}>Tên từ A -- Z</option>
-                    <option value="age_asc" {{ request()->get('sort_by') == 'age_asc' ? 'selected' : '' }}>Tuổi tăng dần</option>
-                    <option value="age_desc" {{ request()->get('sort_by') == 'age_desc' ? 'selected' : '' }}>Tuổi giảm dần</option>
-                    <option value="birth_date_asc" {{ request()->get('sort_by') == 'birth_date_asc' ? 'selected' : '' }}>Ngày sinh tăng dần</option>
-                    <option value="birth_date_desc" {{ request()->get('sort_by') == 'birth_date_desc' ? 'selected' : '' }}>Ngày sinh giảm dần</option>
-                    <option value="death_date_asc" {{ request()->get('sort_by') == 'death_date_asc' ? 'selected' : '' }}>Ngày mất tăng dần</option>
-                    <option value="death_date_desc" {{ request()->get('sort_by') == 'death_date_desc' ? 'selected' : '' }}>Ngày mất giảm dần</option>
+                    <option value="name_asc" {{ request()->get('sort_by') == 'name_asc' ? 'selected' : '' }}>Name A -- Z</option>
+                    <option value="age_asc" {{ request()->get('sort_by') == 'age_asc' ? 'selected' : '' }}>Age Ascending</option>
+                    <option value="age_desc" {{ request()->get('sort_by') == 'age_desc' ? 'selected' : '' }}>Age Descending</option>
+                    <option value="birth_date_asc" {{ request()->get('sort_by') == 'birth_date_asc' ? 'selected' : '' }}>Birth Date Ascending</option>
+                    <option value="birth_date_desc" {{ request()->get('sort_by') == 'birth_date_desc' ? 'selected' : '' }}>Birth Date Descending</option>
+                    <option value="death_date_asc" {{ request()->get('sort_by') == 'death_date_asc' ? 'selected' : '' }}>Death Date Ascending</option>
+                    <option value="death_date_desc" {{ request()->get('sort_by') == 'death_date_desc' ? 'selected' : '' }}>Death Date Descending</option>
                 </select>
             </div>
 
@@ -117,22 +117,22 @@
                     <thead>
                         <tr>
                             <th><input type="checkbox" id="select-all"></th>
-                            <th>Tên tác giả</th>
-                            <th>Tuổi</th>
-                            <th>Ngày sinh</th>
-                            <th>Ngày mất</th>
-                            <th>Quốc tịch</th>
+                            <th>Author Name</th>
+                            <th>Age</th>
+                            <th>Birth Date</th>
+                            <th>Death Date</th>
+                            <th>Nationality</th>
                             <th>Options</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th><input type="checkbox" id="select-all-footer"></th>
-                            <th>Tên tác giả</th>
-                            <th>Tuổi</th>
-                            <th>Ngày sinh</th>
-                            <th>Ngày mất</th>
-                            <th>Quốc tịch</th>
+                            <th>Author Name</th>
+                            <th>Age</th>
+                            <th>Birth Date</th>
+                            <th>Death Date</th>
+                            <th>Nationality</th>
                             <th>Options</th>
                         </tr>
                     </tfoot>
@@ -163,7 +163,7 @@
                                             'id' => 'confirm-delete-modal-'.$author->author_id,
                                             'labelId' => 'confirm-delete-modal-label-'.$author->author_id,
                                             'title' => 'Confirm Delete',
-                                            'body' => 'Bạn có chắc chắn muốn xóa tác giả này không?',
+                                            'body' => 'Are you sure you want to delete this author?',
                                             'formId' => 'delete-form-'.$author->author_id,
                                             'formAction' => route('authors.destroy', ['author' => $author->author_id]),
                                             'method' => 'DELETE',
