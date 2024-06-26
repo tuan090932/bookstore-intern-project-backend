@@ -10,7 +10,8 @@ class ValidBirthDate implements Rule
     public function passes($attribute, $value)
     {
         $birthDate = Carbon::createFromFormat('d/m/Y', $value);
-        return $birthDate->lte(Carbon::today());
+        $startOfYear = Carbon::now()->startOfYear();
+        return $birthDate->lt($startOfYear);
     }
 
     public function message()

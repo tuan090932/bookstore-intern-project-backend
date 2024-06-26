@@ -13,9 +13,11 @@ class Author extends Model
 
     use SoftDeletes;
 
+    protected $table = "authors";
+
     protected $primaryKey = 'author_id';
 
-    protected $fillable = ['author_name', 'age', 'birth_date', 'death_date', 'deleted_at'];
+    protected $fillable = ['author_name', 'age', 'birth_date', 'death_date', 'national', 'deleted_at'];
 
     protected $casts = [
         'birth_date' => 'date',
@@ -23,41 +25,50 @@ class Author extends Model
         'deleted_at' => 'date',
     ];
 
+    /**
+     * Format the birth date attribute.
+     *
+     * @param string|null $value The birth date value.
+     * @return string|null The formatted birth date or null if the value is null.
+     */
     public function getBirthDateAttribute($value)
     {
-        if ($value)
-        {
+        if ($value) {
             $birthDate = Carbon::parse($value);
-            return $birthDate ->format('d/m/Y');
-        }
-        else
-        {
+            return $birthDate->format('d/m/Y');
+        } else {
             return null;
         }
     }
 
+    /**
+     * Format the death date attribute.
+     *
+     * @param string|null $value The death date value.
+     * @return string|null The formatted death date or null if the value is null.
+     */
     public function getDeathDateAttribute($value)
     {
-        if ($value)
-        {
+        if ($value) {
             $deathDate = Carbon::parse($value);
             return $deathDate->format('d/m/Y');
-        }
-        else
-        {
+        } else {
             return null;
         }
     }
 
+    /**
+     * Format the deleted date attribute.
+     *
+     * @param string|null $value The deleted date value.
+     * @return string|null The formatted deleted date or null if the value is null.
+     */
     public function getDeletedAtAttribute($value)
     {
-        if ($value)
-        {
+        if ($value) {
             $deletedAt = Carbon::parse($value);
             return $deletedAt->format('d/m/Y');
-        }
-        else
-        {
+        } else {
             return null;
         }
     }

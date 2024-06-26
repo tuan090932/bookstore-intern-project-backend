@@ -1,13 +1,12 @@
 <?php
-
+use App\Http\Controllers\Api\UserController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CategoryController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Api\FavoriteController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -45,7 +44,7 @@ use Illuminate\Support\Facades\Route;
  Route::group([
 
     'middleware' => 'api',
-    'prefix' => 'auth',
+    'prefix' => 'auth'
 
 ], function ()
 {
@@ -126,4 +125,31 @@ Route::prefix('address')->group(function () {
     Route::get('/{id}', [AddressController::class, 'show']);
     Route::put('/{id}', [AddressController::class, 'update']);
     Route::delete('/{id}', [AddressController::class, 'destroy']);
+});
+
+Route::prefix('user')->group(function () {
+    Route::get('/{id}', [UserController::class, 'show']);
+    Route::put('/update/{id}', [UserController::class, 'update']);
+});
+
+
+/**
+ * API Routes for Favorites
+ *
+ * This route group handles all favorite-related API endpoints.
+ * The group is prefixed with 'api/favorite'.
+ *
+ * Endpoints:
+ * - GET /api/favorite: Retrieves a list of all favorites.
+ * - POST /api/favorite: Adds a new favorite.
+ * - DELETE /api/favorite/{id}: Removes a specific favorite by ID.
+ *
+ * These endpoints use the `FavoriteController` to handle the corresponding logic.
+ *
+ * The following api with API routes bellow:
+ */
+Route::prefix('favorite')->group(function () {
+    Route::get('/', [FavoriteController::class, 'getFavorites']);
+    Route::post('/', [FavoriteController::class, 'addFavorite']);
+    Route::delete('/{favorite}', [FavoriteController::class, 'removeFavorite']);
 });

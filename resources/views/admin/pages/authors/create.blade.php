@@ -42,6 +42,13 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+                <div class="form-group col-md-6">
+                    <label for="national">Quốc tịch</label>
+                    <input type="text" class="form-control @error('national') is-invalid @enderror" id="national" name="national" value="{{ old('national') }}">
+                    @error('national')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
             </div>
 
             <hr class="my-12" />
