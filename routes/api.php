@@ -64,7 +64,7 @@ use App\Http\Controllers\Api\FavoriteController;
  * The group is prefixed with 'api/books'.
  *
  * Endpoints:
- * - POST /api/books: Creates a new book or retrieves a list of all books based on filters.
+ * - GET /api/books: Creates a new book or retrieves a list of all books based on filters.
  * - GET /api/books/{id}: Retrieves a specific book by its ID.
  *
  * These endpoints use the `BookController` to handle the corresponding logic.
