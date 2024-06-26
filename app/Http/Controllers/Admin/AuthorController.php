@@ -126,30 +126,6 @@ class AuthorController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified author resource from the database.
      *
      * @param int $id The ID of the author to be deleted.
@@ -210,13 +186,10 @@ class AuthorController extends Controller
     public function restoreSelected(Request $request)
     {
         try {
-            $authorIdsInput = $request->input('author_ids', '');
-            $authorIdsArray = explode(',', $authorIdsInput);
-            $authorIds = array_filter($authorIdsArray, function($value) {
-                return !empty($value) && is_numeric($value);
-            });
+            $authorIds = $request->input('ids', []);
 
             Author::onlyTrashed()->whereIn('author_id', $authorIds)->restore();
+
             return redirect()->back()->with('success', __('messages.author.selected_restored_success'));
         } catch (Exception $e) {
             Log::error('Error restoring authors: ' . $e->getMessage());
@@ -233,11 +206,7 @@ class AuthorController extends Controller
     public function deleteSelected(Request $request)
     {
         try {
-            $authorIdsInput = $request->input('author_ids', '');
-            $authorIdsArray = explode(',', $authorIdsInput);
-            $authorIds = array_filter($authorIdsArray, function($value) {
-                return !empty($value) && is_numeric($value);
-            });
+            $authorIds = $request->input('ids', []);
 
             Author::whereIn('author_id', $authorIds)->delete();
 
