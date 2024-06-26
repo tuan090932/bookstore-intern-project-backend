@@ -74,7 +74,7 @@ use App\Http\Controllers\Api\FavoriteController;
 Route::group([
     'prefix' => 'books',
 ], function () {
-    Route::post('/', [BookController::class, 'index']);
+    Route::get('/', [BookController::class, 'index']);
     Route::get('/{id}', [BookController::class, 'show']);
 });
 
