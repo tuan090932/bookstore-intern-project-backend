@@ -1,3 +1,4 @@
+ 
 <?php
 
 namespace App\Models;
@@ -9,9 +10,9 @@ class BookOrderDetail extends Model
 {
     use HasFactory;
     protected $table = 'book_order_details';
-    protected $primaryKey = ['book_id', 'order_id'];
-    public $incrementing = false;
+    protected $primaryKey = 'order_id';
     protected $fillable = [
+        'book_id',
         'quantity',
         'price',
     ];
