@@ -93,8 +93,6 @@ class AuthorController extends Controller
 
             return redirect()->back()->with('error', __('messages.author.created_error'));
         }
-            return redirect()->back()->with('error', 'Đã xảy ra lỗi khi tạo tác giả. Vui lòng thử lại.');
-        }
     }
 
     /**
@@ -103,7 +101,7 @@ class AuthorController extends Controller
      * @param int $id The ID of the author to be edited.
      * @return \Illuminate\View\View
      */
-    public function edit ($id)
+    public function edit($id)
     {
         $author = Author::findOrFail($id);
         return view('admin.pages.authors.edit', compact('author'));
@@ -284,3 +282,4 @@ class AuthorController extends Controller
         return view('admin.pages.authors.index', ['authors' => $authors, 'query' => $query, 'searchRoute' => $this->searchRoute]);
     }
 }
+?>
