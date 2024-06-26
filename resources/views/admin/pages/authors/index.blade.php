@@ -41,43 +41,50 @@
 
     <!-- Filter Form -->
     <div class="mb-4">
-        <form action="{{ route('authors.index') }}" method="GET" class="form-inline w-100 filter-form">
-            <label for="age_range" class="age_range_text">Age: </label>
-            <div class="form-group mr-2 flex-grow-1">
-                <div class="age_range" id="age_range"></div>
-                <input type="hidden" name="min_age" id="min_age" value="{{ request()->get('min_age', 0) }}">
-                <input type="hidden" name="max_age" id="max_age" value="{{ request()->get('max_age', 100) }}">
-            </div>
-            <div class="form-group mr-2 age_range_values">
-                <span id="age_range_values" class="ml-3"></span>
-            </div>
-
-            <!-- Death Status Filter -->
-            <div class="form-group mr-2 mt-3">
-                <label for="death_status" class="mr-2">Death Status: </label>
-                <select name="death_status" id="death_status" class="form-control">
-                    <option value="">All</option>
-                    <option value="alive" {{ request()->get('death_status') == 'alive' ? 'selected' : '' }}>Alive Authors</option>
-                    <option value="deceased" {{ request()->get('death_status') == 'deceased' ? 'selected' : '' }}>Deceased Authors</option>
-                </select>
+        <form action="{{ route('authors.index') }}" method="GET" class="filter-form">
+            <!-- Age Range -->
+            <div class="form-group mb-3">
+                <label for="age_range" class="age_range_text">Age: </label>
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1 mr-2 ml-3">
+                        <div class="age_range" id="age_range"></div>
+                        <input type="hidden" name="min_age" id="min_age" value="{{ request()->get('min_age', 0) }}">
+                        <input type="hidden" name="max_age" id="max_age" value="{{ request()->get('max_age', 100) }}">
+                    </div>
+                    <div class="age_range_values ml-5">
+                        <span id="age_range_values"></span>
+                    </div>
+                </div>
             </div>
 
-            <!-- Sorting Options -->
-            <div class="form-group mr-2 mt-3">
-                <label for="sort_by" class="mr-2">Sort By: </label>
-                <select name="sort_by" id="sort_by" class="form-control">
-                    <option value="">Default</option>
-                    <option value="name_asc" {{ request()->get('sort_by') == 'name_asc' ? 'selected' : '' }}>Name A -- Z</option>
-                    <option value="age_asc" {{ request()->get('sort_by') == 'age_asc' ? 'selected' : '' }}>Age Ascending</option>
-                    <option value="age_desc" {{ request()->get('sort_by') == 'age_desc' ? 'selected' : '' }}>Age Descending</option>
-                    <option value="birth_date_asc" {{ request()->get('sort_by') == 'birth_date_asc' ? 'selected' : '' }}>Birth Date Ascending</option>
-                    <option value="birth_date_desc" {{ request()->get('sort_by') == 'birth_date_desc' ? 'selected' : '' }}>Birth Date Descending</option>
-                    <option value="death_date_asc" {{ request()->get('sort_by') == 'death_date_asc' ? 'selected' : '' }}>Death Date Ascending</option>
-                    <option value="death_date_desc" {{ request()->get('sort_by') == 'death_date_desc' ? 'selected' : '' }}>Death Date Descending</option>
-                </select>
-            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <!-- Death Status Filter -->
+                <div class="form-group mr-2">
+                    <label for="death_status" class="mr-2">Death Status: </label>
+                    <select name="death_status" id="death_status" class="form-control">
+                        <option value="">All</option>
+                        <option value="alive" {{ request()->get('death_status') == 'alive' ? 'selected' : '' }}>Alive Authors</option>
+                        <option value="deceased" {{ request()->get('death_status') == 'deceased' ? 'selected' : '' }}>Deceased Authors</option>
+                    </select>
+                </div>
 
-            <button type="submit" class="btn btn-primary ml-2 mt-3 filter">Filter</button>
+                <!-- Sorting Options -->
+                <div class="form-group mr-2">
+                    <label for="sort_by" class="mr-2">Sort By: </label>
+                    <select name="sort_by" id="sort_by" class="form-control">
+                        <option value="">Default</option>
+                        <option value="name_asc" {{ request()->get('sort_by') == 'name_asc' ? 'selected' : '' }}>Name A -- Z</option>
+                        <option value="age_asc" {{ request()->get('sort_by') == 'age_asc' ? 'selected' : '' }}>Age Ascending</option>
+                        <option value="age_desc" {{ request()->get('sort_by') == 'age_desc' ? 'selected' : '' }}>Age Descending</option>
+                        <option value="birth_date_asc" {{ request()->get('sort_by') == 'birth_date_asc' ? 'selected' : '' }}>Birth Date Ascending</option>
+                        <option value="birth_date_desc" {{ request()->get('sort_by') == 'birth_date_desc' ? 'selected' : '' }}>Birth Date Descending</option>
+                        <option value="death_date_asc" {{ request()->get('sort_by') == 'death_date_asc' ? 'selected' : '' }}>Death Date Ascending</option>
+                        <option value="death_date_desc" {{ request()->get('sort_by') == 'death_date_desc' ? 'selected' : '' }}>Death Date Descending</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary filter">Filter</button>
+            </div>
         </form>
     </div>
 
@@ -146,6 +153,8 @@
 <script src="{{ asset('/assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('/assets/js/demo/datatables-demo.js') }}"></script>
 
+<!-- noUiSlider initialization -->
+<script src="{{ asset('/assets/js/index.js') }}"></script>
 <script src="{{ asset('assets/js/common.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -192,5 +201,4 @@
         });
     });
 </script>
-
 @endsection
