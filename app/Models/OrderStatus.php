@@ -18,10 +18,10 @@ class OrderStatus extends Model
      * Defines a many-to-one relationship with BookOrder
      * An order status is associated with multiple book orders
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-        public function bookOrders()
-        {
-            return $this->hasMany(BookOrder::class, 'status_id', 'status_id');
-        }
+    public function bookOrders()
+    {
+        return $this->belongsTo(BookOrder::class, 'status_id', 'status_id');
+    }
 }

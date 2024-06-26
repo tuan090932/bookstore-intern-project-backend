@@ -64,35 +64,18 @@ use App\Http\Controllers\Api\FavoriteController;
  * The group is prefixed with 'api/books'.
  *
  * Endpoints:
- * - GET /api/books: Retrieves a list of all books.
+ * - POST /api/books: Creates a new book or retrieves a list of all books based on filters.
  * - GET /api/books/{id}: Retrieves a specific book by its ID.
- * - GET /api/books/category/{category_id}: Retrieves books by a specific category.
- * - GET /api/books/author/{author_id}: Retrieves books by a specific author.
- * - GET /api/books/publisher/{publisher_id}: Retrieves books by a specific publisher.
- * - GET /api/books/language/{language_id}: Retrieves books by a specific language.
- * - GET /api/books/price-range/{minPrice}/{maxPrice}: Retrieves books within a specific price range.
  *
  * These endpoints use the `BookController` to handle the corresponding logic.
  *
- * Example:
- * - 127.0.0.1/api/books
- * - 127.0.0.1/api/books/{id}
- * - 127.0.0.1/api/books/category/{category_id}
- * - 127.0.0.1/api/books/author/{author_id}
- * - 127.0.0.1/api/books/publisher/{publisher_id}
- * - 127.0.0.1/api/books/language/{language_id}
- * - 127.0.0.1/api/books/price-range/{minPrice}/{maxPrice}
+ * The following API routes are below:
  */
 Route::group([
     'prefix' => 'books',
 ], function () {
-    Route::get('/', [BookController::class, 'index']);
+    Route::post('/', [BookController::class, 'index']);
     Route::get('/{id}', [BookController::class, 'show']);
-    Route::get('/category/{category_id}', [BookController::class, 'getBookByCategory']);
-    Route::get('/author/{author_id}', [BookController::class, 'getBookByAuthor']);
-    Route::get('/publisher/{publisher_id}', [BookController::class, 'getBookByPublisher']);
-    Route::get('/language/{language_id}', [BookController::class, 'getBookByLanguage']);
-    Route::get('/price-range/{minPrice}/{maxPrice}', [BookController::class, 'getBooksByPriceRange']);
 });
 
 /**

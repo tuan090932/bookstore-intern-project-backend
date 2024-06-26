@@ -6,19 +6,40 @@ use App\Http\Controllers\Controller;
 use App\Models\Book;
 use Exception;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-
+use Illuminate\Http\Request;
+use App\Http\Requests\BookFilterRequest;
 class BookController extends Controller
 {
+    
     /**
-     * Display a listing of all books.
-     *
+     * Display a listing of all books based on the provided filters.
+     * @param \App\Http\Requests\BookFilterRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(BookFilterRequest $request)
     {
-        $books = Book::all();
-
-        return response()->json($books);
+        try{
+            $books = Book::with(['authors', 'languages', 'publishers', 'categories']);
+            if ($request->has('minPrice') && $request->has('maxPrice')) {
+                $books = $books->whereBetween('price', [$request->input('minPrice'), $request->input('maxPrice')]);
+            }
+            if ($request->has('category_id')) {
+                $books = $books->where('category_id', $request->input('category_id'));
+            }
+            if ($request->has('author_id')) {
+                $books = $books->where('author_id', $request->input('author_id'));
+            }
+            if ($request->has('publisher_id')) {
+                $books = $books->where('publisher_id', $request->input('publisher_id'));
+            }
+            if ($request->has('language_id')) {
+                $books = $books->where('language_id', $request->input('language_id'));
+            }
+            $books = $books->get();
+            return response()->json($books);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -29,85 +50,8 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        $book = Book::find($id);
+        $book = Book::with(['authors', 'languages', 'publishers', 'categories'])->find($id);
 
         return response()->json($book);
-    }
-
-    /**
-     * Display the specified book by its category.
-     *
-     * @param  int  $category_id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getBookByCategory($category_id){
-        try{
-            $books = Book::where('category_id', $category_id)->get();
-            return response()->json($books);
-        }catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
-
-    /**
-     * Display the specified book by its author.
-     *
-     * @param  int  $author_id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getBookByAuthor($author_id){
-        try{
-            $books = Book::where('author_id', $author_id)->get();
-            return response()->json($books);
-        }catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
-
-    /**
-     * Display the specified book by its publisher.
-     *
-     * @param  int  $publisher_id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getBookByPublisher($publisher_id){
-        try{
-            $books = Book::where('publisher_id', $publisher_id)->get();
-            return response()->json($books);
-        }catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
-
-    /**
-     * Display the specified book by its language.
-     *
-     * @param  int  $language_id
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getBookByLanguage($language_id){
-        try{
-            $books = Book::where('language_id', $language_id)->get();
-            return response()->json($books);
-        }catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
-
-    /**
-     * Display the books within a specified price range.
-     *
-     * @param  float  $minPrice
-     * @param  float  $maxPrice
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getBooksByPriceRange($minPrice, $maxPrice)
-    {
-        try {
-            $books = Book::whereBetween('price', [$minPrice, $maxPrice])->get();
-            return response()->json($books);
-        } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
     }
 }
