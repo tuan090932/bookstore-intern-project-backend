@@ -11,7 +11,6 @@ use App\Http\Requests\AuthorRequest;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
-use App\Http\Requests\AuthorRequest;
 
 class AuthorController extends Controller
 {
