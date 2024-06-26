@@ -16,7 +16,6 @@ class AuthorController extends Controller
 {
     /**
      * This property stores the route for the search functionality.
-     * It is initialized in the constructor to ensure it is properly set for use in the views.
      *
      * @var string
      */
@@ -24,8 +23,6 @@ class AuthorController extends Controller
 
     /**
      * Controller constructor.
-     *
-     * Initializes the search route to direct search requests to the appropriate controller action.
      */
     public function __construct()
     {
@@ -34,10 +31,6 @@ class AuthorController extends Controller
 
     /**
      * Display a listing of the authors.
-     *
-     * This method retrieves a paginated list of authors from the database.
-     * It then returns the view to display the authors list, passing the authors data and the search route to the view.
-     * The searchRoute variable is used in the view to direct the search form to the appropriate controller action.
      *
      * @return \Illuminate\View\View
      * Display a listing of the resource.
