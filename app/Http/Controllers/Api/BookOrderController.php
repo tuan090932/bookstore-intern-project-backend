@@ -52,7 +52,7 @@ class BookOrderController extends Controller
   
             // Retrieve address details
             $address = Address::findOrFail($request->input('address_id'));
-            $order_address = "{$address->shipping_address}, {$address->city}, {$address->country_name}";
+            $orderAddress = "{$address->shipping_address}, {$address->city}, {$address->country_name}";
  
             // Create the book order
             $order = BookOrder::create([
@@ -60,12 +60,12 @@ class BookOrderController extends Controller
                 'order_date' => $request->input('order_date'),
                 'status_id' => 1,
                 'address_id' => $request->input('address_id'),
-                'order_address' => $order_address,
+                'order_address' => $orderAddress,
                 'total_price' => array_sum(array_column($request->books, 'price')),
             ]);
  
             foreach ($request->books as $book) {
-                BookOrderDetail::create([
+                BookOrderDetail::insert([
                     'order_id' => $order->order_id,
                     'book_id' => $book['book_id'],
                     'quantity' => $book['quantity'],
