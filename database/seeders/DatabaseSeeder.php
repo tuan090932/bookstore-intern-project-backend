@@ -12,6 +12,7 @@ use Database\Seeders\OrderStatusSeeder;
 use Database\Seeders\BookOrderDetailsSeeder;
 use Database\Seeders\BookOrderSeeder;
 
+
 class DatabaseSeeder extends Seeder
 {
     /**
