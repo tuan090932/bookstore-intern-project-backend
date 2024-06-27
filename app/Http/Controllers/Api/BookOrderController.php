@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -7,6 +6,7 @@ use App\Http\Requests\StoreBookOrderRequest;
 use App\Models\BookOrder;
 use App\Models\BookOrderDetail;
 use App\Models\Address;
+use App\Enums\BookOrderStatus; // Import enum
 use Exception;
 use Illuminate\Http\Request;
 
@@ -32,7 +32,8 @@ class BookOrderController extends Controller
         try {
             $user = auth('api')->user();
             $query = BookOrder::where('user_id', $user->user_id)
-                              ->with('bookOrderDetails.book');
+                              ->with('bookOrderDetails.book')
+                              ->join('order_status', 'book_order.status_id', '=', 'order_status.status_id'); // Join để lấy status_name
     
             if ($request->has('status_id')) {
                 $query->where('status_id', $request->input('status_id'));
@@ -45,7 +46,6 @@ class BookOrderController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-    
 
     /**
      * Store a newly created order in storage.
@@ -66,7 +66,7 @@ class BookOrderController extends Controller
             $order = BookOrder::create([
                 'user_id' => $user->user_id,
                 'order_date' => $request->input('order_date'),
-                'status_id' => 1,
+                'status_id' => BookOrderStatus::PENDING,
                 'address_id' => $request->input('address_id'),
                 'order_address' => $orderAddress,
                 'total_price' => array_sum(array_column($request->books, 'price')),
@@ -98,7 +98,11 @@ class BookOrderController extends Controller
     {
         try {
             $user = auth('api')->user();
-            $order = BookOrder::where('user_id', $user->user_id)->where('order_id', $order_id)->with('bookOrderDetails.book')->firstOrFail();
+            $order = BookOrder::where('user_id', $user->user_id)
+            ->where('order_id', $order_id)
+            ->with('bookOrderDetails.book')
+            ->join('order_status', 'book_order.status_id', '=', 'order_status.status_id')
+            ->firstOrFail();
 
             return response()->json($order);
         } catch (Exception $e) {
@@ -107,7 +111,7 @@ class BookOrderController extends Controller
     }
 
     /**
-     * Update the status_id of the specified order to 4.
+     * Update the status_id of the specified order to Cancelled.
      *
      * @param  int  $order_id
      * @return \Illuminate\Http\JsonResponse
@@ -118,7 +122,7 @@ class BookOrderController extends Controller
             $user = auth('api')->user();
             $order = BookOrder::where('user_id', $user->user_id)->where('order_id', $order_id)->firstOrFail();
 
-            $order->status_id = 4;
+            $order->status_id = BookOrderStatus::CANCELLED;
             $order->save();
 
             return response()->json(['order' => $order]);
