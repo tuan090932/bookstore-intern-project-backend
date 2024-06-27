@@ -76,8 +76,6 @@
     </div>
        <button type="submit" class="btn btn-primary">Update Status</button>
   </form>
-
-
     <!-- Send Email Form -->
     <form action="{{ route('orders.sendEmail', $order->order_id) }}" method="POST">
         @csrf
@@ -104,8 +102,6 @@
 </div>
 <!-- /.container-fluid -->
 @endsection
-
-
 <script>
     function toggleCheckbox() {
         var statusSelect = document.getElementById("status");
