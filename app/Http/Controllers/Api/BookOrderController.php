@@ -27,17 +27,25 @@ class BookOrderController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
             $user = auth('api')->user();
-            $orders = BookOrder::where('user_id', $user->user_id)->with('bookOrderDetails.book')->get();
-
+            $query = BookOrder::where('user_id', $user->user_id)
+                              ->with('bookOrderDetails.book');
+    
+            if ($request->has('status_id')) {
+                $query->where('status_id', $request->input('status_id'));
+            }
+    
+            $orders = $query->get();
+    
             return response()->json($orders);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+    
 
     /**
      * Store a newly created order in storage.
