@@ -86,8 +86,8 @@
             <input type="text" name="title" id="title" class="form-control" >
         </div>
         <div class="form-group">
-            <label for="messageContent">Email Content:</label>
-            <textarea name="messageContent" id="message_content" class="form-control" rows="5" ></textarea>
+            <label for="message_content">Email Content:</label>
+            <textarea name="message_content" id="message_content" class="form-control" rows="5" ></textarea>
         </div>
         @if (session('email_error'))
         <div class="alert alert-danger mt-2">

@@ -122,7 +122,7 @@ class OrderController extends Controller
             $order = BookOrder::whereHas('user')->where('order_id', $orderId)->with(['user', 'bookOrderDetails.book'])->firstOrFail();
             $title = $request->input('title');
             $totalPrice=$order->total_price;
-            $messageContent = $request->input('messageContent');
+            $messageContent = $request->input('message_content');
             $bookOrderDetails = $order->bookOrderDetails->map(function($detail) {
                 return [
                         'book_id' => $detail->book_id,
