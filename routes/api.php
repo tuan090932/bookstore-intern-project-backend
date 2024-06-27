@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\BookOrderController;
 use App\Http\Controllers\Api\OrderStatusController;
+use App\Http\Controllers\Api\CartController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -156,6 +157,25 @@ Route::prefix('favorite')->group(function () {
     Route::delete('/{favorite}', [FavoriteController::class, 'removeFavorite']);
 });
 
+
+/**
+ * API Routes for Cart
+ *
+ * This group of routes handles all API endpoints related to the shopping cart.
+ * The routes are prefixed with 'api/cart'.
+ *
+ * Endpoints:
+ * - GET /api/cart: Retrieve the list of items in the user's cart.
+ * - POST /api/cart: Add a new item to the user's cart.
+ * - DELETE /api/cart/{id}: Remove a specific item from the user's cart by its ID.
+ *
+ * These routes use the `CartController` to manage the corresponding logic.
+ */
+Route::prefix('cart')->group(function () {
+    Route::get('/', [CartController::class, 'index']);
+    Route::post('/', [CartController::class, 'store']);
+    Route::delete('/{id}', [CartController::class, 'destroyItem']);
+});
 /**
  * API Routes for Orders
  *
