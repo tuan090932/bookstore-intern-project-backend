@@ -78,3 +78,5 @@ Route::prefix('admin')->group(function () {
         Route::delete('destroy/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     });
 });
+
+

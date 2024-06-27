@@ -67,15 +67,10 @@ use App\Http\Controllers\Api\CartController;
  * The group is prefixed with 'api/books'.
  *
  * Endpoints:
- * - GET /api/books: Retrieves a list of all books.
+ * - GET /api/books: Creates a new book or retrieves a list of all books based on filters.
  * - GET /api/books/{id}: Retrieves a specific book by its ID.
-
+ *
  * These endpoints use the `BookController` to handle the corresponding logic.
- *
- * The following api with API routes bellow:
- *
- * 127.0.0.1/api/books
- * Example: 127.0.0.1/api/books/
  */
 Route::group([
     'prefix' => 'books',
