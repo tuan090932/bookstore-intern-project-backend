@@ -20,7 +20,7 @@ class BookController extends Controller
     {
         try{
             $books = Book::with(['authors', 'languages', 'publishers', 'categories']);
-            if ($request->has('minPrice') && $request->has('maxPrice')) {
+            if ($request->has('min_price ') && $request->has('max_price')) {
                 $books = $books->whereBetween('price', [$request->input('minPrice'), $request->input('maxPrice')]);
             }
             if ($request->has('category_id')) {
