@@ -22,8 +22,8 @@ class BookFilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'minPrice' => 'nullable|numeric|min:0',
-            'maxPrice' => 'nullable|numeric|min:0',
+            'min_price' => 'nullable|numeric|min:0',
+            'max_price' => 'nullable|numeric|min:0',
             'category_id' => 'nullable|integer|exists:categories,category_id',
             'author_id' => 'nullable|integer|exists:authors,author_id',
             'publisher_id' => 'nullable|integer|exists:publishers,publisher_id',
@@ -39,8 +39,8 @@ class BookFilterRequest extends FormRequest
     public function messages()
     {
         return [
-            'minPrice.numeric' => 'The minimum price must be a number.',
-            'maxPrice.numeric' => 'The maximum price must be a number.',
+            'min_price.numeric' => 'The minimum price must be a number.',
+            'max_price.numeric' => 'The maximum price must be a number.',
             'category_id.integer' => 'The category ID must be an integer.',
             'category_id.exists' => 'The selected category ID is invalid.',
             'author_id.integer' => 'The author ID must be an integer.',
