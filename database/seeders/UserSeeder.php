@@ -28,7 +28,7 @@ class UserSeeder extends Seeder
             [
                 'user_name' => 'user5',
                 'name' => 'User Five',
-                'email' => 'user5@gmail.com',
+                'email' => 'gietconheo888@gmail.com',
                 'password' => Hash::make('123456'),
                 'phone_number' => '0998877663',
                 'created_at' => now(),
@@ -64,7 +64,7 @@ class UserSeeder extends Seeder
             [
                 'user_name' => 'user9',
                 'name' => 'User Nine',
-                'email' => 'user9@gmail.com',
+                'email' => 'gietconheo88@gmail.com',
                 'password' => Hash::make('123456'),
                 'phone_number' => '0987123458',
                 'created_at' => now(),
