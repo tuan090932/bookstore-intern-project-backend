@@ -69,6 +69,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/{id}', [OrderController::class, 'show'])->name('orders.show');
         Route::put('/{id}', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
         Route::delete('delete/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+        Route::post('/orders/send-email/{order}', [OrderController::class, 'sendEmail'])->name('orders.sendEmail');
     });    
     Route::prefix('categories')->group(function () {
         Route::get('/', [CategoryController::class, 'index'])->name('categories.index');
@@ -78,15 +79,6 @@ Route::prefix('admin')->group(function () {
         Route::put('update/{id}', [CategoryController::class, 'update'])->name('categories.update');
         Route::delete('destroy/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     });
-
-
-    Route::post('/orders/{order}/send-email', [OrderController::class, 'sendEmail'])->name('orders.sendEmail');
-
-
-    Route::get('/send-email', function () {
-    dispatch(new SendEmail());
-    return 'Email sent successfully!';
-});
 });
 
 

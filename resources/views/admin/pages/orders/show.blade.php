@@ -70,7 +70,7 @@
             </div>
         @endif
     </div>
-    <div class="form-group" id="send-email-group" style="display: none;">
+    <div class="form-group" id="send_email_group" style="display: none;">
         <input type="checkbox" name="send_email" id="send_email" value="1">
         <label for="send_email">Send cancellation email to user</label>
     </div>
@@ -87,7 +87,7 @@
         </div>
         <div class="form-group">
             <label for="messageContent">Email Content:</label>
-            <textarea name="messageContent" id="messageContent" class="form-control" rows="5" ></textarea>
+            <textarea name="messageContent" id="message_content" class="form-control" rows="5" ></textarea>
         </div>
         @if (session('email_error'))
         <div class="alert alert-danger mt-2">
@@ -109,7 +109,7 @@
 <script>
     function toggleCheckbox() {
         var statusSelect = document.getElementById("status");
-        var sendEmailGroup = document.getElementById("send-email-group");
+        var sendEmailGroup = document.getElementById("send_email_group");
         if (statusSelect.value == "4") {
             sendEmailGroup.style.display = "block";
         } else {
