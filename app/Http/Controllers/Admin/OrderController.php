@@ -139,5 +139,4 @@ class OrderController extends Controller
             return redirect()->route('orders.show', $orderId)->with('email_error', 'Failed to send email: ' . $e->getMessage());
         }
     }
-
 }

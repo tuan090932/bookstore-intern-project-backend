@@ -18,7 +18,12 @@ class MailNotify extends Mailable
     public $totalPrice;
 
     /**
-     * Create a new message instance.
+     * Constructor to initialize email content and order details
+     *
+     * @param string $messageContent Content of the message
+     * @param string $title Title of the email
+     * @param array $bookOrderDetails Details of the book order
+     * @param float $totalPrice Total price of the order
      */
     public function __construct($messageContent, $title, $bookOrderDetails,$totalPrice)
     {
@@ -32,6 +37,8 @@ class MailNotify extends Mailable
     
     /**
      * Build the message.
+     *
+     * @return $this
      */
     public function build()
     {
@@ -39,7 +46,6 @@ class MailNotify extends Mailable
         $htmlContent .= '<table border="1" cellpadding="5" cellspacing="0">';
         $htmlContent .= '<thead><tr><th>Book ID</th><th>Title</th><th>Quantity</th><th>Price</th></tr></thead>';
         $htmlContent .= '<tbody>';
-        // Add each book order detail to the table
         foreach ($this->bookOrderDetails as $detail) {
             $htmlContent .= '<tr>';
             $htmlContent .= '<td>' . $detail['book_id'] . '</td>';
