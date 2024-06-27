@@ -34,7 +34,7 @@ class CartController extends Controller
             $cart = Cart::where('user_id', $user->user_id)->with('cartItems')->firstOrFail();
             return response()->json($cart->cartItems);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Cart not found.', 'exception' => $e->getMessage()], 404);
+            return response()->json(['error' => __('messages.cart.not_found'), 'exception' => $e->getMessage()], 404);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -62,7 +62,7 @@ class CartController extends Controller
                     'quantity' => $request->quantity
                 ]);
             }
-            return response()->json(['cartItem' => $cartItem, 'message' => 'Cart item added successfully.'], 201);
+            return response()->json(['cartItem' => $cartItem, 'message' => __('messages.cart.item_added_success')], 201);
         } catch (Exception $e) {
            return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -77,13 +77,14 @@ class CartController extends Controller
     public function destroyItem($cartItemId)
     {
         try {
+            $cartItemId=5000;
             $user = auth('api')->user();
             $cart = Cart::where('user_id', $user->user_id)->firstOrFail();
             $cartItem = CartItem::where('cart_id', $cart->cart_id)->where('item_id', $cartItemId)->firstOrFail();
             $cartItem->delete();
-            return response()->json(['message' => 'Item removed successfully.'], 200);
+            return response()->json(['message' => __('messages.cart.item_removed_success')], 200);
         } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Cart item not found.', 'exception' => $e->getMessage()], 404);
+            return response()->json(['error' => __('messages.cart.item_not_found'), 'exception' => $e->getMessage()], 404);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
