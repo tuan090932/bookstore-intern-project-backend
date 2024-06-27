@@ -1,4 +1,5 @@
 <?php
+
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AddressController;
@@ -7,6 +8,8 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\FavoriteController;
+use App\Http\Controllers\Api\CartController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -41,20 +44,17 @@ use App\Http\Controllers\Api\FavoriteController;
  * 127.0.0.1/api/auth/{action}
  * Example: 127.0.0.1/api/auth/login
  */
- Route::group([
+Route::group([
 
     'middleware' => 'api',
     'prefix' => 'auth'
 
-], function ()
-{
-
+], function () {
     Route::post('register', [RegisterController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
     Route::get('profile', [AuthController::class, 'profile']);
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
-
 });
 
 /**
@@ -131,6 +131,27 @@ Route::prefix('user')->group(function () {
     Route::get('/{id}', [UserController::class, 'show']);
     Route::put('/update/{id}', [UserController::class, 'update']);
 });
+
+
+/**
+ * API Routes for Cart
+ *
+ * This group of routes handles all API endpoints related to the shopping cart.
+ * The routes are prefixed with 'api/cart'.
+ *
+ * Endpoints:
+ * - GET /api/cart: Retrieve the list of items in the user's cart.
+ * - POST /api/cart: Add a new item to the user's cart.
+ * - DELETE /api/cart/{id}: Remove a specific item from the user's cart by its ID.
+ *
+ * These routes use the `CartController` to manage the corresponding logic.
+ */
+Route::prefix('cart')->group(function () {
+    Route::get('/', [CartController::class, 'index']);
+    Route::post('/', [CartController::class, 'store']);
+    Route::delete('/{id}', [CartController::class, 'destroyItem']);
+});
+
 
 
 /**
