@@ -29,18 +29,4 @@ class AddCartItemRequest extends FormRequest
             'quantity' => 'required|integer|min:1',
         ];
     }
-    
-    /**
-     * Handle a failed validation attempt.
-     *
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
-     */
-    protected function failedValidation(Validator $validator): void
-    {
-        $errors = $validator->errors();
-
-        throw new HttpResponseException(response()->json([
-            'errors' => $errors
-        ], 422));
-    }
 }

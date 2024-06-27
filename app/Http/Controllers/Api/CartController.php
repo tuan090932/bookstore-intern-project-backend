@@ -77,7 +77,6 @@ class CartController extends Controller
     public function destroyItem($cartItemId)
     {
         try {
-            $cartItemId=5000;
             $user = auth('api')->user();
             $cart = Cart::where('user_id', $user->user_id)->firstOrFail();
             $cartItem = CartItem::where('cart_id', $cart->cart_id)->where('item_id', $cartItemId)->firstOrFail();
