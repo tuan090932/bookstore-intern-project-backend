@@ -78,13 +78,11 @@ class OrderController extends Controller
                     })->toArray();
                 Mail::to($order->user->email)->send(new MailNotify($messageContent, $title, $bookOrderDetails,$totalPrice));
             }
-
-
-            return redirect()->route('orders.show', $id)->with('success', 'Order status updated successfully.');
+            return redirect()->route('orders.show', $id)->with('status_success', 'Order status updated successfully.');
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('orders.show', $id)->with('error', 'Order not found.');
+            return redirect()->route('orders.show', $id)->with('status_error', 'Order not found.');
         } catch (Exception $e) {
-            return redirect()->route('orders.show', $id)->with('error', 'Failed to update order status.');
+            return redirect()->route('orders.show', $id)->with('status_error', 'Failed to update order status.');
         }
     }
 
