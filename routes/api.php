@@ -177,5 +177,5 @@ Route::prefix('order')->group(function () {
     Route::post('/', [BookOrderController::class, 'store']);
     Route::get('/{id}', [BookOrderController::class, 'show']);
     Route::patch('/{id}/status', [BookOrderController::class, 'updateStatus']);
-    Route::get('/status/{status}', [OrderStatusController::class, 'show']);
+    Route::get('/status/{status_id}', [OrderStatusController::class, 'show']);
 });
