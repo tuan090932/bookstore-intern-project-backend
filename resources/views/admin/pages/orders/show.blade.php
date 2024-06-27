@@ -46,74 +46,31 @@
             </table>
         </div>
     </div>
-    <!-- Update Status Form -->
     <form action="{{ route('orders.updateStatus', $order->order_id) }}" method="POST">
-    @csrf
-    @method('PUT')
-    <div class="form-group">
-        <label for="status">Change Status:</label>
-        <select name="status_id" id="status" class="form-control" onchange="toggleCheckbox()">
-            @foreach($statuses as $status)
+        @csrf
+        @method('PUT')
+        <div class="form-group">
+            <label for="status">Change Status:</label>
+            <select name="status_id" id="status" class="form-control">
+                @foreach($statuses as $status)
                 <option value="{{ $status->status_id }}">
                     {{ $status->status_name }}
                 </option>
-            @endforeach
-        </select>
-        @if (session('status_error'))
+                @endforeach
+            </select>
+            @if (session('error'))
             <div class="alert alert-danger mt-2">
-                {{ session('status_error') }}
+                {{ session('error') }}
             </div>
-        @endif
-        @if (session('status_success'))
+            @endif
+            @if (session('success'))
             <div class="alert alert-success">
-                {{ session('status_success') }}
+                {{ session('success') }}
             </div>
-        @endif
-    </div>
-    <div class="form-group" id="send-email-group" style="display: none;">
-        <input type="checkbox" name="send_email" id="send_email" value="1">
-        <label for="send_email">Send cancellation email to user</label>
-    </div>
-       <button type="submit" class="btn btn-primary">Update Status</button>
-  </form>
-
-
-    <!-- Send Email Form -->
-    <form action="{{ route('orders.sendEmail', $order->order_id) }}" method="POST">
-        @csrf
-        <div class="form-group mt-4">
-            <label for="title">Email Title:</label>
-            <input type="text" name="title" id="title" class="form-control" >
+            @endif
         </div>
-        <div class="form-group">
-            <label for="messageContent">Email Content:</label>
-            <textarea name="messageContent" id="messageContent" class="form-control" rows="5" ></textarea>
-        </div>
-        @if (session('email_error'))
-        <div class="alert alert-danger mt-2">
-            {{ session('email_error') }}
-        </div>
-        @endif
-        @if (session('email_success'))
-        <div class="alert alert-success">
-            {{ session('email_success') }}
-        </div>
-        @endif
-        <button type="submit" class="btn btn-primary">Send Email</button>
+        <button type="submit" class="btn btn-primary">Update Status</button>
     </form>
 </div>
 <!-- /.container-fluid -->
 @endsection
-
-
-<script>
-    function toggleCheckbox() {
-        var statusSelect = document.getElementById("status");
-        var sendEmailGroup = document.getElementById("send-email-group");
-        if (statusSelect.value == "4") {
-            sendEmailGroup.style.display = "block";
-        } else {
-            sendEmailGroup.style.display = "none";
-        }
-    }
-</script>

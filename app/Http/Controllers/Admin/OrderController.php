@@ -15,9 +15,7 @@ use App\Models\BookOrderDetail;
 use App\Models\OrderStatus;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
-use App\Mail\MailNotify;
-use App\Jobs\SendEmailJob;
-use Mail;
+
 class OrderController extends Controller
 {
     /**
@@ -63,22 +61,6 @@ class OrderController extends Controller
             $order_status = BookOrder::where('order_id', $id)->firstOrFail();
             $order_status->status_id = $request->input('status_id');
             $order_status->save();
-            if ($request->input('status_id') === '4'&& $request->send_email==='1' ) {
-                $title = 'Order cancelled';
-                $messageContent = 'Your order has been cancelled. Please contact us immediately';
-                $order = BookOrder::whereHas('user')->where('order_id', $id)->with(['user', 'bookOrderDetails.book'])->firstOrFail();
-                $bookOrderDetails = $order->bookOrderDetails->map(function($detail) {
-                    return [
-                            'book_id' => $detail->book_id,
-                            'title' => $detail->book->title, 
-                            'quantity' => $detail->quantity,
-                            'price' => $detail->price,
-                        ];
-                    })->toArray();
-                Mail::to($order->user->email)->send(new MailNotify($messageContent, $title, $bookOrderDetails));
-            }
-
-
             return redirect()->route('orders.show', $id)->with('success', 'Order status updated successfully.');
         } catch (ModelNotFoundException $e) {
             return redirect()->route('orders.show', $id)->with('error', 'Order not found.');
@@ -105,36 +87,6 @@ class OrderController extends Controller
         } catch (Exception $e) {
             dd($e);
             return redirect()->route('orders.index')->with('error', 'Failed to delete order.');
-        }
-    }
-    
-    /**
-     * Send email to user
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param string $orderId
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function sendEmail(Request $request, $orderId)
-    {
-        try {
-            $order = BookOrder::whereHas('user')->where('order_id', $orderId)->with(['user', 'bookOrderDetails.book'])->firstOrFail();
-            $title = $request->input('title');
-            $messageContent = $request->input('messageContent');
-            $bookOrderDetails = $order->bookOrderDetails->map(function($detail) {
-                return [
-                        'book_id' => $detail->book_id,
-                        'title' => $detail->book->title, 
-                        'quantity' => $detail->quantity,
-                        'price' => $detail->price,
-                    ];
-                })->toArray();
-            Mail::to($order->user->email)->send(new MailNotify($messageContent, $title, $bookOrderDetails));
-            return redirect()->route('orders.show', $orderId)->with('email_success', 'Email sent successfully!');
-        } catch (ModelNotFoundException $e) {
-            return redirect()->route('orders.show', $orderId)->with('email_error', 'Order not found.');
-        } catch (Exception $e) {
-            return redirect()->route('orders.show', $orderId)->with('email_error', 'Failed to send email: ' . $e->getMessage());
         }
     }
 
