@@ -7,6 +7,9 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\FavoriteController;
+use App\Http\Controllers\Api\BookOrderController;
+use App\Http\Controllers\Api\OrderStatusController;
+use App\Http\Controllers\Api\CartController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -152,3 +155,44 @@ Route::prefix('favorite')->group(function () {
 });
 
 
+/**
+ * API Routes for Cart
+ *
+ * This group of routes handles all API endpoints related to the shopping cart.
+ * The routes are prefixed with 'api/cart'.
+ *
+ * Endpoints:
+ * - GET /api/cart: Retrieve the list of items in the user's cart.
+ * - POST /api/cart: Add a new item to the user's cart.
+ * - DELETE /api/cart/{id}: Remove a specific item from the user's cart by its ID.
+ *
+ * These routes use the `CartController` to manage the corresponding logic.
+ */
+Route::prefix('cart')->group(function () {
+    Route::get('/', [CartController::class, 'index']);
+    Route::post('/', [CartController::class, 'store']);
+    Route::delete('/{id}', [CartController::class, 'destroyItem']);
+});
+/**
+ * API Routes for Orders
+ *
+ * This route group handles all order-related API endpoints.
+ * The group is prefixed with 'api/order'.
+ *
+ * Endpoints:
+ * - GET /api/order: Retrieves a list of all orders.
+ * - POST /api/order: Creates a new order.
+ * - GET /api/order/{id}: Retrieves a specific order by ID.
+ * - PATCH /api/order/{id}/status: Updates the status of a specific order by ID.
+ *
+ * These endpoints use the `BookOrderController` to handle the corresponding logic.
+ *
+ * The following api with API routes bellow:
+ */
+Route::prefix('order')->group(function () {
+    Route::get('/', [BookOrderController::class, 'index']);
+    Route::post('/', [BookOrderController::class, 'store']);
+    Route::get('/{id}', [BookOrderController::class, 'show']);
+    Route::patch('/{id}/status', [BookOrderController::class, 'updateStatus']);
+    Route::get('/status/{status_id}', [OrderStatusController::class, 'show']);
+});

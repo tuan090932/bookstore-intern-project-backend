@@ -12,6 +12,7 @@ use Database\Seeders\OrderStatusSeeder;
 use Database\Seeders\BookOrderDetailsSeeder;
 use Database\Seeders\BookOrderSeeder;
 
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -28,7 +29,6 @@ class DatabaseSeeder extends Seeder
             CategoriesSeeder::class,
             UserSeeder::class,
             BookSeeder::class,
-            UserSeeder::class,
             AddressSeeder::class,
             OrderStatusSeeder::class,
             BookOrderSeeder::class,

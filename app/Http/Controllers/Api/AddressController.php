@@ -4,13 +4,21 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Address;
+use App\Http\Requests\AddressRequest;
 use Exception;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class AddressController extends Controller
 {
+    /**
+     * Create a new AddressController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     /**
      * Display a listing of the addresses.
      *
@@ -19,7 +27,8 @@ class AddressController extends Controller
     public function index()
     {
         try {
-            $addresses = Address::all();
+            $user = auth('api')->user();
+            $addresses = Address::where('user_id', $user->user_id)->get();
 
             return response()->json($addresses);
         } catch (Exception $e) {
@@ -32,21 +41,11 @@ class AddressController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(AddressRequest $request)
     {
         try {
-            $validator = Validator::make($request->all(), [
-                'user_id' => 'required|exists:users,id',
-                'shipping_address' => 'required|string',
-                'city' => 'required|string',
-                'country_name' => 'required|string',
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json(['error' => $validator->errors()], 400);
-            }
-
-            $address = Address::create($request->all());
+            $user = auth('api')->user();
+            $address = Address::create(array_merge($request->all(), ['user_id' => $user->user_id]));
 
             return response()->json($address, 201);
         } catch (Exception $e) {
@@ -63,11 +62,10 @@ class AddressController extends Controller
     public function show($address_id)
     {
         try {
-            $address = Address::findOrFail($address_id);
+            $user = auth('api')->user();
+            $address = Address::where('user_id', $user->user_id)->where('address_id', $address_id)->firstOrFail();
 
             return response()->json($address);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Address not found'], 404);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -79,27 +77,15 @@ class AddressController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(AddressRequest $request, $id)
     {
         try {
-            $address = Address::findOrFail($id);
-
-            $validator = Validator::make($request->all(), [
-                'user_id' => 'required|exists:users,id',
-                'shipping_address' => 'required|string',
-                'city' => 'required|string',
-                'country_name' => 'required|string',
-            ]);
-
-            if ($validator->fails()) {
-                return response()->json(['error' => $validator->errors()], 400);
-            }
+            $user = auth('api')->user();
+            $address = Address::where('user_id', $user->user_id)->where('address_id', $id)->firstOrFail();
 
             $address->update($request->all());
 
             return response()->json($address, 200);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Address not found'], 404);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -114,13 +100,12 @@ class AddressController extends Controller
     public function destroy($id)
     {
         try {
-            $address = Address::findOrFail($id);
+            $user = auth('api')->user();
+            $address = Address::where('user_id', $user->user_id)->where('address_id', $id)->firstOrFail();
 
             $address->delete();
 
             return response()->json(['message' => 'Address deleted successfully'], 200);
-        } catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Address not found'], 404);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
