@@ -67,6 +67,7 @@ class OrderController extends Controller
                 $title = 'Order cancelled';
                 $messageContent = 'Your order has been cancelled. Please contact us immediately';
                 $order = BookOrder::whereHas('user')->where('order_id', $id)->with(['user', 'bookOrderDetails.book'])->firstOrFail();
+                $totalPrice=$order->total_price;
                 $bookOrderDetails = $order->bookOrderDetails->map(function($detail) {
                     return [
                             'book_id' => $detail->book_id,
@@ -75,7 +76,7 @@ class OrderController extends Controller
                             'price' => $detail->price,
                         ];
                     })->toArray();
-                Mail::to($order->user->email)->send(new MailNotify($messageContent, $title, $bookOrderDetails));
+                Mail::to($order->user->email)->send(new MailNotify($messageContent, $title, $bookOrderDetails,$totalPrice));
             }
 
 
@@ -120,6 +121,7 @@ class OrderController extends Controller
         try {
             $order = BookOrder::whereHas('user')->where('order_id', $orderId)->with(['user', 'bookOrderDetails.book'])->firstOrFail();
             $title = $request->input('title');
+            $totalPrice=$order->total_price;
             $messageContent = $request->input('messageContent');
             $bookOrderDetails = $order->bookOrderDetails->map(function($detail) {
                 return [
@@ -129,7 +131,7 @@ class OrderController extends Controller
                         'price' => $detail->price,
                     ];
                 })->toArray();
-            Mail::to($order->user->email)->send(new MailNotify($messageContent, $title, $bookOrderDetails));
+            Mail::to($order->user->email)->send(new MailNotify($messageContent, $title, $bookOrderDetails,$totalPrice));
             return redirect()->route('orders.show', $orderId)->with('email_success', 'Email sent successfully!');
         } catch (ModelNotFoundException $e) {
             return redirect()->route('orders.show', $orderId)->with('email_error', 'Order not found.');
