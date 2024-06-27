@@ -71,8 +71,6 @@ use App\Http\Controllers\Api\CartController;
  * - GET /api/books/{id}: Retrieves a specific book by its ID.
  *
  * These endpoints use the `BookController` to handle the corresponding logic.
- *
- * The following API routes are below:
  */
 Route::group([
     'prefix' => 'books',
