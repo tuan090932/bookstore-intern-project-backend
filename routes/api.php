@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\BookOrderController;
+use App\Http\Controllers\Api\OrderStatusController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -176,4 +177,5 @@ Route::prefix('order')->group(function () {
     Route::post('/', [BookOrderController::class, 'store']);
     Route::get('/{id}', [BookOrderController::class, 'show']);
     Route::patch('/{id}/status', [BookOrderController::class, 'updateStatus']);
+    Route::get('/status/{status}', [OrderStatusController::class, 'show']);
 });
