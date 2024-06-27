@@ -33,7 +33,7 @@ class BookOrderController extends Controller
             $user = auth('api')->user();
             $query = BookOrder::where('user_id', $user->user_id)
                               ->with('bookOrderDetails.book')
-                              ->join('order_status', 'book_order.status_id', '=', 'order_status.status_id'); // Join để lấy status_name
+                              ->join('order_status', 'book_order.status_id', '=', 'order_status.status_id');
     
             if ($request->has('status_id')) {
                 $query->where('status_id', $request->input('status_id'));
@@ -72,16 +72,17 @@ class BookOrderController extends Controller
                 'total_price' => array_sum(array_column($request->books, 'price')),
             ]);
  
+            $abc = [];
             foreach ($request->books as $book) {
-                BookOrderDetail::insert([
+               $abc[] = [
                     'order_id' => $order->order_id,
                     'book_id' => $book['book_id'],
                     'quantity' => $book['quantity'],
                     'price' => $book['price'],
-                ]);
+                ];
             }
+            BookOrderDetail::insert($abc);
  
-            // Return the created order with loaded details and associated books
             return response()->json($order->load('bookOrderDetails.book'), 201);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -99,10 +100,10 @@ class BookOrderController extends Controller
         try {
             $user = auth('api')->user();
             $order = BookOrder::where('user_id', $user->user_id)
-            ->where('order_id', $order_id)
-            ->with('bookOrderDetails.book')
-            ->join('order_status', 'book_order.status_id', '=', 'order_status.status_id')
-            ->firstOrFail();
+                                ->where('order_id', $order_id)
+                                ->with('bookOrderDetails.book')
+                                ->join('order_status', 'book_order.status_id', '=', 'order_status.status_id')
+                                ->firstOrFail();
 
             return response()->json($order);
         } catch (Exception $e) {
