@@ -109,7 +109,7 @@ class AdminController extends Controller
         try {
             $admin = AdminUser::findOrFail($id);
 
-            if ($admin->role_id === 'ALL') {
+            if ($admin->isAllRole()) {
                 return redirect()->route('admins.index')->with('error', __('messages.admin.delete_all_role_error'));
             }
 
@@ -133,8 +133,8 @@ class AdminController extends Controller
             $adminIds = $request->input('ids', []);
             $admins = AdminUser::whereIn('admin_id', $adminIds)->get();
 
-            $adminsToDelete = $admins->filter(function ($admin) {
-                return $admin->role_id !== 'ALL';
+            $adminsToDelete = $admins->reject(function ($admin) {
+                return $admin->isAllRole();
             });
 
             $adminsToDeleteIds = $adminsToDelete->pluck('admin_id');
@@ -161,8 +161,8 @@ class AdminController extends Controller
     {
         try {
             $admins = AdminUser::all();
-            $adminsToDelete = $admins->filter(function ($admin) {
-                return $admin->role_id !== 'ALL';
+            $adminsToDelete = $admins->reject(function ($admin) {
+                return $admin->isAllRole();
             });
 
             $adminsToDeleteIds = $adminsToDelete->pluck('admin_id');
@@ -170,7 +170,7 @@ class AdminController extends Controller
             AdminUser::whereIn('admin_id', $adminsToDeleteIds)->delete();
 
             if ($admins->count() !== $adminsToDelete->count()) {
-                return redirect()->back();
+                return redirect()->back()->with('warning', __('messages.admin.delete_all_except_all_role'));
             }
 
             return redirect()->back()->with('success', __('messages.admin.all_deleted_success'));
