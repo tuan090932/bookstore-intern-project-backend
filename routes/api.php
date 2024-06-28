@@ -76,6 +76,7 @@ Route::group([
     'prefix' => 'books',
 ], function () {
     Route::get('/', [BookController::class, 'index']);
+    Route::get('/search', [BookController::class, 'search']);
     Route::get('/{id}', [BookController::class, 'show']);
 });
 
