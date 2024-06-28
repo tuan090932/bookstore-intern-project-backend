@@ -24,11 +24,6 @@ class RoleSeeder extends Seeder
             ['role_id' => 'CUST', 'role_name' => 'Customers'],
         ];
 
-        foreach ($roles as $roleData) {
-            $role = new Role();
-            $role->role_id = $roleData['role_id'];
-            $role->role_name = $roleData['role_name'];
-            $role->save();
-        }
+        Role::insert($roles);
     }
 }
