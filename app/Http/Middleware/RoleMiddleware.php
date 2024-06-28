@@ -19,6 +19,8 @@ class RoleMiddleware
      */
     public function handle(Request $request, Closure $next, ...$roles)
     {
+        $user = Auth::guard('admin')->user();
+
         if (empty($roles) || in_array($user->role_id, $roles)) {
             return $next($request);
         }
