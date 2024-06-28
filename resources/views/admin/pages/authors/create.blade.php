@@ -23,28 +23,28 @@
             <div class="form-row">
                 <div class="form-group col-md-7">
                     <label for="author_name">Họ tên tác giả</label>
-                    <input type="text" class="form-control @error('author_name') is-invalid @enderror" id="author_name" name="author_name" value="{{ old('author_name') }}">
+                    <input type="text" class="form-control @error('author_name') is-invalid @enderror" id="author_name" name="author_name" value="{{ old('author_name') }}" autocomplete="off">
                     @error('author_name')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group col-md-6">
                     <label for="birth_date">Năm sinh</label>
-                    <input type="text" class="form-control @error('birth_date') is-invalid @enderror" id="birth_date" name="birth_date" value="{{ old('birth_date') }}" placeholder="DD/MM/YYYY">
+                    <input type="text" class="form-control @error('birth_date') is-invalid @enderror" id="birth_date" name="birth_date" value="{{ old('birth_date') }}" placeholder="DD/MM/YYYY" autocomplete="off">
                     @error('birth_date')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group col-md-6">
                     <label for="death_date">Năm mất (Nếu có)</label>
-                    <input type="text" class="form-control @error('death_date') is-invalid @enderror" id="death_date" name="death_date" value="{{ old('death_date') }}" placeholder="DD/MM/YYYY">
+                    <input type="text" class="form-control @error('death_date') is-invalid @enderror" id="death_date" name="death_date" value="{{ old('death_date') }}" placeholder="DD/MM/YYYY" autocomplete="off">
                     @error('death_date')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group col-md-6">
                     <label for="national">Quốc tịch</label>
-                    <input type="text" class="form-control @error('national') is-invalid @enderror" id="national" name="national" value="{{ old('national') }}">
+                    <input type="text" class="form-control @error('national') is-invalid @enderror" id="national" name="national" value="{{ old('national') }}" autocomplete="off">
                     @error('national')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
