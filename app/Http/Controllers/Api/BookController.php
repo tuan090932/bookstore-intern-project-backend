@@ -4,15 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Book;
-
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Request;
+use App\Http\Requests\BookFilterRequest;
 class BookController extends Controller
 {
+    
     /**
-     * Display a listing of all books.
-     *
+     * Display a listing of all books based on the provided filters.
+     * @param \App\Http\Requests\BookFilterRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function index()
+    public function index(BookFilterRequest $request)
     {
         try{
             $books = Book::with(['authors', 'languages', 'publishers', 'categories']);
@@ -46,7 +50,7 @@ class BookController extends Controller
      */
     public function show($id)
     {
-        $book = Book::find($id);
+        $book = Book::with(['authors', 'languages', 'publishers', 'categories'])->find($id);
 
         return response()->json($book);
     }
