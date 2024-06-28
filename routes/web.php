@@ -11,7 +11,6 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\LocationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\OrderController;
-use App\Jobs\SendEmail;
 
 
 /*

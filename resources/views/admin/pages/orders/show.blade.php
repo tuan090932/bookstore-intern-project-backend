@@ -46,27 +46,26 @@
             </table>
         </div>
     </div>
-    <!-- Update Status Form -->
     <form action="{{ route('orders.updateStatus', $order->order_id) }}" method="POST">
-    @csrf
-    @method('PUT')
-    <div class="form-group">
-        <label for="status">Change Status:</label>
-        <select name="status_id" id="status" class="form-control" onchange="toggleCheckbox()">
-            @foreach($statuses as $status)
+        @csrf
+        @method('PUT')
+        <div class="form-group">
+            <label for="status">Change Status:</label>
+            <select name="status_id" id="status" class="form-control">
+                @foreach($statuses as $status)
                 <option value="{{ $status->status_id }}">
                     {{ $status->status_name }}
                 </option>
-            @endforeach
-        </select>
-        @if (session('status_error'))
+                @endforeach
+            </select>
+            @if (session('error'))
             <div class="alert alert-danger mt-2">
-                {{ session('status_error') }}
+                {{ session('error') }}
             </div>
-        @endif
-        @if (session('status_success'))
+            @endif
+            @if (session('success'))
             <div class="alert alert-success">
-                {{ session('status_success') }}
+                {{ session('success') }}
             </div>
         @endif
     </div>
