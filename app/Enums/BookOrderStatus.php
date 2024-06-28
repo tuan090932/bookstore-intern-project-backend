@@ -9,3 +9,4 @@ abstract class BookOrderStatus
     const COMPLETED = 3;
     const CANCELLED = 4;
 }
+

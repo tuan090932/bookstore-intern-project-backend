@@ -58,18 +58,18 @@
                 </option>
                 @endforeach
             </select>
-            @if (session('error'))
+            @if (session('status_error'))
             <div class="alert alert-danger mt-2">
-                {{ session('error') }}
+                {{ session('status_error') }}
             </div>
             @endif
-            @if (session('success'))
+            @if (session('status_success'))
             <div class="alert alert-success mt-2">
-                {{ session('success') }}
+                {{ session('status_success') }}
             </div>
             @endif
         </div>
-        <div class="form-group" id="send_email_group" style="display: none;">
+        <div class="form-group" id="send_email_group" style="display: none  ;">
             <input type="checkbox" name="send_email" id="send_email" value="1">
             <label for="send_email">Send cancellation email to user</label>
         </div>

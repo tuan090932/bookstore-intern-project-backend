@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MailNotify;
+use App\Enums\BookOrderStatus; // Import enum
 
 class OrderController extends Controller
 {
@@ -44,9 +45,9 @@ class OrderController extends Controller
             $statuses = OrderStatus::all();
             return view('admin.pages.orders.show', compact('order', 'statuses'));
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('orders.index')->with('error', 'Order not found.');
+            return redirect()->route('orders.index')->with('error', __('messages.order.not_found'));
         } catch (Exception $e) {
-            return redirect()->route('orders.index')->with('error', 'Failed to fetch order.');
+            return redirect()->route('orders.index')->with('error', __('messages.order.fetch_failed'));
         }
     }
 
@@ -63,9 +64,9 @@ class OrderController extends Controller
             $order_status = BookOrder::where('order_id', $id)->firstOrFail();
             $order_status->status_id = $request->input('status_id');
             $order_status->save();
-            if ($request->input('status_id') === '4'&& $request->send_email==='1' ) {
-                $title = 'Order cancelled';
-                $messageContent = 'Your order has been cancelled. Please contact us immediately';
+            if ((int)$request->input('status_id') === BookOrderStatus::CANCELLED && $request->send_email==='1') {
+                $title = __('messages.order.order_cancelled_title');
+                $messageContent = __('messages.order.order_cancelled_message');
                 $order = BookOrder::whereHas('user')->where('order_id', $id)->with(['user', 'bookOrderDetails.book'])->firstOrFail();
                 $totalPrice=$order->total_price;
                 $bookOrderDetails = $order->bookOrderDetails->map(function($detail) {
@@ -78,11 +79,11 @@ class OrderController extends Controller
                     })->toArray();
                 Mail::to($order->user->email)->send(new MailNotify($messageContent, $title, $bookOrderDetails,$totalPrice));
             }
-            return redirect()->route('orders.show', $id)->with('status_success', 'Order status updated successfully.');
+            return redirect()->route('orders.show', $id)->with('status_success', __('messages.order.status_updated'));
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('orders.show', $id)->with('status_error', 'Order not found.');
+            return redirect()->route('orders.show', $id)->with('status_error', __('messages.order.not_found'));
         } catch (Exception $e) {
-            return redirect()->route('orders.show', $id)->with('status_error', 'Failed to update order status.');
+            return redirect()->route('orders.show', $id)->with('status_error', __('messages.order.status_update_failed'));
         }
     }
 
@@ -98,12 +99,12 @@ class OrderController extends Controller
             $order = BookOrder::where('order_id', $id)->firstOrFail();
             BookOrderDetail::where('order_id', $id)->delete();
             $order->delete();
-            return redirect()->route('orders.index')->with('success', 'Order deleted successfully.');
+            return redirect()->route('orders.index')->with('success', __('messages.order.deleted_success'));
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('orders.index')->with('error', 'Order not found.');
+            return redirect()->route('orders.index')->with('error', __('messages.order.not_found'));
         } catch (Exception $e) {
             dd($e);
-            return redirect()->route('orders.index')->with('error', 'Failed to delete order.');
+            return redirect()->route('orders.index')->with('error', __('messages.order.deleted_failed'));
         }
     }
     
@@ -130,11 +131,11 @@ class OrderController extends Controller
                     ];
                 })->toArray();
             Mail::to($order->user->email)->send(new MailNotify($messageContent, $title, $bookOrderDetails,$totalPrice));
-            return redirect()->route('orders.show', $orderId)->with('email_success', 'Email sent successfully!');
+            return redirect()->route('orders.show', $orderId)->with('email_success', __('messages.order.email_sent'));
         } catch (ModelNotFoundException $e) {
-            return redirect()->route('orders.show', $orderId)->with('email_error', 'Order not found.');
+            return redirect()->route('orders.show', $orderId)->with('email_error', __('messages.order.not_found'));
         } catch (Exception $e) {
-            return redirect()->route('orders.show', $orderId)->with('email_error', 'Failed to send email: ' . $e->getMessage());
+            return redirect()->route('orders.show', $orderId)->with('email_error', __('messages.order.email_failed', ['message' => $e->getMessage()]));
         }
     }
 }
