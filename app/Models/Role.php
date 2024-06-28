@@ -24,6 +24,6 @@ class Role extends Model
 
     public static function getAllPermissionRole()
     {
-        return static::where('role_name', 'All permissions')->value('role_id');
+        return static::where('role_id', 'ALL')->value('role_id');
     }
 }
