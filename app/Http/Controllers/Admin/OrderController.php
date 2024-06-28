@@ -15,6 +15,8 @@ use App\Models\BookOrderDetail;
 use App\Models\OrderStatus;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Exception;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MailNotify;
 
 class OrderController extends Controller
 {
