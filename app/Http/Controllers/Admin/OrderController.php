@@ -106,13 +106,13 @@ class OrderController extends Controller
     }
     
     /**
-     * Send email to user
+     * Send order notification email to user
      *
      * @param \Illuminate\Http\Request $request
      * @param string $orderId
      * @return \Illuminate\Http\RedirectResponse
-     */
-    public function sendEmail(Request $request, $orderId)
+    */
+    public function sendOrderNotificationEmail(Request $request, $orderId)
     {
         try {
             $order = BookOrder::whereHas('user')->where('order_id', $orderId)->with(['user', 'bookOrderDetails.book'])->firstOrFail();

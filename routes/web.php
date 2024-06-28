@@ -68,7 +68,7 @@ Route::prefix('admin')->group(function () {
         Route::get('/{id}', [OrderController::class, 'show'])->name('orders.show');
         Route::put('/{id}', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
         Route::delete('delete/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
-        Route::post('/orders/send-email/{order}', [OrderController::class, 'sendEmail'])->name('orders.sendEmail');
+        Route::post('/orders/send-email/{order}', [OrderController::class, 'sendOrderNotificationEmail'])->name('orders.sendEmail');
     });    
     Route::prefix('categories')->group(function () {
         Route::get('/', [CategoryController::class, 'index'])->name('categories.index');
