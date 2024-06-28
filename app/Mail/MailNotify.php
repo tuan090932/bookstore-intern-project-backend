@@ -42,21 +42,15 @@ class MailNotify extends Mailable
      */
     public function build()
     {
-        $htmlContent = '<p>Total price of the order is: ' . $this->totalPrice . '</p>' . '<p>' . $this->messageContent . '</p>';
-        $htmlContent .= '<table border="1" cellpadding="5" cellspacing="0">';
-        $htmlContent .= '<thead><tr><th>Book ID</th><th>Title</th><th>Quantity</th><th>Price</th></tr></thead>';
-        $htmlContent .= '<tbody>';
-        foreach ($this->bookOrderDetails as $detail) {
-            $htmlContent .= '<tr>';
-            $htmlContent .= '<td>' . $detail['book_id'] . '</td>';
-            $htmlContent .= '<td>' . $detail['title'] . '</td>'; 
-            $htmlContent .= '<td>' . $detail['quantity'] . '</td>';
-            $htmlContent .= '<td>' . $detail['price'] . '</td>';
-            $htmlContent .= '</tr>';
-        }
-        $htmlContent .= '</tbody></table>';
+        $data = [
+            'title' => $this->title,
+            'totalPrice' => $this->totalPrice,
+            'messageContent' => $this->messageContent,
+            'bookOrderDetails' => $this->bookOrderDetails
+        ];
+    
         return $this->from($this->senderEmail, $this->senderName)
                     ->subject($this->title)
-                    ->html($htmlContent);
+                    ->view('admin.pages.emails.order', compact('data'));
     }
 }
