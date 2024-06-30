@@ -44,7 +44,7 @@ use App\Http\Controllers\Api\CartController;
  * 127.0.0.1/api/auth/{action}
  * Example: 127.0.0.1/api/auth/login
  */
- Route::group([
+Route::group([
 
     'middleware' => 'api',
     'prefix' => 'auth'
