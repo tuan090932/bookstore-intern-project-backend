@@ -48,6 +48,12 @@ $currentRoute = request()->route()->getName();
                     <span>Authors</span></a>
             </li>
 
+            <li class="nav-item {{ $currentRoute=='languages.index' ? 'active':'' }}" href="{{ route('languages.index') }}">
+                <a class="nav-link" href="{{ route('languages.index') }}">
+                    <i class="fa-solid fa-language"></i>
+                    <span>Languages</span></a>
+            </li>
+
             <!-- Nav Item - Categories -->
             <li class="nav-item {{ $currentRoute=='categories.index' ? 'active':'' }}">
                 <a class="nav-link" href="{{ route('categories.index') }}">
@@ -90,6 +96,11 @@ $currentRoute = request()->route()->getName();
                 <a class="nav-link" href="{{ route('books.index') }}">
                     <i class="fa-solid fa-book"></i>
                     <span>Books</span></a>
+            </li>
+            <li class="nav-item {{ $currentRoute=='languages.index' ? 'active':'' }}" href="{{ route('languages.index') }}">
+                <a class="nav-link" href="{{ route('languages.index') }}">
+                    <i class="fa-solid fa-language"></i>
+                    <span>Languages</span></a>
             </li>
         @endif
 

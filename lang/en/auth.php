@@ -26,4 +26,11 @@ return [
     'login_failed' => 'Login failed. Please try again.',
     'profile_updated' => 'Profile updated successfully.',
     'profile_update_failed' => 'An error occurred while updating the profile.',
+
+    'email_required' => 'Email is required.',
+    'email_valid' => 'Email must be a valid email address.',
+    'password_required' => 'Password is required.',
+    'password_string' => 'Password must be a string.',
+    'password_min' => 'Password must be at least 6 characters.',
+    'password_regex' => 'Password must include 1 uppercase, 1 number, 1 special character, and be 6+ characters long.',
 ];

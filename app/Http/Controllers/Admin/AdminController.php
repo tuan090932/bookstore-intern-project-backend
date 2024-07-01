@@ -47,18 +47,15 @@ class AdminController extends Controller
     {
         try {
             $admin = new AdminUser();
-            $admin->admin_name = $request->admin_name;
-            $admin->role_id = $request->role_id;
-            $admin->password = Hash::make($request->password);
-            $admin->email = $request->email;
-            $admin->address = $request->address;
-            $admin->phone = $request->phone;
 
+            $admin->fill($request->validated());
+            $admin->password = Hash::make($request->password);
             $admin->save();
 
             return redirect()->route('admins.index')->with('success', __('messages.admin.created_success'));
         } catch (Exception $e) {
             Log::error('Error creating admin: ' . $e->getMessage());
+
             return redirect()->route('admins.create')->with('error', __('messages.admin.created_error'));
         }
     }
@@ -94,6 +91,7 @@ class AdminController extends Controller
             return redirect()->route('admins.index')->with('success', __('messages.admin.updated_success'));
         } catch (Exception $e) {
             Log::error('Error updating admin: ' . $e->getMessage());
+
             return redirect()->route('admins.index')->with('error', __('messages.admin.updated_error'));
         }
     }
@@ -109,14 +107,15 @@ class AdminController extends Controller
         try {
             $admin = AdminUser::findOrFail($id);
 
-            if ($admin->role_id === 'ALL') {
+            if ($admin->isAllRole()) {
                 return redirect()->route('admins.index')->with('error', __('messages.admin.delete_all_role_error'));
             }
-
             $admin->delete();
+
             return redirect()->route('admins.index')->with('success', __('messages.admin.deleted_success'));
         } catch (Exception $e) {
             Log::error('Error deleting admin: ' . $e->getMessage());
+
             return redirect()->route('admins.index')->with('error', __('messages.admin.deleted_error'));
         }
     }
@@ -133,8 +132,8 @@ class AdminController extends Controller
             $adminIds = $request->input('ids', []);
             $admins = AdminUser::whereIn('admin_id', $adminIds)->get();
 
-            $adminsToDelete = $admins->filter(function ($admin) {
-                return $admin->role_id !== 'ALL';
+            $adminsToDelete = $admins->reject(function ($admin) {
+                return $admin->isAllRole();
             });
 
             $adminsToDeleteIds = $adminsToDelete->pluck('admin_id');
@@ -148,6 +147,7 @@ class AdminController extends Controller
             return redirect()->back()->with('success', __('messages.admin.selected_deleted_success'));
         } catch (Exception $e) {
             Log::error('Error deleting selected admins: ' . $e->getMessage());
+
             return redirect()->back()->with('error', __('messages.admin.selected_deleted_error'));
         }
     }
@@ -161,8 +161,8 @@ class AdminController extends Controller
     {
         try {
             $admins = AdminUser::all();
-            $adminsToDelete = $admins->filter(function ($admin) {
-                return $admin->role_id !== 'ALL';
+            $adminsToDelete = $admins->reject(function ($admin) {
+                return $admin->isAllRole();
             });
 
             $adminsToDeleteIds = $adminsToDelete->pluck('admin_id');
@@ -170,12 +170,13 @@ class AdminController extends Controller
             AdminUser::whereIn('admin_id', $adminsToDeleteIds)->delete();
 
             if ($admins->count() !== $adminsToDelete->count()) {
-                return redirect()->back();
+                return redirect()->back()->with('warning', __('messages.admin.delete_all_except_all_role'));
             }
 
             return redirect()->back()->with('success', __('messages.admin.all_deleted_success'));
         } catch (Exception $e) {
             Log::error('Error deleting all admins: ' . $e->getMessage());
+
             return redirect()->back()->with('error', __('messages.admin.all_deleted_error'));
         }
     }
@@ -206,6 +207,7 @@ class AdminController extends Controller
             return redirect()->route('admins.trashed')->with('success', __('messages.admin.restored_success'));
         } catch (Exception $e) {
             Log::error('Error restoring admin: ' . $e->getMessage());
+
             return redirect()->route('admins.trashed')->with('error', __('messages.admin.restored_error'));
         }
     }
@@ -225,6 +227,7 @@ class AdminController extends Controller
             return redirect()->back()->with('success', __('messages.admin.selected_restored_success'));
         } catch (Exception $e) {
             Log::error('Error restoring selected admins: ' . $e->getMessage());
+
             return redirect()->back()->with('error', __('messages.admin.selected_restored_error'));
         }
     }
@@ -242,6 +245,7 @@ class AdminController extends Controller
             return redirect()->back()->with('success', __('messages.admin.all_restored_success'));
         } catch (Exception $e) {
             Log::error('Error restoring all admins: ' . $e->getMessage());
+
             return redirect()->back()->with('error', __('messages.admin.all_restored_error'));
         }
     }

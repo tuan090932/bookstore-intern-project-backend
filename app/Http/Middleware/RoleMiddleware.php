@@ -21,10 +21,6 @@ class RoleMiddleware
     {
         $user = Auth::guard('admin')->user();
 
-        if (!$user) {
-            return redirect()->route('admin.login')->with(['error' => __('auth.must_login')]);
-        }
-
         if (empty($roles) || in_array($user->role_id, $roles)) {
             return $next($request);
         }

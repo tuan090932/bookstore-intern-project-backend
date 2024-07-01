@@ -172,8 +172,8 @@
                 const selectedIds = Array.from(document.querySelectorAll('input[name="author_ids[]"]:checked'))
                     .map(checkbox => checkbox.value);
 
-                const ACTION_URL = "{{ route('authors.delete-selected') }}";
-                const body = "Are you sure you want to delete the selected authors?";
+                ACTION_URL = "{{ route('authors.delete-selected') }}";
+                body = "Are you sure you want to delete the selected authors?";
 
                 showModalConfirmation(selectedIds, ACTION_URL, commonConfig.title, body, commonConfig.method, commonConfig.confirmText);
             });
@@ -182,8 +182,8 @@
         const deleteAllBtn = document.getElementById('authors-delete-all-btn');
         if (deleteAllBtn) {
             deleteAllBtn.addEventListener('click', function() {
-                const ACTION_URL = "{{ route('authors.delete-all') }}";
-                const body = "Are you sure you want to delete all authors?";
+                ACTION_URL = "{{ route('authors.delete-all') }}";
+                body = "Are you sure you want to delete all authors?";
 
                 showModalConfirmation([], ACTION_URL, commonConfig.title, body, commonConfig.method, commonConfig.confirmText);
             });
@@ -193,8 +193,8 @@
         deleteButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const authorId = this.getAttribute('data-author-id');
-                const ACTION_URL = "{{ route('authors.destroy', ':id') }}".replace(':id', authorId);
-                const body = "Are you sure you want to delete this author?";
+                ACTION_URL = "{{ route('authors.destroy', ':id') }}".replace(':id', authorId);
+                body = "Are you sure you want to delete this author?";
 
                 showModalConfirmation([authorId], ACTION_URL, commonConfig.title, body, commonConfig.method, commonConfig.confirmText);
             });
