@@ -5,6 +5,9 @@ return [
         'created_success' => 'Author created successfully.',
         'created_error' => 'Failed to create author.',
 
+        'update_success' => 'Author updated successfully.',
+        'update_error' => 'Failed to update author.',
+
         'deleted_success' => 'Author deleted successfully.',
         'deleted_error' => 'Failed to delete author.',
 

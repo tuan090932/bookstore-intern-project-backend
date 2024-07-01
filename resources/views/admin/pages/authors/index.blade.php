@@ -54,40 +54,45 @@
                     <thead>
                         <tr>
                             <th><input type="checkbox" id="select-all-header"></th>
-                            <th>Category Name</th>
+                            <th>Author Name</th>
+                            <th>Age</th>
+                            <th>Birth Date</th>
+                            <th>Death Date</th>
+                            <th>National</th>
                             <th>Options</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th><input type="checkbox" id="select-all-footer"></th>
-                            <th>Category Name</th>
+                            <th>Author Name</th>
+                            <th>Age</th>
+                            <th>Birth Date</th>
+                            <th>Death Date</th>
+                            <th>National</th>
                             <th>Options</th>
                         </tr>
                     </tfoot>
                     <tbody>
-                        @foreach ($categories as $category)
-                        <tr>
-                            <td><input type="checkbox" name="category_ids[]" value="{{ $category->category_id }}"></td>
-                            <td>
-                                {{ $category->category_name }}
-                                @if ($errors->has('category_' . $category->category_id))
-                                    <div class="alert alert-danger">
-                                        {{ $errors->first('category_' . $category->category_id) }}
+                        @foreach($authors as $author)
+                            <tr>
+                                <td><input type="checkbox" name="author_ids[]" value="{{ $author->author_id }}"></td>
+                                <td>{{ $author->author_name }}</td>
+                                <td>{{ $author->age }}</td>
+                                <td>{{ $author->birth_date }}</td>
+                                <td>{{ $author->death_date ? $author->death_date : '------------' }}</td>
+                                <td>{{ $author->national }}</td>
+                                <td>
+                                    <div class="d-flex justify-content-center">
+                                        <a href="{{ route('authors.edit', $author->author_id) }}" class="mr-2 text-success">
+                                            <i style="color: #1CC88A" class="fa-regular fa-pen-to-square fa-2xl"></i>
+                                        </a>
+                                        <button type="button" class="btn btn-link p-0 m-0" data-author-id="{{ $author->author_id }}" id="delete-btn">
+                                            <i style="color: red" class="fa-regular fa-trash-can fa-2xl"></i>
+                                        </button>
                                     </div>
-                                @endif
-                            </td>
-                            <td>
-                                <div class="d-flex justify-content-center">
-                                    <a href="{{ route('categories.edit', $category->category_id) }}" class="mr-2 text-success">
-                                        <i style="color: #1CC88A" class="fa-regular fa-pen-to-square fa-2xl"></i>
-                                    </a>
-                                    <button type="button" class="btn btn-link p-0 m-0" data-category-id="{{ $category->category_id }}" id="delete-btn">
-                                        <i style="color: red" class="fa-regular fa-trash-can fa-2xl"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
