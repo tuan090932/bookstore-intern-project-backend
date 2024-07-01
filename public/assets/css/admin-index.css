@@ -140,7 +140,7 @@ body
     font-size: 1.75em;
 }
 
-.navigation ul li a .icon i
+.navigation ul li a .icon i  
 {
     font-size: 1.75em;
 }
@@ -315,7 +315,7 @@ body
     align-items: flex-start;
 }
 
-.cardHeader h2
+.cardHeader h2  
 {
     font-weight: 600;
     color: var(--blue);
@@ -346,7 +346,7 @@ body
 .detail .recentOders table tr
 {
     color: var(--black1);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);    
 }
 
 .detail .recentOders table tbody tr:last-child
@@ -366,17 +366,17 @@ body
 }
 
 .detail .recentOders table tr td:last-child
-{
+{   
     text-align: end;
 }
 
 .detail .recentOders table tr td:last-child(2)
-{
+{   
     text-align: end;
 }
 
 .detail .recentOders table tr td:last-child(3)
-{
+{   
     text-align: center;
 }
 
@@ -438,7 +438,7 @@ body
 
 .recentCustomers table tr td h4
 {
-    font-size: 16px;
+    font-size: 16px; 
     font-weight: 500;
     line-height: 1.2em;
 }
