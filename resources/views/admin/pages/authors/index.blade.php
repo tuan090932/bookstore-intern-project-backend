@@ -57,7 +57,7 @@
                 </div>
             </div>
 
-            <div class="d-flex justify-content-between align-items-center">
+            <div class="d-flex">
                 <!-- Death Status Filter -->
                 <div class="form-group mr-2">
                     <label for="death_status" class="mr-2">Death Status: </label>
@@ -82,9 +82,8 @@
                         <option value="death_date_desc" {{ request()->get('sort_by') == 'death_date_desc' ? 'selected' : '' }}>Death Date Descending</option>
                     </select>
                 </div>
-
-                <button type="submit" class="btn btn-primary filter">Filter</button>
             </div>
+            <button type="submit" class="btn btn-primary filter align-self-end">Filter</button>
         </form>
     </div>
 

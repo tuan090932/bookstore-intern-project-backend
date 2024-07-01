@@ -25,7 +25,6 @@ class AuthorController extends Controller
     {
         $query = Author::query();
 
-        // Filter by age range
         if ($request->has('min_age') && $request->min_age !== null)
         {
             $query->where('age', '>=', $request->min_age);
@@ -35,7 +34,6 @@ class AuthorController extends Controller
             $query->where('age', '<=', $request->max_age);
         }
 
-        // Filter by death status
         if ($request->has('death_status') && $request->death_status !== null)
         {
             if ($request->death_status == 'alive')
@@ -48,7 +46,6 @@ class AuthorController extends Controller
             }
         }
 
-        // Sorting
         if ($request->has('sort_by') && $request->sort_by !== null)
         {
             switch ($request->sort_by)
