@@ -83,11 +83,9 @@
                             <td>{{ $order->order_date }}</td>
                             <td>{{ number_format($order->total_price, 0, ',', '.') }}đ</td>
                             <td>
-                                <td>
-                                    <span class="badge badge{{$order->orderStatus->status_id }}">
-                                        {{ $order->orderStatus->status_name }}
-                                    </span>
-                                </td>
+                                <span class="badge badge{{$order->orderStatus->status_id }}">
+                                    {{ $order->orderStatus->status_name }}
+                                </span>
                             </td>
                         </tr>
                         @endforeach
