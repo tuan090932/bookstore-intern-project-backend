@@ -30,12 +30,12 @@ class AdminLoginRequest extends FormRequest
     public function messages()
     {
         return [
-            'email.required' => '*Email is required.',
-            'email.email' => '*Email must be a valid email address.',
-            'password.required' => '*Password is required.',
-            'password.string' => '*Password must be a string.',
-            'password.min' => '*Password must be at least 6 characters.',
-            'password.regex' => '*Password must include 1 uppercase, 1 number, 1 special character, and be 6+ characters long.',
+            'email.required' => __('auth.email_required'),
+            'email.email' => __('auth.email_valid'),
+            'password.required' => __('auth.password_required'),
+            'password.string' => __('auth.password_string'),
+            'password.min' => __('auth.password_min'),
+            'password.regex' => __('auth.password_regex'),
         ];
     }
 }

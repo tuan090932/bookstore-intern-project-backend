@@ -79,7 +79,6 @@ class AuthorController extends Controller
             return redirect()->back()->with('success', __('messages.author.created_success'));
         } catch (Exception $e) {
             Log::error($e->getMessage());
-
             return redirect()->back()->with('error', __('messages.author.created_error'));
         }
     }

@@ -30,18 +30,16 @@ return [
 
         'deleted_success' => 'Admin deleted successfully.',
         'deleted_error' => 'Failed to delete admin.',
-        'delete_all_role_error' => 'Cannot delete all admins because there are admins with the role "All Permissions".',
+        'selected_deleted_success' => 'Selected admins deleted successfully.',
+        'selected_deleted_error' => 'Failed to delete selected admins.',
+        'all_deleted_success' => 'All admins deleted successfully.',
+        'all_deleted_error' => 'Failed to delete all admins.',
+        'delete_all_role_error' => 'Cannot delete admin because they have the permission of "All Permissons".',
 
         'restored_success' => 'Admin restored successfully.',
         'restored_error' => 'Failed to restore admin.',
-
         'selected_restored_success' => 'Selected admins restored successfully.',
         'selected_restored_error' => 'Failed to restore selected admins.',
-        'selected_deleted_success' => 'Selected admins deleted successfully.',
-        'selected_deleted_error' => 'Failed to delete selected admins.',
-
-        'all_deleted_success' => 'All admins deleted successfully.',
-        'all_deleted_error' => 'Failed to delete all admins.',
         'all_restored_success' => 'All admins restored successfully.',
         'all_restored_error' => 'Failed to restore all admins.',
     ],
@@ -61,4 +59,13 @@ return [
 
         'fetch_error' => 'Failed to fetch category data.',
     ],
+
+
+    'cart' => [
+        'not_found' => 'Cart not found.',
+        'item_added_success' => 'Cart item added successfully.',
+        'item_removed_success' => 'Item removed successfully.',
+        'item_not_found' => 'Cart item not found.',
+    ],
+
 ];

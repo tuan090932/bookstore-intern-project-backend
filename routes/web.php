@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AddressController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -32,9 +33,6 @@ use App\Http\Controllers\Admin\OrderController;
 Route::get('/forgot-password', function () {
     return view('admin.pages.auth.forgot-password');
 })->name('forgot-password');
-
-Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
-Route::resource('admin/books', BookController::class);
 
 Route::get('/', function () {
     return redirect('/admin');
@@ -71,7 +69,9 @@ Route::prefix('admin')->group(function () {
         });
 
         Route::middleware('role:ALL,MG,BOOK')->group(function () {
+            Route::get('search', [BookController::class, 'search'])->name('books.search');
             Route::resource('books', BookController::class);
+            Route::resource('languages', LanguageController::class);
         });
 
         Route::middleware('role:ALL,MG,AUTHO')->group(function () {
@@ -107,3 +107,5 @@ Route::prefix('admin')->group(function () {
         });
     });
 });
+
+

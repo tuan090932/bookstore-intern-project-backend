@@ -58,7 +58,7 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
         try {
             Book::create($request->validated());
@@ -66,14 +66,6 @@ class BookController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('books.index')->with('error', 'Failed to add book.');
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**

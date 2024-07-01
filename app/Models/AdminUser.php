@@ -56,4 +56,9 @@ class AdminUser extends Authenticatable
     {
         return $this->role_id === $role;
     }
+
+    public function isAllRole()
+    {
+        return $this->role_id === Role::getAllPermissionRole();
+    }
 }
