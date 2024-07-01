@@ -1,0 +1,35 @@
+.noUi-target, .noUi-lower, .noUi-upper
+{
+    background: #f8f9fc;
+}
+
+.noUi-handle
+{
+    width: 10px;
+    height: 10px;
+    background: #4e73df;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.noUi-tooltip
+{
+    display: none;
+}
+
+.age_range
+{
+    width: 100%;
+}
+
+.filter-form
+{
+    max-width: 30%;
+    margin-left: 20px;
+}
+
+.age_range_text
+{
+    margin-right: 30px;
+}
