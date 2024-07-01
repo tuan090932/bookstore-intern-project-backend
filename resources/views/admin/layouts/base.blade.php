@@ -4,6 +4,7 @@
 <head>
 
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -86,7 +87,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="{{ route('dashboard') }}">Logout</a>
+                    <a class="btn btn-primary" href="{{ route('admin.dashboard') }}">Logout</a>
                 </div>
             </div>
         </div>
@@ -101,9 +102,10 @@
 
     <!-- Custom scripts for all pages-->
     <script src="{{ asset('/assets/js/sb-admin-2.min.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="{{ asset('assets/js/common.js') }}"></script>
+    <script>
+        MODAL_CONFIRM_URL = "{{ route('common.showConfirmModal') }}";
+    </script>
 
 </body>
 

@@ -20,7 +20,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::with('categories', 'languages', 'authors', 'publishers')->paginate(5);
+        $books = Book::with('categories', 'languages', 'authors', 'publishers')->paginate(15);
 
         return view('admin.pages.books.index', compact('books'));
     }
@@ -40,7 +40,7 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
         try {
             Book::create($request->validated());
@@ -48,14 +48,6 @@ class BookController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('books.index')->with('error', 'Failed to add book.');
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
