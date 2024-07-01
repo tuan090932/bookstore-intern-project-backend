@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\AuthorController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\AddressController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -35,6 +36,7 @@ Route::get('/forgot-password', function () {
 
 Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
 Route::resource('admin/books', BookController::class);
+Route::resource('admin/languages', LanguageController::class);
 
 Route::get('/', function () {
     return redirect('/admin');
@@ -106,3 +108,5 @@ Route::prefix('admin')->group(function () {
         });
     });
 });
+
+

@@ -56,4 +56,13 @@ return [
 
         'fetch_error' => 'Failed to fetch category data.',
     ],
+
+
+    'cart' => [
+        'not_found' => 'Cart not found.',
+        'item_added_success' => 'Cart item added successfully.',
+        'item_removed_success' => 'Item removed successfully.',
+        'item_not_found' => 'Cart item not found.',
+    ],
+
 ];
