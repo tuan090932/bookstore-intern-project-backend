@@ -6,43 +6,113 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Author;
 use Carbon\Carbon;
-use App\Rules\ValidBirthDate;
-use App\Rules\ValidDeathDate;
 use App\Http\Requests\StoreAuthorRequest;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\AuthorRequest;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 
 class AuthorController extends Controller
 {
     /**
+     * This property stores the route for the search functionality.
+     *
+     * @var string
+     */
+    protected $searchRoute;
+
+    /**
+     * Controller constructor.
+     */
+    public function __construct()
+    {
+        $this->searchRoute = route('authors.search');
+    }
+
+    /**
+     * Display a listing of the authors.
+     *
+     * @return \Illuminate\View\View
      * Display a listing of the resource.
      *
      * @return \Illuminate\View\View The view displaying the list of authors.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $authors = Author::paginate(15);
+        $query = Author::query();
 
-        return view('admin.pages.authors.index', compact('authors'));
+        if ($request->has('min_age') && $request->min_age !== null)
+        {
+            $query->where('age', '>=', $request->min_age);
+        }
+        if ($request->has('max_age') && $request->max_age !== null)
+        {
+            $query->where('age', '<=', $request->max_age);
+        }
+
+        if ($request->has('death_status') && $request->death_status !== null)
+        {
+            if ($request->death_status == 'alive')
+            {
+                $query->whereNull('death_date');
+            }
+            elseif ($request->death_status == 'deceased')
+            {
+                $query->whereNotNull('death_date');
+            }
+        }
+
+        if ($request->has('sort_by') && $request->sort_by !== null)
+        {
+            switch ($request->sort_by)
+            {
+                case 'name_asc':
+                    $query->orderBy('author_name', 'asc');
+                    break;
+                case 'age_asc':
+                    $query->orderBy('age', 'asc');
+                    break;
+                case 'age_desc':
+                    $query->orderBy('age', 'desc');
+                    break;
+                case 'birth_date_asc':
+                    $query->orderBy('birth_date', 'asc');
+                    break;
+                case 'birth_date_desc':
+                    $query->orderBy('birth_date', 'desc');
+                    break;
+                case 'death_date_asc':
+                    $query->orderBy('death_date', 'asc');
+                    break;
+                case 'death_date_desc':
+                    $query->orderBy('death_date', 'desc');
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        $authors = $query->paginate(15);
+
+        return view('admin.pages.authors.index', ['authors' => $authors, 'searchRoute' => $this->searchRoute]);
     }
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('admin.pages.authors.create');
+        return view('admin.pages.authors.create', ['searchRoute' => $this->searchRoute]);
     }
 
     /**
-     * Store a newly created author resource in the database.
+     * Search for authors.
      *
      * @param // \Illuminate\Http\Request  $request
      * @return // \Illuminate\Http\Response
      */
-    public function store(StoreAuthorRequest $request)
+    public function store(AuthorRequest $request)
     {
         try {
             $authorName = $request->input('author_name');
@@ -64,6 +134,52 @@ class AuthorController extends Controller
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return redirect()->back()->with('error', __('messages.author.created_error'));
+        }
+    }
+
+    /**
+     * Show the form for editing the specified author resource.
+     *
+     * @param int $id The ID of the author to be edited.
+     * @return \Illuminate\View\View
+     */
+    public function edit($id)
+    {
+        $author = Author::findOrFail($id);
+        return view('admin.pages.authors.edit', ['author' => $author, 'searchRoute' => $this->searchRoute]);
+    }
+
+    /**
+     * Update the specified author resource in the database.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id The ID of the author to be updated.
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(AuthorRequest $request, $id)
+    {
+        try {
+            $authorName = $request->input('author_name');
+            $birthDate = Carbon::createFromFormat('d/m/Y', $request->input('birth_date'));
+            $deathDate = $request->input('death_date') ? Carbon::createFromFormat('d/m/Y', $request->input('death_date')) : null;
+            $national = $request->input('national');
+
+            $age = $deathDate ? $deathDate->year - $birthDate->year : Carbon::now()->year - $birthDate->year;
+
+            $author = Author::findOrFail($id);
+            $author->update([
+                'author_name' => $authorName,
+                'birth_date' => $birthDate,
+                'death_date' => $deathDate ? $deathDate : null,
+                'age' => $age,
+                'national' => $national,
+            ]);
+
+            return redirect()->back()->with('success', __('messages.author.update_success'));
+        } catch (Exception $e) {
+            Log::error('Error updating author: '.$e->getMessage());
+
+            return redirect()->back()->with('error', __('messages.author.update_error'));
         }
     }
 
@@ -96,7 +212,7 @@ class AuthorController extends Controller
     {
         $authors = Author::onlyTrashed()->paginate(15);
 
-        return view('admin.pages.authors.restore', compact('authors'));
+        return view('admin.pages.authors.restore', ['authors' => $authors, 'searchRoute' => $this->searchRoute]);
     }
 
     /**
@@ -191,4 +307,19 @@ class AuthorController extends Controller
         }
     }
 
+    /**
+     * Search for authors.
+     *
+     * @param \Illuminate\Http\Request $request The request object containing the search query.
+     * @return \Illuminate\View\View
+     */
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $authors = Author::where('author_name', 'LIKE', "%{$query}%")->paginate(15);
+
+        return view('admin.pages.authors.index', ['authors' => $authors, 'query' => $query, 'searchRoute' => $this->searchRoute]);
+    }
 }
+?>
