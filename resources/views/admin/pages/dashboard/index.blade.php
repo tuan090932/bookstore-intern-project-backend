@@ -21,6 +21,10 @@
     {
         grid-template-columns: 3fr 1fr !important;
     }
+
+    .detail .recentOders {
+        display: block !important;
+    }
 </style>
     <div class="container-fluid">
         <div class="d-grid d-flex justify-content-between">

@@ -13,3 +13,8 @@
 .badge4 {
     background-color: #f00;
 }
+
+.badge {
+    padding: 0.5em 0.5em !important;
+    color: #fff;
+}
