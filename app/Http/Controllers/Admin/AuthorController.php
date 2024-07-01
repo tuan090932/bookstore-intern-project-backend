@@ -6,11 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Author;
 use Carbon\Carbon;
-use App\Rules\ValidBirthDate;
-use App\Rules\ValidDeathDate;
 use App\Http\Requests\StoreAuthorRequest;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\AuthorRequest;
 use Exception;
 use Illuminate\Support\Facades\Log;
 
@@ -96,7 +93,7 @@ class AuthorController extends Controller
      * @param // \Illuminate\Http\Request  $request
      * @return // \Illuminate\Http\Response
      */
-    public function store(StoreAuthorRequest $request)
+    public function store(AuthorRequest $request)
     {
         try {
             $authorName = $request->input('author_name');
@@ -118,6 +115,52 @@ class AuthorController extends Controller
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return redirect()->back()->with('error', __('messages.author.created_error'));
+        }
+    }
+
+    /**
+     * Show the form for editing the specified author resource.
+     *
+     * @param int $id The ID of the author to be edited.
+     * @return \Illuminate\View\View
+     */
+    public function edit($id)
+    {
+        $author = Author::findOrFail($id);
+        return view('admin.pages.authors.edit', compact('author'));
+    }
+
+    /**
+     * Update the specified author resource in the database.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int $id The ID of the author to be updated.
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(AuthorRequest $request, $id)
+    {
+        try {
+            $authorName = $request->input('author_name');
+            $birthDate = Carbon::createFromFormat('d/m/Y', $request->input('birth_date'));
+            $deathDate = $request->input('death_date') ? Carbon::createFromFormat('d/m/Y', $request->input('death_date')) : null;
+            $national = $request->input('national');
+
+            $age = $deathDate ? $deathDate->year - $birthDate->year : Carbon::now()->year - $birthDate->year;
+
+            $author = Author::findOrFail($id);
+            $author->update([
+                'author_name' => $authorName,
+                'birth_date' => $birthDate,
+                'death_date' => $deathDate ? $deathDate : null,
+                'age' => $age,
+                'national' => $national,
+            ]);
+
+            return redirect()->back()->with('success', __('messages.author.update_success'));
+        } catch (Exception $e) {
+            Log::error('Error updating author: '.$e->getMessage());
+
+            return redirect()->back()->with('error', __('messages.author.update_error'));
         }
     }
 

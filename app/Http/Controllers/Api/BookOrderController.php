@@ -36,7 +36,7 @@ class BookOrderController extends Controller
                               ->join('order_status', 'book_order.status_id', '=', 'order_status.status_id');
     
             if ($request->has('status_id')) {
-                $query->where('status_id', $request->input('status_id'));
+                $query->where('book_order.status_id', $request->input('status_id'));
             }
     
             $orders = $query->get();
