@@ -21,7 +21,25 @@ return [
         'all_restored_success' => 'All authors restored successfully.',
         'all_restored_error' => 'Failed to restore all authors.',
     ],
+    'admin' => [
+        'created_success' => 'Admin created successfully.',
+        'created_error' => 'Failed to create admin.',
 
+        'deleted_success' => 'Admin deleted successfully.',
+        'deleted_error' => 'Failed to delete admin.',
+        'selected_deleted_success' => 'Selected admins deleted successfully.',
+        'selected_deleted_error' => 'Failed to delete selected admins.',
+        'all_deleted_success' => 'All admins deleted successfully.',
+        'all_deleted_error' => 'Failed to delete all admins.',
+        'delete_all_role_error' => 'Cannot delete admin because they have the permission of "All Permissons".',
+
+        'restored_success' => 'Admin restored successfully.',
+        'restored_error' => 'Failed to restore admin.',
+        'selected_restored_success' => 'Selected admins restored successfully.',
+        'selected_restored_error' => 'Failed to restore selected admins.',
+        'all_restored_success' => 'All admins restored successfully.',
+        'all_restored_error' => 'Failed to restore all admins.',
+    ],
     'category' => [
         'created_success' => 'Category created successfully.',
         'created_error' => 'Failed to create category.',

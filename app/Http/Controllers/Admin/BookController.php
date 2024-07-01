@@ -20,7 +20,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books = Book::with('categories', 'languages', 'authors', 'publishers')->paginate(5);
+        $books = Book::with('categories', 'languages', 'authors', 'publishers')->paginate(15);
 
         return view('admin.pages.books.index', compact('books'));
     }

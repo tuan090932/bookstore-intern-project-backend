@@ -21,7 +21,7 @@ class User extends Authenticatable implements JWTSubject
     protected $primaryKey = 'user_id';
 
     protected $fillable = [
-        'user_name', 
+        'user_name',
         'name',
         'email',
         'password',
