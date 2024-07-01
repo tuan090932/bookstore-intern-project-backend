@@ -9,11 +9,30 @@ use Carbon\Carbon;
 use App\Http\Requests\StoreAuthorRequest;
 use App\Http\Requests\AuthorRequest;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Log;
 
 class AuthorController extends Controller
 {
     /**
+     * This property stores the route for the search functionality.
+     *
+     * @var string
+     */
+    protected $searchRoute;
+
+    /**
+     * Controller constructor.
+     */
+    public function __construct()
+    {
+        $this->searchRoute = route('authors.search');
+    }
+
+    /**
+     * Display a listing of the authors.
+     *
+     * @return \Illuminate\View\View
      * Display a listing of the resource.
      *
      * @return \Illuminate\View\View The view displaying the list of authors.
@@ -75,7 +94,7 @@ class AuthorController extends Controller
 
         $authors = $query->paginate(15);
 
-        return view('admin.pages.authors.index', compact('authors'));
+        return view('admin.pages.authors.index', ['authors' => $authors, 'searchRoute' => $this->searchRoute]);
     }
 
 
@@ -84,11 +103,11 @@ class AuthorController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.authors.create');
+        return view('admin.pages.authors.create', ['searchRoute' => $this->searchRoute]);
     }
 
     /**
-     * Store a newly created author resource in the database.
+     * Search for authors.
      *
      * @param // \Illuminate\Http\Request  $request
      * @return // \Illuminate\Http\Response
@@ -127,7 +146,7 @@ class AuthorController extends Controller
     public function edit($id)
     {
         $author = Author::findOrFail($id);
-        return view('admin.pages.authors.edit', compact('author'));
+        return view('admin.pages.authors.edit', ['author' => $author, 'searchRoute' => $this->searchRoute]);
     }
 
     /**
@@ -193,7 +212,7 @@ class AuthorController extends Controller
     {
         $authors = Author::onlyTrashed()->paginate(15);
 
-        return view('admin.pages.authors.restore', compact('authors'));
+        return view('admin.pages.authors.restore', ['authors' => $authors, 'searchRoute' => $this->searchRoute]);
     }
 
     /**
@@ -288,4 +307,19 @@ class AuthorController extends Controller
         }
     }
 
+    /**
+     * Search for authors.
+     *
+     * @param \Illuminate\Http\Request $request The request object containing the search query.
+     * @return \Illuminate\View\View
+     */
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $authors = Author::where('author_name', 'LIKE', "%{$query}%")->paginate(15);
+
+        return view('admin.pages.authors.index', ['authors' => $authors, 'query' => $query, 'searchRoute' => $this->searchRoute]);
+    }
 }
+?>

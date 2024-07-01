@@ -14,6 +14,24 @@ use App\Models\Publisher;
 class BookController extends Controller
 {
     /**
+     * This property stores the route for the search functionality.
+     * It is initialized in the constructor to ensure it is properly set for use in the views.
+     *
+     * @var string
+     */
+    protected $searchRoute;
+
+    /**
+     * Controller constructor.
+     *
+     * Initializes the search route to direct search requests to the appropriate controller action.
+     */
+    public function __construct()
+    {
+        $this->searchRoute = route('books.search');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * Using with function to Eager Loading
@@ -22,7 +40,7 @@ class BookController extends Controller
     {
         $books = Book::with('categories', 'languages', 'authors', 'publishers')->paginate(15);
 
-        return view('admin.pages.books.index', compact('books'));
+        return view('admin.pages.books.index', ['books' => $books, 'searchRoute' => $this->searchRoute]);
     }
 
     /**

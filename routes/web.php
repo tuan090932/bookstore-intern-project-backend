@@ -82,6 +82,7 @@ Route::prefix('admin')->group(function () {
                 Route::get('trashed', [AuthorController::class, 'trashed'])->name('authors.trashed');
                 Route::patch('restore-selected', [AuthorController::class, 'restoreSelected'])->name('authors.restore-selected');
                 Route::patch('restore-all', [AuthorController::class, 'restoreAll'])->name('authors.restore-all');
+                Route::get('authors/search', [AuthorController::class, 'search'])->name('authors.search');
                 Route::patch('{id}/restore', [AuthorController::class, 'restore'])->name('authors.restore');
             });
             Route::resource('authors', AuthorController::class);

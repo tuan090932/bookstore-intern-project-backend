@@ -56,7 +56,7 @@
             <!--------------------Button--------------------------->
             <div class="d-grid d-flex justify-content-between">
                 <!------ Button Quay Lại ------>
-                <a href="javascript:history.back()" asp-action="Index" class="form-group btn btn-secondary btn-icon-split">
+                <a href="{{ route('authors.index') }}" asp-action="Index" class="form-group btn btn-secondary btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-arrow-left"></i>
                     </span>
