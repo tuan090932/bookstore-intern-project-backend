@@ -38,6 +38,9 @@ Route::get('/', function () {
     return redirect('/admin');
 });
 
+
+
+
 Route::prefix('admin')->group(function () {
     Route::get('register', [AuthController::class, 'register'])->name('admin.register');
     Route::post('register', [AuthController::class, 'store'])->name('admin.register.submit');
@@ -93,7 +96,8 @@ Route::prefix('admin')->group(function () {
                 Route::get('/{id}', [OrderController::class, 'show'])->name('orders.show');
                 Route::put('/{id}', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
                 Route::delete('delete/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
-            });
+                Route::post('/orders/send-email/{order}', [OrderController::class, 'sendOrderNotificationEmail'])->name('orders.sendEmail');
+    });
         });
         Route::middleware('role:ALL,MG,CAT')->group(function () {
             Route::prefix('categories')->group(function () {
