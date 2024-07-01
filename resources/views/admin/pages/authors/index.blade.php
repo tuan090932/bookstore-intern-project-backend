@@ -43,22 +43,22 @@
                     <thead>
                         <tr>
                             <th><input type="checkbox" id="select-all-header"></th>
-                            <th>Tên tác giả</th>
-                            <th>Tuổi</th>
-                            <th>Ngày sinh</th>
-                            <th>Ngày mất</th>
-                            <th>Quốc tịch</th>
+                            <th>Author Name</th>
+                            <th>Age</th>
+                            <th>Birth Date</th>
+                            <th>Death Date</th>
+                            <th>National</th>
                             <th>Options</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th><input type="checkbox" id="select-all-footer"></th>
-                            <th>Tên tác giả</th>
-                            <th>Tuổi</th>
-                            <th>Ngày sinh</th>
-                            <th>Ngày mất</th>
-                            <th>Quốc tch</th>
+                            <th>Author Name</th>
+                            <th>Age</th>
+                            <th>Birth Date</th>
+                            <th>Death Date</th>
+                            <th>National</th>
                             <th>Options</th>
                         </tr>
                     </tfoot>
@@ -73,7 +73,7 @@
                                 <td>{{ $author->national }}</td>
                                 <td>
                                     <div class="d-flex justify-content-center">
-                                        <a href="" class="mr-2 text-success">
+                                        <a href="{{ route('authors.edit', $author->author_id) }}" class="mr-2 text-success">
                                             <i style="color: #1CC88A" class="fa-regular fa-pen-to-square fa-2xl"></i>
                                         </a>
                                         <button type="button" class="btn btn-link p-0 m-0" data-author-id="{{ $author->author_id }}" id="delete-btn">
