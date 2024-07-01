@@ -53,17 +53,17 @@
                                                 id="exampleInputEmail" aria-describedby="emailHelp"
                                                 placeholder="Nhập địa chỉ email...">
                                             @error('email')
-                                                <span class="text-danger">{{ $message }}</span>
+                                                <span style="margin: 5px 0 0 10px; font-size: 12px;" class="text-danger">{{ $message }}</span>
                                             @enderror
                                         </div>
                                         <div class="form-group position-relative">
                                             <input type="password" name="password" class="form-control form-control-user"
                                                 id="exampleInputPassword" placeholder="Mật khẩu">
                                             <span toggle="#exampleInputPassword" class="fa fa-fw fa-eye field-icon toggle-password" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;"></span>
-                                            @error('password')
-                                                <span class="text-danger">{{ $message }}</span>
-                                            @enderror
                                         </div>
+                                        @error('password')
+                                                <span style="margin: 5px 0 10px 10px; font-size: 12px; display: block;" class="text-danger">{{ $message }}</span>
+                                            @enderror
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
                                                 <input type="checkbox" class="custom-control-input" id="customCheck">

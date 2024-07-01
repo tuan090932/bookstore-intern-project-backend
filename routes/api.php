@@ -6,7 +6,10 @@ use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\BookController;
 use App\Http\Controllers\Api\CategoryController;
-
+use App\Http\Controllers\Api\FavoriteController;
+use App\Http\Controllers\Api\BookOrderController;
+use App\Http\Controllers\Api\OrderStatusController;
+use App\Http\Controllers\Api\CartController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -41,7 +44,7 @@ use App\Http\Controllers\Api\CategoryController;
  * 127.0.0.1/api/auth/{action}
  * Example: 127.0.0.1/api/auth/login
  */
- Route::group([
+Route::group([
 
     'middleware' => 'api',
     'prefix' => 'auth'
@@ -64,15 +67,10 @@ use App\Http\Controllers\Api\CategoryController;
  * The group is prefixed with 'api/books'.
  *
  * Endpoints:
- * - GET /api/books: Retrieves a list of all books.
+ * - GET /api/books: Creates a new book or retrieves a list of all books based on filters.
  * - GET /api/books/{id}: Retrieves a specific book by its ID.
-
+ *
  * These endpoints use the `BookController` to handle the corresponding logic.
- *
- * The following api with API routes bellow:
- *
- * 127.0.0.1/api/books
- * Example: 127.0.0.1/api/books/
  */
 Route::group([
     'prefix' => 'books',
@@ -130,4 +128,69 @@ Route::prefix('address')->group(function () {
 Route::prefix('user')->group(function () {
     Route::get('/{id}', [UserController::class, 'show']);
     Route::put('/update/{id}', [UserController::class, 'update']);
+});
+
+
+/**
+ * API Routes for Favorites
+ *
+ * This route group handles all favorite-related API endpoints.
+ * The group is prefixed with 'api/favorite'.
+ *
+ * Endpoints:
+ * - GET /api/favorite: Retrieves a list of all favorites.
+ * - POST /api/favorite: Adds a new favorite.
+ * - DELETE /api/favorite/{id}: Removes a specific favorite by ID.
+ *
+ * These endpoints use the `FavoriteController` to handle the corresponding logic.
+ *
+ * The following api with API routes bellow:
+ */
+Route::prefix('favorite')->group(function () {
+    Route::get('/', [FavoriteController::class, 'getFavorites']);
+    Route::post('/', [FavoriteController::class, 'addFavorite']);
+    Route::delete('/{favorite}', [FavoriteController::class, 'removeFavorite']);
+});
+
+
+/**
+ * API Routes for Cart
+ *
+ * This group of routes handles all API endpoints related to the shopping cart.
+ * The routes are prefixed with 'api/cart'.
+ *
+ * Endpoints:
+ * - GET /api/cart: Retrieve the list of items in the user's cart.
+ * - POST /api/cart: Add a new item to the user's cart.
+ * - DELETE /api/cart/{id}: Remove a specific item from the user's cart by its ID.
+ *
+ * These routes use the `CartController` to manage the corresponding logic.
+ */
+Route::prefix('cart')->group(function () {
+    Route::get('/', [CartController::class, 'index']);
+    Route::post('/', [CartController::class, 'store']);
+    Route::delete('/{id}', [CartController::class, 'destroyItem']);
+});
+/**
+ * API Routes for Orders
+ *
+ * This route group handles all order-related API endpoints.
+ * The group is prefixed with 'api/order'.
+ *
+ * Endpoints:
+ * - GET /api/order: Retrieves a list of all orders.
+ * - POST /api/order: Creates a new order.
+ * - GET /api/order/{id}: Retrieves a specific order by ID.
+ * - PATCH /api/order/{id}/status: Updates the status of a specific order by ID.
+ *
+ * These endpoints use the `BookOrderController` to handle the corresponding logic.
+ *
+ * The following api with API routes bellow:
+ */
+Route::prefix('order')->group(function () {
+    Route::get('/', [BookOrderController::class, 'index']);
+    Route::post('/', [BookOrderController::class, 'store']);
+    Route::get('/{id}', [BookOrderController::class, 'show']);
+    Route::patch('/{id}/status', [BookOrderController::class, 'updateStatus']);
+    Route::get('/status/{status_id}', [OrderStatusController::class, 'show']);
 });

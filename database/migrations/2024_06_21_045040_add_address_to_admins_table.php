@@ -12,8 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('admin', function (Blueprint $table) {
-            $table->string('phone')->nullable()->after('email'); // Thêm cột phone sau cột email
-            $table->string('address')->nullable()->after('phone'); // Thêm cột address sau cột phone
+            $table->string('address')->after('email')->nullable();
         });
     }
 
@@ -23,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('admin', function (Blueprint $table) {
-            $table->dropColumn(['phone', 'address']);
+            $table->dropColumn('address');
         });
     }
 };

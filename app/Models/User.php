@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Models\Cart;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -19,9 +20,8 @@ class User extends Authenticatable implements JWTSubject
     // Custom primary key for the User model
     protected $primaryKey = 'user_id';
 
-    // Fields that are mass assignable
     protected $fillable = [
-        'user_name', 
+        'user_name',
         'name',
         'email',
         'password',
@@ -46,12 +46,27 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Address::class, 'user_id', 'user_id');
     }
+    
+    /**
+     * Get the orders associated with the user.
+     *
+     * @return Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class, 'user_id');
+    }
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
+    * Retrieve the cart associated with the user.
+    *
+    * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    */
+    public function cart()
+    {
+        return $this->hasOne(Cart::class, 'user_id', 'user_id');
+    }
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];

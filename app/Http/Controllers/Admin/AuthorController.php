@@ -60,7 +60,6 @@ class AuthorController extends Controller
             return redirect()->back()->with('success', __('messages.author.created_success'));
         } catch (Exception $e) {
             Log::error($e->getMessage());
-
             return redirect()->back()->with('error', __('messages.author.created_error'));
         }
     }
@@ -172,13 +171,10 @@ class AuthorController extends Controller
     public function restoreSelected(Request $request)
     {
         try {
-            $authorIdsInput = $request->input('author_ids', '');
-            $authorIdsArray = explode(',', $authorIdsInput);
-            $authorIds = array_filter($authorIdsArray, function($value) {
-                return !empty($value) && is_numeric($value);
-            });
+            $authorIds = $request->input('ids', []);
 
             Author::onlyTrashed()->whereIn('author_id', $authorIds)->restore();
+
             return redirect()->back()->with('success', __('messages.author.selected_restored_success'));
         } catch (Exception $e) {
             Log::error('Error restoring authors: ' . $e->getMessage());
@@ -195,11 +191,7 @@ class AuthorController extends Controller
     public function deleteSelected(Request $request)
     {
         try {
-            $authorIdsInput = $request->input('author_ids', '');
-            $authorIdsArray = explode(',', $authorIdsInput);
-            $authorIds = array_filter($authorIdsArray, function($value) {
-                return !empty($value) && is_numeric($value);
-            });
+            $authorIds = $request->input('ids', []);
 
             Author::whereIn('author_id', $authorIds)->delete();
 

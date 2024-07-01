@@ -9,12 +9,21 @@ class Role extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'role_name',
-    ];
+    protected $table = "roles";
+
+    protected $primaryKey = 'role_id';
+
+    protected $keyType = 'string';
+
+    protected $fillable = ['role_name'];
 
     public function adminUsers()
     {
-        return $this->hasMany(AdminUser::class, 'role_id');
+        return $this->hasMany(AdminUser::class, 'role_id', 'role_id');
+    }
+
+    public static function getAllPermissionRole()
+    {
+        return static::where('role_id', 'ALL')->value('role_id');
     }
 }
