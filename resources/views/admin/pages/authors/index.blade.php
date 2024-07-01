@@ -43,22 +43,22 @@
                     <thead>
                         <tr>
                             <th><input type="checkbox" id="select-all-header"></th>
-                            <th>Tên tác giả</th>
-                            <th>Tuổi</th>
-                            <th>Ngày sinh</th>
-                            <th>Ngày mất</th>
-                            <th>Quốc tịch</th>
+                            <th>Author Name</th>
+                            <th>Age</th>
+                            <th>Birth Date</th>
+                            <th>Death Date</th>
+                            <th>National</th>
                             <th>Options</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
                             <th><input type="checkbox" id="select-all-footer"></th>
-                            <th>Tên tác giả</th>
-                            <th>Tuổi</th>
-                            <th>Ngày sinh</th>
-                            <th>Ngày mất</th>
-                            <th>Quốc tch</th>
+                            <th>Author Name</th>
+                            <th>Age</th>
+                            <th>Birth Date</th>
+                            <th>Death Date</th>
+                            <th>National</th>
                             <th>Options</th>
                         </tr>
                     </tfoot>
