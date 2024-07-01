@@ -78,6 +78,7 @@ class AuthController extends Controller
                 return back()->withErrors(['email' => '*' . __('auth.email_not_found')])->onlyInput('email');
             }
 
+
             if (!Hash::check($credentials['password'], $adminUser->password)) {
                 return back()->withErrors(['password' => __('auth.incorrect_password')])->onlyInput('email');
             }

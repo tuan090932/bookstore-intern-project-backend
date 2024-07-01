@@ -35,7 +35,16 @@ services:
       - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/8.1/fpm/conf.d/99-overrides.ini
     networks:
       tranining_php_network:
-      
+
+  queue:
+    build: docker/php-fpm
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    command: php artisan queue:work
+    networks:
+      tranining_php_network:  
+ 
 networks:
   tranining_php_network:
     driver: bridge

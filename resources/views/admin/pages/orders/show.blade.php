@@ -51,26 +51,67 @@
         @method('PUT')
         <div class="form-group">
             <label for="status">Change Status:</label>
-            <select name="status_id" id="status" class="form-control">
+            <select name="status_id" id="status" class="form-control" onchange="toggleCheckbox()">
                 @foreach($statuses as $status)
                 <option value="{{ $status->status_id }}">
                     {{ $status->status_name }}
                 </option>
                 @endforeach
             </select>
-            @if (session('error'))
+            @if (session('status_error'))
             <div class="alert alert-danger mt-2">
-                {{ session('error') }}
+                {{ session('status_error') }}
             </div>
             @endif
-            @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
+            @if (session('status_success'))
+            <div class="alert alert-success mt-2">
+                {{ session('status_success') }}
             </div>
             @endif
         </div>
+        <div class="form-group" id="send_email_group" style="display: none  ;">
+            <input type="checkbox" name="send_email" id="send_email" value="1">
+            <label for="send_email">Send cancellation email to user</label>
+        </div>
         <button type="submit" class="btn btn-primary">Update Status</button>
+    </form>
+    <!-- Send Email Form -->
+    <form action="{{ route('orders.sendEmail', $order->order_id) }}" method="POST">
+        @csrf
+        <div class="form-group mt-4">
+            <label for="title">Email Title:</label>
+            <input type="text" name="title" id="title" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="message_content">Email Content:</label>
+            <textarea name="message_content" id="message_content" class="form-control" rows="5"></textarea>
+        </div>
+        @if (session('email_error'))
+        <div class="alert alert-danger mt-2">
+            {{ session('email_error') }}
+        </div>
+        @endif
+        @if (session('email_success'))
+        <div class="alert alert-success mt-2">
+            {{ session('email_success') }}
+        </div>
+        @endif
+        <button type="submit" class="btn btn-primary">Send Email</button>
     </form>
 </div>
 <!-- /.container-fluid -->
 @endsection
+
+<script>
+
+    // Function to toggle the checkbox based on the status
+    function toggleCheckbox() {
+        var statusSelect = document.getElementById("status");
+        var sendEmailGroup = document.getElementById("send_email_group");
+        if (statusSelect.value == "4") {
+            sendEmailGroup.style.display = "block";
+        } else {
+            sendEmailGroup.style.display = "none";
+        }
+    }
+</script>

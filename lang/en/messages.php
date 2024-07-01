@@ -68,4 +68,17 @@ return [
         'item_not_found' => 'Cart item not found.',
     ],
 
+    'order' => [
+        'not_found' => 'Order not found.',
+        'fetch_failed' => 'Failed to fetch order.',
+        'status_updated' => 'Order status updated successfully.',
+        'status_update_failed' => 'Failed to update order status.',
+        'deleted_success' => 'Order deleted successfully.',
+        'deleted_failed' => 'Failed to delete order.',
+        'email_sent' => 'Email sent successfully!',
+        'email_failed' => 'Failed to send email: :message',
+        'order_cancelled_title' => 'Order cancelled',
+        'order_cancelled_message' => 'Your order has been cancelled. Please contact us immediately',
+    ],
+
 ];

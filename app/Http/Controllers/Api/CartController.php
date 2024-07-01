@@ -31,7 +31,11 @@ class CartController extends Controller
     {
         try {
             $user = auth('api')->user();
-            $cart = Cart::where('user_id', $user->user_id)->with('cartItems')->firstOrFail();
+            $cart = Cart::where('user_id', $user->user_id)->with(['cartItems.book.authors',
+            'cartItems.book.categories',
+            'cartItems.book.languages',
+            'cartItems.book.publishers'
+            ])->firstOrFail();
             return response()->json($cart->cartItems);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => __('messages.cart.not_found'), 'exception' => $e->getMessage()], 404);
