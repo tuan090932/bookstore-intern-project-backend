@@ -65,14 +65,15 @@ class BookController extends Controller
     {
         try {
             $query = $request->input('query');
-            
+            $perPage = $request->input('per_page', 10); 
+
             $books = Book::with('authors')
                         ->where('title', 'like', '%' . $query . '%')
                         ->orWhereHas('authors', function ($queryBuilder) use ($query) {
                             $queryBuilder->where('author_name', 'like', '%' . $query . '%');
                         })
-                        ->get();
-            
+                        ->paginate($perPage);
+
             return response()->json($books);
         } catch (Exception $e) {
             return response()->json(['error' => 'Error searching books: ' . $e->getMessage()], 500);
