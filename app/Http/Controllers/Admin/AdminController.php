@@ -47,13 +47,9 @@ class AdminController extends Controller
     {
         try {
             $admin = new AdminUser();
-            $admin->admin_name = $request->admin_name;
-            $admin->role_id = $request->role_id;
-            $admin->password = Hash::make($request->password);
-            $admin->email = $request->email;
-            $admin->address = $request->address;
-            $admin->phone = $request->phone;
 
+            $admin->fill($request->validated());
+            $admin->password = Hash::make($request->password);
             $admin->save();
 
             return redirect()->route('admins.index')->with('success', __('messages.admin.created_success'));
