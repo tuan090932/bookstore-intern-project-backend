@@ -5,11 +5,15 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+
 use Illuminate\Queue\SerializesModels;
 
-class MailNotify extends Mailable
+class MailNotify extends Mailable implements ShouldQueue
 {
-    use Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    
     public $messageContent;
     public $title;
     public $senderName;
@@ -17,15 +21,7 @@ class MailNotify extends Mailable
     public $bookOrderDetails;
     public $totalPrice;
 
-    /**
-     * Constructor to initialize email content and order details
-     *
-     * @param string $messageContent Content of the message
-     * @param string $title Title of the email
-     * @param array $bookOrderDetails Details of the book order
-     * @param float $totalPrice Total price of the order
-     */
-    public function __construct($messageContent, $title, $bookOrderDetails,$totalPrice)
+    public function __construct($messageContent, $title, $bookOrderDetails, $totalPrice)
     {
         $this->messageContent = $messageContent;
         $this->title = $title;
@@ -35,11 +31,6 @@ class MailNotify extends Mailable
         $this->totalPrice = $totalPrice;
     }
     
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
     public function build()
     {
         $data = [

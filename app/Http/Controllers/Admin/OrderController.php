@@ -120,17 +120,20 @@ class OrderController extends Controller
         try {
             $order = BookOrder::whereHas('user')->where('order_id', $orderId)->with(['user', 'bookOrderDetails.book'])->firstOrFail();
             $title = $request->input('title');
-            $totalPrice=$order->total_price;
+            $totalPrice = $order->total_price;
             $messageContent = $request->input('message_content');
             $bookOrderDetails = $order->bookOrderDetails->map(function($detail) {
                 return [
-                        'book_id' => $detail->book_id,
-                        'title' => $detail->book->title, 
-                        'quantity' => $detail->quantity,
-                        'price' => $detail->price,
-                    ];
-                })->toArray();
-            Mail::to($order->user->email)->send(new MailNotify($messageContent, $title, $bookOrderDetails,$totalPrice));
+                    'book_id' => $detail->book_id,
+                    'title' => $detail->book->title,
+                    'quantity' => $detail->quantity,
+                    'price' => $detail->price,
+                ];
+            })->toArray();
+    
+            // Queue the email
+            Mail::to($order->user->email)->queue(new MailNotify($messageContent, $title, $bookOrderDetails, $totalPrice));
+    
             return redirect()->route('orders.show', $orderId)->with('email_success', __('messages.order.email_sent'));
         } catch (ModelNotFoundException $e) {
             return redirect()->route('orders.show', $orderId)->with('email_error', __('messages.order.not_found'));
