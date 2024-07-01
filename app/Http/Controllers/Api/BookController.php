@@ -56,25 +56,27 @@ class BookController extends Controller
     }
 
     /**
-    * Search for books by title or author name.
-    *
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\JsonResponse
-    */
+     * Search for books by title or author name.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function search(Request $request)
     {
         try {
             $query = $request->input('query');
-    
-            $books = Book::join('authors', 'books.author_id', '=', 'authors.author_id')
-                        ->where('books.title', 'like', '%' . $query . '%')
-                        ->orWhere('authors.author_name', 'like', '%' . $query . '%')
-                        ->select('books.*', 'authors.author_name as author_name')
+            
+            $books = Book::with('authors')
+                        ->where('title', 'like', '%' . $query . '%')
+                        ->orWhereHas('authors', function ($queryBuilder) use ($query) {
+                            $queryBuilder->where('author_name', 'like', '%' . $query . '%');
+                        })
                         ->get();
-    
+            
             return response()->json($books);
         } catch (Exception $e) {
             return response()->json(['error' => 'Error searching books: ' . $e->getMessage()], 500);
         }
     }
+
 }
