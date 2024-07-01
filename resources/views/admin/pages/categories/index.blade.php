@@ -35,14 +35,14 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th><input type="checkbox" id="select-all-header"></th>
+                            <th>ID</th>
                             <th>Category Name</th>
                             <th>Options</th>
                         </tr>
                     </thead>
                     <tfoot>
                         <tr>
-                            <th><input type="checkbox" id="select-all-footer"></th>
+                            <th>ID</th>
                             <th>Category Name</th>
                             <th>Options</th>
                         </tr>
@@ -50,7 +50,8 @@
                     <tbody>
                         @foreach ($categories as $category)
                         <tr>
-                            <td><input type="checkbox" name="category_ids[]" value="{{ $category->category_id }}"></td>
+                            <td>{{$category->category_id}}</td>
+
                             <td>
                                 {{ $category->category_name }}
                                 @if ($errors->has('category_' . $category->category_id))
@@ -90,7 +91,6 @@
 <script src="{{ asset('assets/js/common.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        initializeCheckboxes('select-all-header', 'select-all-footer', 'category_ids[]');
         const commonConfig = {
             title: "Confirm Delete",
             method: 'DELETE',
