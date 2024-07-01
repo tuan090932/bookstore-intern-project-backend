@@ -97,6 +97,11 @@ $currentRoute = request()->route()->getName();
                     <i class="fa-solid fa-book"></i>
                     <span>Books</span></a>
             </li>
+            <li class="nav-item {{ $currentRoute=='languages.index' ? 'active':'' }}" href="{{ route('languages.index') }}">
+                <a class="nav-link" href="{{ route('languages.index') }}">
+                    <i class="fa-solid fa-language"></i>
+                    <span>Languages</span></a>
+            </li>
         @endif
 
         @if(Auth::guard('admin')->user()->hasRole('AUTHO'))

@@ -34,10 +34,6 @@ Route::get('/forgot-password', function () {
     return view('admin.pages.auth.forgot-password');
 })->name('forgot-password');
 
-Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
-Route::resource('admin/books', BookController::class);
-Route::resource('admin/languages', LanguageController::class);
-
 Route::get('/', function () {
     return redirect('/admin');
 });
@@ -73,7 +69,9 @@ Route::prefix('admin')->group(function () {
         });
 
         Route::middleware('role:ALL,MG,BOOK')->group(function () {
+            Route::get('search', [BookController::class, 'search'])->name('books.search');
             Route::resource('books', BookController::class);
+            Route::resource('languages', LanguageController::class);
         });
 
         Route::middleware('role:ALL,MG,AUTHO')->group(function () {
