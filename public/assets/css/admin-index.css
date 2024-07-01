@@ -135,7 +135,7 @@ body
     text-align: center;
 }
 
-.navigation ul li a .icon i
+.navigation ul li a .icon ion-icon
 {
     font-size: 1.75em;
 }
@@ -392,7 +392,7 @@ body
 .status.pending
 {
     padding: 2px 4px;
-    background: #bcbe24;
+    background: #8de02c;
     color: var(--white);
     border-radius: 4px;
     font-size: 14px;
