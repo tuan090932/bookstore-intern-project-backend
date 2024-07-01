@@ -83,26 +83,11 @@
                             <td>{{ $order->order_date }}</td>
                             <td>{{ number_format($order->total_price, 0, ',', '.') }}đ</td>
                             <td>
-                                <span class="status
-                                    @switch($order->orderStatus->status_name)
-                                        @case('Processing')
-                                            inProgress
-                                            @break
-                                        @case('Completed')
-                                            delivered
-                                            @break
-                                        @case('Pending')
-                                            pending
-                                            @break
-                                        @case('Cancel')
-                                            return
-                                            @break
-                                        @default
-                                            {{ $order->orderStatus->status_id }}
-                                    @endswitch
-                                ">
-                                    {{ $order->orderStatus->status_name }}
-                                </span>
+                                <td>
+                                    <span class="badge badge{{$order->orderStatus->status_id }}">
+                                        {{ $order->orderStatus->status_name }}
+                                    </span>
+                                </td>
                             </td>
                         </tr>
                         @endforeach
