@@ -40,11 +40,10 @@ class AuthController extends Controller
 
         if (! $token = auth('api')->attempt($credentials))
         {
-            return response()->json(['error' => 'Unauthorized'], 401);
+            return response()->json(['error' => 'incorrect email or password'], 400);
         }
 
         $refreshToken = $this->createRefreshToken();
-
         return $this->respondWithToken($token, $refreshToken);
     }
 
@@ -93,24 +92,30 @@ class AuthController extends Controller
         try
         {
             $decodeToken = JWTAuth::getJWTProvider()->decode($refreshToken);
+            
+            // Check if refresh token has expired
+            if ($decodeToken['exp'] < time()) {
+                return response()->json(['error' => 'Refresh Token has expired'], 401);
+            }
+    
             $user = User::find($decodeToken['user_id']);
             if (! $user)
             {
                 return response()->json(['error', 'User not found'], 404);
             }
-            auth('api')->invalidate();
-
+            
+    
             $token = auth('api')->login($user);
-
+    
             $refreshToken = $this->createRefreshToken();
-
             return $this->respondWithToken($token, $refreshToken);
         }
         catch (JWTException $e)
         {
-            return response()->json(['error' => 'Refresh Token Invalid'], 500);
-        }
+            return response()->json(['error' => $e->getMessage()], 500);
+        }   
     }
+    
 
     /**
      * Creates a new refresh token for the authenticated user.
@@ -121,7 +126,7 @@ class AuthController extends Controller
     private function createRefreshToken()
     {
         $data = [
-            'user_id' => auth('api')->user()->id,
+            'user_id' => auth('api')->user()->user_id,
             'random' => rand().time(),
             'exp' => time() + config('jwt.refresh_ttl'),
         ];
@@ -135,11 +140,13 @@ class AuthController extends Controller
      * This protected method formats the access token and refresh token in the expected response format, including the token type and expiration time.
      */
     protected function respondWithToken($token, $refreshToken)
-    {
+    {   
+        $user = auth('api')->user();
         return response()->json([
             'access_token' => $token,
             'refresh_token' => $refreshToken,
             'token_type' => 'bearer',
+            'user' => $user,
             'expires_in' => config('jwt.ttl') * 60,
         ]);
     }
