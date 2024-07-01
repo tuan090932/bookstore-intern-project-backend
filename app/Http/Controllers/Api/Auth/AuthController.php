@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Tymon\JWTAuth\Exceptions\JWTException;
+use Illuminate\Support\Facades\Lang;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
@@ -71,11 +72,20 @@ class AuthController extends Controller
      * This action invalidates the user's access token, effectively logging them out.
      * A success message is returned in the response.
      */
+    /**
+     * Logs out the authenticated user.
+     *
+     * This action invalidates the user's access token, effectively logging them out.
+     * A success message is returned in the response.
+     */
     public function logout()
     {
-        auth('api')->logout();
-
-        return response()->json(['message' => 'Successfully logged out']);
+        try {
+            auth('api')->logout();
+            return response()->json(['message' => Lang::get('auth.logout_success')]);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 411);
+        }
     }
 
     /**

@@ -37,4 +37,5 @@ return [
     
     'refresh_token_expired' => 'Refresh Token has expired',
     'user_not_found' => 'User not found',
+    'logout_success' => 'Successfully logged out',
 ];
