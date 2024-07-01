@@ -72,4 +72,14 @@ class Author extends Model
             return null;
         }
     }
+
+    /**
+     * Get the books associated with the author.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function books()
+    {
+        return $this->hasMany(Book::class, 'author_id', 'author_id');
+    }
 }
