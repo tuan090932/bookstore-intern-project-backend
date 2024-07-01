@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class CommonController extends Controller
 {
+    /**
+     * Display the confirmation modal view.
+     *
+     * @param \Illuminate\Http\Request
+     * @return \Illuminate\View\View
+     */
     public function showConfirmModal(Request $request)
     {
         $ids = $request->input('ids');

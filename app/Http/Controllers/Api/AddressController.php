@@ -101,7 +101,7 @@ class AddressController extends Controller
     {
         try {
             $user = auth('api')->user();
-            $address = Address::where('user_id', $user->id)->where('id', $id)->firstOrFail();
+            $address = Address::where('user_id', $user->user_id)->where('address_id', $id)->firstOrFail();
 
             $address->delete();
 

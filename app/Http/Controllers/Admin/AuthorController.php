@@ -63,7 +63,6 @@ class AuthorController extends Controller
             return redirect()->back()->with('success', __('messages.author.created_success'));
         } catch (Exception $e) {
             Log::error($e->getMessage());
-
             return redirect()->back()->with('error', __('messages.author.created_error'));
         }
     }
@@ -130,7 +129,6 @@ class AuthorController extends Controller
     {
         try {
             $authorIds = $request->input('ids', []);
-            // dd($authorIds);
 
             Author::onlyTrashed()->whereIn('author_id', $authorIds)->restore();
 
@@ -151,7 +149,6 @@ class AuthorController extends Controller
     {
         try {
             $authorIds = $request->input('ids', []);
-            // dd($authorIds);
 
             Author::whereIn('author_id', $authorIds)->delete();
 

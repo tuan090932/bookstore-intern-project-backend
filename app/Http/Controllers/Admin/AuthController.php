@@ -43,11 +43,11 @@ class AuthController extends Controller
                 'role_id' => 'ALL',
             ]);
 
-            return redirect()->route('admin.login')->with('success', 'Tạo tài khoản thành công vui lòng đăng nhập.');
+            return redirect()->route('admin.login')->with('success', __('auth.register_success'));
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
-            return redirect()->route('admin.register')->with('error', 'Đăng ký thất bại. Vui lòng thử lại.');
+            return redirect()->route('admin.register')->with('error', __('auth.register_failed'));
         }
     }
 
@@ -75,11 +75,11 @@ class AuthController extends Controller
             $adminUser = AdminUser::where('email', $credentials['email'])->first();
 
             if (!$adminUser) {
-                return back()->withErrors(['email' => 'Email không tồn tại trong hệ thống.'])->onlyInput('email');
+                return back()->withErrors(['email' => '*' . __('auth.email_not_found')])->onlyInput('email');
             }
 
             if (!Hash::check($credentials['password'], $adminUser->password)) {
-                return back()->withErrors(['password' => 'Mật khẩu không chính xác.'])->onlyInput('email');
+                return back()->withErrors(['password' => __('auth.incorrect_password')])->onlyInput('email');
             }
 
             Auth::guard('admin')->login($adminUser);
@@ -93,7 +93,7 @@ class AuthController extends Controller
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
-            return back()->withErrors(['error' => 'Đăng nhập thất bại. Vui lòng thử lại.']);
+            return back()->withErrors(['error' => __('auth.login_failed')]);
         }
     }
 
@@ -154,11 +154,11 @@ class AuthController extends Controller
 
             $admin->save();
 
-            return redirect()->route('admin.profile')->with('success', 'Profile cập nhật thành công.');
+            return redirect()->route('admin.profile')->with('success', __('auth.profile_updated'));
         } catch (Exception $e) {
             Log::error($e->getMessage());
 
-            return redirect()->route('admin.profile')->with('error', 'Có lỗi xảy ra khi cập nhật profile.');
+            return redirect()->route('admin.profile')->with('error', __('auth.profile_update_failed'));
         }
     }
 }

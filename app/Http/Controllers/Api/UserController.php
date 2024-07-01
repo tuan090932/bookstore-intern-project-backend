@@ -73,7 +73,7 @@ class UserController extends Controller
                 $user->password = Hash::make($request->password);
             }
 
-            User::saved($user);
+            $user->save();
             return response()->json($user);
         } catch (Exception $ex) {
             return ApiUserExceptionHandler::handle($ex);
