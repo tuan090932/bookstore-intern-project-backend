@@ -1,32 +1,32 @@
 @extends('admin.layouts.base')
-@section('title', 'Categories')
+@section('title', 'authors')
 @section('content')
 <!-- Begin Page Content -->
 <div class="container-fluid">
 
     <!-- Page Heading -->
     <div class="d-grid d-flex justify-content-between mb-3">
-        <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">Categories</h1>
+        <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">Authors</h1>
         <div>
-            <a href="{{ route('categories.trashed') }}" class="btn btn-secondary btn-icon-split mr-2">
+            <a href="{{ route('authors.trashed') }}" class="btn btn-secondary btn-icon-split mr-2">
                 <span class="icon text-white-50">
                     <i class="fas fa-trash"></i>
                 </span>
-                <span class="text">Trashed Categories</span>
+                <span class="text">Trashed Authors</span>
             </a>
-            <button class="btn btn-danger btn-icon-split" id="categories-selected-delete-btn" data-toggle="modal">
+            <button class="btn btn-danger btn-icon-split" id="authors-selected-delete-btn" data-toggle="modal">
                 <span class="icon text-white-50">
                     <i class="fas fa-trash"></i>
                 </span>
                 <span class="text">Delete Selected</span>
             </button>
-            <button class="btn btn-danger btn-icon-split" id="categories-delete-all-btn" data-toggle="modal">
+            <button class="btn btn-danger btn-icon-split" id="authors-delete-all-btn" data-toggle="modal">
                 <span class="icon text-white-50">
                     <i class="fas fa-trash"></i>
                 </span>
                 <span class="text">Delete All</span>
             </button>
-            <a href="{{ route('categories.create') }}" class="btn btn-primary btn-icon-split">
+            <a href="{{ route('authors.create') }}" class="btn btn-primary btn-icon-split">
                 <span class="icon text-white-50">
                     <i class="fas fa-plus"></i>
                 </span>
@@ -34,17 +34,6 @@
             </a>
         </div>
     </div>
-
-    <!-- Flash Message for Success or Error -->
-    @if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-    @elseif (session('error'))
-    <div class="alert alert-danger">
-        {{ session('error') }}
-    </div>
-    @endif
 
     <!-- DataTables Example -->
     <div class="card shadow mb-4">
@@ -98,7 +87,7 @@
                 </table>
                 <div class="d-flex">
                     <nav>
-                        {{ $categories->links('vendor.pagination.bootstrap-4') }}
+                        {{ $authors->links('vendor.pagination.bootstrap-4') }}
                     </nav>
                 </div>
             </div>
@@ -110,10 +99,11 @@
 <script src="{{ asset('/assets/vendor/datatables/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('/assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('/assets/js/demo/datatables-demo.js') }}"></script>
+
 <script src="{{ asset('assets/js/common.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        initializeCheckboxes('select-all-header', 'select-all-footer', 'category_ids[]');
+        initializeCheckboxes('select-all-header', 'select-all-footer', 'author_ids[]');
 
         const commonConfig = {
             title: "Confirm Delete",
@@ -121,24 +111,24 @@
             confirmText: "Delete"
         };
 
-        const deleteSelected = document.getElementById('categories-selected-delete-btn');
+        const deleteSelected = document.getElementById('authors-selected-delete-btn');
         if (deleteSelected) {
             deleteSelected.addEventListener('click', function() {
-                const selectedIds = Array.from(document.querySelectorAll('input[name="category_ids[]"]:checked'))
+                const selectedIds = Array.from(document.querySelectorAll('input[name="author_ids[]"]:checked'))
                     .map(checkbox => checkbox.value);
 
-                ACTION_URL = "{{ route('categories.delete-selected') }}";
-                body = "Are you sure you want to delete the selected categories?";
+                ACTION_URL = "{{ route('authors.delete-selected') }}";
+                body = "Are you sure you want to delete the selected authors?";
 
                 showModalConfirmation(selectedIds, ACTION_URL, commonConfig.title, body, commonConfig.method, commonConfig.confirmText);
             });
         }
 
-        const deleteAllBtn = document.getElementById('categories-delete-all-btn');
+        const deleteAllBtn = document.getElementById('authors-delete-all-btn');
         if (deleteAllBtn) {
             deleteAllBtn.addEventListener('click', function() {
-                ACTION_URL = "{{ route('categories.delete-all') }}";
-                body = "Are you sure you want to delete all categories?";
+                ACTION_URL = "{{ route('authors.delete-all') }}";
+                body = "Are you sure you want to delete all authors?";
 
                 showModalConfirmation([], ACTION_URL, commonConfig.title, body, commonConfig.method, commonConfig.confirmText);
             });
@@ -147,11 +137,11 @@
         const deleteButtons = document.querySelectorAll('#delete-btn');
         deleteButtons.forEach(button => {
             button.addEventListener('click', function() {
-                const categoryId = this.getAttribute('data-category-id');
-                ACTION_URL = "{{ route('categories.destroy', ':id') }}".replace(':id', categoryId);
-                body = "Are you sure you want to delete this category?";
+                const authorId = this.getAttribute('data-author-id');
+                ACTION_URL = "{{ route('authors.destroy', ':id') }}".replace(':id', authorId);
+                body = "Are you sure you want to delete this author?";
 
-                showModalConfirmation([categoryId], ACTION_URL, commonConfig.title, body, commonConfig.method, commonConfig.confirmText);
+                showModalConfirmation([authorId], ACTION_URL, commonConfig.title, body, commonConfig.method, commonConfig.confirmText);
             });
         });
     });
