@@ -28,19 +28,18 @@ class AuthController extends Controller
     }
 
     /**
-     * Handles the user login process.
+     * Authenticates the user and returns the access token.
      *
-     * This action retrieves the email and password from the request, and attempts to authenticate the user using the API guard.
-     * If the authentication is successful, a new access token and refresh token are generated and returned in the response.
-     * If the authentication fails, a 401 Unauthorized response is returned.
+     * This action takes an email and password from the request, attempts to authenticate the user, and returns an access token.
+     * If the authentication is successful, the access token is returned in the response.
+     * If the authentication fails, a 400 Bad Request response is returned.
      */
     public function login()
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth('api')->attempt($credentials))
-        {
-            return response()->json(['error' => 'incorrect email or password'], 400);
+        if (! $token = auth('api')->attempt($credentials)) {
+            return response()->json(['error' => trans('auth.incorrect_email_password')], 400);
         }
 
         $refreshToken = $this->createRefreshToken();
@@ -89,31 +88,27 @@ class AuthController extends Controller
     public function refresh()
     {
         $refreshToken = request()->refresh_token;
-        try
-        {
+        
+        try {
             $decodeToken = JWTAuth::getJWTProvider()->decode($refreshToken);
             
             // Check if refresh token has expired
             if ($decodeToken['exp'] < time()) {
-                return response()->json(['error' => 'Refresh Token has expired'], 401);
+                return response()->json(['error' => trans('auth.refresh_token_expired')], 411);
             }
     
             $user = User::find($decodeToken['user_id']);
-            if (! $user)
-            {
-                return response()->json(['error', 'User not found'], 404);
+            if (! $user) {
+                return response()->json(['error' => trans('auth.user_not_found')], 404);
             }
-            
     
             $token = auth('api')->login($user);
     
             $refreshToken = $this->createRefreshToken();
             return $this->respondWithToken($token, $refreshToken);
-        }
-        catch (JWTException $e)
-        {
+        } catch (JWTException $e) {
             return response()->json(['error' => $e->getMessage()], 500);
-        }   
+        }
     }
     
 
