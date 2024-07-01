@@ -63,13 +63,13 @@
                         @foreach($books as $book)
                             <tr>
                                 <td>{{ $book->title }}</td>
-                                <td>{{ ($book->categories)->category_name }}</td>
+                                <td>{{ $book->categories ? $book->categories->category_name : 'N/A' }}</td>
                                 <td>{{ number_format($book->price, 0, ',', '.') }}đ</td>
                                 <td>{{ $book->stock }}</td>
                                 <td>{{ $book->num_pages }}</td>
-                                <td>{{ ($book->authors)->author_name }}</td>
-                                <td>{{ ($book->publishers)->publisher_name }}</td>
-                                <td>{{ ($book->languages)->language_name }}</td>
+                                <td>{{ $book->authors ? $book->authors->author_name : 'N/A' }}</td>
+                                <td>{{ $book->publishers ? $book->publishers->publisher_name : 'N/A' }}</td>
+                                <td>{{ $book->languages ? $book->languages->language_name : 'N/A' }}</td>
                                 <td>
                                     <div class="d-flex  justify-content-center">
                                         <a href="{{ route('books.edit', $book->book_id)}}" class="mr-2 text-success">
