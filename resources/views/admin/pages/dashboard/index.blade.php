@@ -16,6 +16,11 @@
         grid-template-columns: repeat(3,1fr) !important;
         grid-gap: 30px;
     }
+
+    .detail
+    {
+        grid-template-columns: 3fr 1fr !important;
+    }
 </style>
     <div class="container-fluid">
         <div class="d-grid d-flex justify-content-between">
