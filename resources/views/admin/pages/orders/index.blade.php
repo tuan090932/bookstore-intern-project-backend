@@ -3,7 +3,6 @@
 @section('content')
 <!-- Begin Page Content -->
 <div class="container-fluid">
-
     <!-- Page Heading -->
     <div class="d-grid d-flex justify-content-between mb-3">
         <h1 class="h3 mb-2 text-gray-800 d-flex align-items-center">Orders</h1>
@@ -32,9 +31,9 @@
                             <th>Phone Number</th>
                             <th>Email</th>
                             <th>Order Date</th>
-                            <th>Status</th>
                             <th>Total Price</th>
                             <th>Address</th>
+                            <th>Status</th>
                             <th>Options</th>
                         </tr>
                     </thead>
@@ -45,9 +44,9 @@
                             <th>Phone Number</th>
                             <th>Email</th>
                             <th>Order Date</th>
-                            <th>Status</th>
                             <th>Total Price</th>
                             <th>Address</th>
+                            <th>Status</th>
                             <th>Options</th>
                         </tr>
                     </tfoot>
@@ -59,19 +58,17 @@
                             <td>{{ $order->user->phone_number }}</td>
                             <td>{{ $order->user->email }}</td>
                             <td>{{ $order->order_date }}</td>
+                            <td>{{ number_format($order->total_price, 0, ',', '.') }}đ</td>
+                            <td>{{ $order->order_address }}</td>
                             <td>
                                 <span class="badge badge{{$order->orderStatus->status_id }}">
                                     {{ $order->orderStatus->status_name }}
                                 </span>
                             </td>
-                            <td>{{ $order->total_price }}</td>
-                            <td>{{ $order->order_address }}</td>
                             <td>
                                 <div class="d-flex justify-content-center">
                                     <a href="{{ route('orders.show', $order->order_id) }}" class="mr-2 text-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
-                                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zm-8 4a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0-1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                                        </svg>
+                                        <i class="fa-regular fa-eye fa-2xl" style="color: #96baf8;"></i>
                                     </a>
                                     <button type="button" class="btn btn-link p-0 m-0" data_order_id="{{ $order->order_id }}" id="delete_btn">
                                         <i style="color: red" class="fa-regular fa-trash-can fa-2xl"></i>
@@ -115,5 +112,4 @@
         });
     });
 </script>
-
 @endsection

@@ -28,7 +28,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = BookOrder::with(['user', 'orderStatus', 'bookOrderDetails'])->paginate(10);
+        $orders = BookOrder::with(['user', 'orderStatus', 'bookOrderDetails'])->paginate(15);
         return view('admin.pages.orders.index', compact('orders'));
     }
 

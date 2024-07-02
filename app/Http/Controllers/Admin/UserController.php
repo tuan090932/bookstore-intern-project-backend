@@ -13,27 +13,10 @@ use Illuminate\Http\RedirectResponse;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-    /**
-     * This property stores the route for the search functionality.
-     * It is initialized in the constructor to ensure it is properly set for use in the views.
-     *
-     * @var string
-     */
-    protected $searchRoute;
-
-    /**
-     * Controller constructor.
-     *
-     * Initializes the search route to direct search requests to the appropriate controller action.
-     */
-    public function __construct()
-    {
-        $this->searchRoute = route('users.search');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -46,7 +29,7 @@ class UserController extends Controller
             $user->addresses = $user->addresses->first();
         });
 
-        return view('admin.pages.users.index', ['users' => $users, 'searchRoute' => $this->searchRoute]);
+        return view('admin.pages.users.index', ['users' => $users]);
     }
 
     /**
@@ -54,7 +37,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.users.create', ['searchRoute' => $this->searchRoute]);
+        return view('admin.pages.users.create');
     }
 
     /**
@@ -83,10 +66,10 @@ class UserController extends Controller
                 'shipping_address' => $request->input('shipping_address'),
                 'user_id' => $user->user_id,
             ]);
-            return redirect()->route('users.index')->with('success', 'User created successfully.');
+            return redirect()->route('users.index')->with('success', __('messages.user.created_success'));
         } catch (Exception $e) {
-            Log::error('Error deleting user: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'An error occurred while creating the user. Please try again.');
+            Log::error('Error creating user: ' . $e->getMessage());
+            return redirect()->back()->with('error', __('messages.user.created_error'));
         }
     }
 
@@ -116,10 +99,10 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         try {
             $user->update($request->validated());
-            return redirect()->route('users.edit', $id)->with('success', 'User updated successfully.');
+            return redirect()->route('users.edit', $id)->with('success', __('messages.user.updated_success'));
         } catch (Exception $e) {
             Log::error('Error updating user: ' . $e->getMessage());
-            return redirect()->route('users.index')->with('error', 'Failed to update the user. Please try again.');
+            return redirect()->route('users.index')->with('error', __('messages.user.updated_error'));
         }
     }
 
@@ -131,16 +114,30 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(int $id)
+    public function destroy($id)
     {
         try {
-            Address::where('user_id', $id)->delete();
+            DB::beginTransaction();
+
             $user = User::findOrFail($id);
+
+            $user->bookOrders()->delete();
+
+            $user->addresses()->delete();
+
+            $user->favorites()->delete();
+            if ($user->cart) {
+                $user->cart->delete();
+            }
+
             $user->delete();
-            return redirect()->route('users.index')->with('success', 'User deleted successfully');
+
+            DB::commit();
+            return redirect()->route('users.index')->with('success', __('messages.user.deleted_success'));
         } catch (Exception $e) {
+            DB::rollBack();
             Log::error('Error deleting user: ' . $e->getMessage());
-            return redirect()->route('users.index')->with('error', 'Failed to delete the user. Please try again.');
+            return redirect()->route('users.index')->with('error', __('messages.user.deleted_error'));
         }
     }
 }

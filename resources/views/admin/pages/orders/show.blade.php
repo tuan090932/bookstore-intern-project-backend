@@ -9,17 +9,17 @@
     <div class="card shadow mb-4">
         <div class="card-body">
             <h5>Order Information</h5>
-            <p>Order ID: {{ $order->order_id }}</p>
-            <p>User Name: {{ $order->user->user_name }}</p>
-            <p>Order Date: {{ $order->order_date }}</p>
-            <p>Status: {{ $order->orderStatus->status_id }}</p>
-            <p>Status:
+            <p><strong>Order ID</strong>: {{ $order->order_id }}</p>
+            <p><strong>User Name</strong>: {{ $order->user->user_name }}</p>
+            <p><strong>Order Date</strong>: {{ $order->order_date }}</p>
+            <p><strong>Status</strong>: {{ $order->orderStatus->status_id }}</p>
+            <p><strong>Status</strong>:
                 <span class="badge badge{{$order->orderStatus->status_id }}">
                     {{ $order->orderStatus->status_name }}
                 </span>
             </p>
-            <p>Total Price: {{ $order->total_price }}</p>
-            <p>Order Address: {{ $order->order_address }}</p>
+            <p><strong>Total Price</strong>: {{ number_format($order->total_price, 0, ',', '.') }}đ</p>
+            <p><strong>Order Address</strong>: {{ $order->order_address }}</p>
         </div>
     </div>
     <!-- Order Details -->
@@ -39,7 +39,7 @@
                     <tr>
                         <td>{{ $detail->book->title }}</td>
                         <td>{{ $detail->quantity }}</td>
-                        <td>{{ $detail->price }}</td>
+                        <td>{{ number_format($detail->price, 0, ',', '.') }}đ</td>
                     </tr>
                     @endforeach
                 </tbody>

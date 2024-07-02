@@ -23,7 +23,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(10);
+        $categories = Category::paginate(15);
         return view('admin.pages.categories.index', compact('categories'));
     }
 
@@ -49,7 +49,7 @@ class CategoryController extends Controller
             Category::create([
                 'category_name' => $request->input('category_name')
             ]);
-            return redirect()->route('categories.create')->with('success', __('messages.category.created_success'));     
+            return redirect()->route('categories.create')->with('success', __('messages.category.created_success'));
         } catch (Exception $e) {
             Log::error($e->getMessage());
             return redirect()->route('categories.create')->with('error', __('messages.category.created_error'));

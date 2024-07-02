@@ -13,7 +13,7 @@ class LanguageController extends Controller
      */
     public function index()
     {
-        $languages = Language::paginate(5);
+        $languages = Language::paginate(15);
 
         return view('admin.pages.languages.index', compact('languages'));
     }
