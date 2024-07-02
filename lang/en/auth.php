@@ -23,6 +23,7 @@ return [
     'register_failed' => 'Registration failed. Please try again.',
     'email_not_found' => 'Email does not exist in the system.',
     'incorrect_password' => 'Incorrect password.',
+    'incorrect_email_password' => 'Incorrect email or password.',
     'login_failed' => 'Login failed. Please try again.',
     'profile_updated' => 'Profile updated successfully.',
     'profile_update_failed' => 'An error occurred while updating the profile.',
@@ -33,4 +34,7 @@ return [
     'password_string' => 'Password must be a string.',
     'password_min' => 'Password must be at least 6 characters.',
     'password_regex' => 'Password must include 1 uppercase, 1 number, 1 special character, and be 6+ characters long.',
+    
+    'refresh_token_expired' => 'Refresh Token has expired',
+    'user_not_found' => 'User not found',
 ];

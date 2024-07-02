@@ -28,23 +28,21 @@ class AuthController extends Controller
     }
 
     /**
-     * Handles the user login process.
+     * Authenticates the user and returns the access token.
      *
-     * This action retrieves the email and password from the request, and attempts to authenticate the user using the API guard.
-     * If the authentication is successful, a new access token and refresh token are generated and returned in the response.
-     * If the authentication fails, a 401 Unauthorized response is returned.
+     * This action takes an email and password from the request, attempts to authenticate the user, and returns an access token.
+     * If the authentication is successful, the access token is returned in the response.
+     * If the authentication fails, a 400 Bad Request response is returned.
      */
     public function login()
     {
         $credentials = request(['email', 'password']);
 
-        if (! $token = auth('api')->attempt($credentials))
-        {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        if (! $token = auth('api')->attempt($credentials)) {
+            return response()->json(['error' => trans('auth.incorrect_email_password')], 401);
         }
 
         $refreshToken = $this->createRefreshToken();
-
         return $this->respondWithToken($token, $refreshToken);
     }
 
@@ -90,27 +88,29 @@ class AuthController extends Controller
     public function refresh()
     {
         $refreshToken = request()->refresh_token;
-        try
-        {
+        
+        try {
             $decodeToken = JWTAuth::getJWTProvider()->decode($refreshToken);
-            $user = User::find($decodeToken['user_id']);
-            if (! $user)
-            {
-                return response()->json(['error', 'User not found'], 404);
+            
+            // Check if refresh token has expired
+            if ($decodeToken['exp'] < time()) {
+                return response()->json(['error' => trans('auth.refresh_token_expired')], 401);
             }
-            auth('api')->invalidate();
-
+    
+            $user = User::find($decodeToken['user_id']);
+            if (! $user) {
+                return response()->json(['error' => trans('auth.user_not_found')], 404);
+            }
+    
             $token = auth('api')->login($user);
-
+    
             $refreshToken = $this->createRefreshToken();
-
             return $this->respondWithToken($token, $refreshToken);
-        }
-        catch (JWTException $e)
-        {
-            return response()->json(['error' => 'Refresh Token Invalid'], 500);
+        } catch (JWTException $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+    
 
     /**
      * Creates a new refresh token for the authenticated user.
@@ -121,7 +121,7 @@ class AuthController extends Controller
     private function createRefreshToken()
     {
         $data = [
-            'user_id' => auth('api')->user()->id,
+            'user_id' => auth('api')->user()->user_id,
             'random' => rand().time(),
             'exp' => time() + config('jwt.refresh_ttl'),
         ];
@@ -135,11 +135,13 @@ class AuthController extends Controller
      * This protected method formats the access token and refresh token in the expected response format, including the token type and expiration time.
      */
     protected function respondWithToken($token, $refreshToken)
-    {
+    {   
+        $user = auth('api')->user();
         return response()->json([
             'access_token' => $token,
             'refresh_token' => $refreshToken,
             'token_type' => 'bearer',
+            'user' => $user,
             'expires_in' => config('jwt.ttl') * 60,
         ]);
     }
