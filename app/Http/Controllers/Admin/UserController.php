@@ -66,10 +66,10 @@ class UserController extends Controller
                 'shipping_address' => $request->input('shipping_address'),
                 'user_id' => $user->user_id,
             ]);
-            return redirect()->route('users.index')->with('success', 'User created successfully.');
+            return redirect()->route('users.index')->with('success', __('messages.user.created_success'));
         } catch (Exception $e) {
-            Log::error('Error deleting user: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'An error occurred while creating the user. Please try again.');
+            Log::error('Error creating user: ' . $e->getMessage());
+            return redirect()->back()->with('error', __('messages.user.created_error'));
         }
     }
 
@@ -99,10 +99,10 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         try {
             $user->update($request->validated());
-            return redirect()->route('users.edit', $id)->with('success', 'User updated successfully.');
+            return redirect()->route('users.edit', $id)->with('success', __('messages.user.updated_success'));
         } catch (Exception $e) {
             Log::error('Error updating user: ' . $e->getMessage());
-            return redirect()->route('users.index')->with('error', 'Failed to update the user. Please try again.');
+            return redirect()->route('users.index')->with('error', __('messages.user.updated_error'));
         }
     }
 
@@ -133,11 +133,11 @@ class UserController extends Controller
             $user->delete();
 
             DB::commit();
-            return redirect()->route('users.index')->with('success', 'User and all related data deleted successfully.');
+            return redirect()->route('users.index')->with('success', __('messages.user.deleted_success'));
         } catch (Exception $e) {
             DB::rollBack();
             Log::error('Error deleting user: ' . $e->getMessage());
-            return redirect()->route('users.index')->with('error', 'Failed to delete the user. Error: ' . $e->getMessage());
+            return redirect()->route('users.index')->with('error', __('messages.user.deleted_error'));
         }
     }
 }

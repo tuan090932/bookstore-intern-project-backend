@@ -81,4 +81,16 @@ return [
         'order_cancelled_message' => 'Your order has been cancelled. Please contact us immediately',
     ],
 
+    'user' => [
+        'created_success' => 'User created successfully.',
+        'created_error' => 'An error occurred while creating the user. Please try again.',
+
+        'updated_success' => 'User updated successfully.',
+        'updated_error' => 'Failed to update the user. Please try again.',
+
+        'deleted_success' => 'User and all related data deleted successfully.',
+        'deleted_error' => 'Failed to delete the user.',
+
+        'not_found' => 'User not found.',
+    ],
 ];
