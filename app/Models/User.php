@@ -10,10 +10,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Models\Cart;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    use SoftDeletes;
 
     protected $table = 'users';
 
@@ -46,8 +49,9 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Address::class, 'user_id', 'user_id');
     }
-    
+
     /**
+     *
      * Get the orders associated with the user.
      *
      * @return Illuminate\Database\Eloquent\Relations\HasMany
@@ -66,6 +70,12 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasOne(Cart::class, 'user_id', 'user_id');
     }
+
+    public function bookOrders()
+    {
+        return $this->hasMany(BookOrder::class, 'user_id');
+    }
+
 
     protected $casts = [
         'email_verified_at' => 'datetime',

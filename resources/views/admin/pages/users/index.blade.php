@@ -69,13 +69,9 @@
                                     <a href="{{ route('users.edit', $user->user_id) }}" class="mr-2 text-success">
                                         <i style="color: #1CC88A" class="fa-regular fa-pen-to-square fa-2xl"></i>
                                     </a>
-                                    <form action="{{ route('users.destroy', $user->user_id) }}" method="POST" class="text-danger" onsubmit="return confirm('Are you sure you want to delete?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn p-0 m-0 border-0 bg-transparent">
-                                            <i style="color: red" class="fa-regular fa-trash-can fa-2xl"></i>
-                                        </button>
-                                    </form>
+                                    <button type="button" class="btn btn-link p-0 m-0" data-user-id="{{ $user->user_id }}" id="delete-btn">
+                                        <i style="color: red" class="fa-regular fa-trash-can fa-2xl"></i>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -100,4 +96,24 @@
 
 <!-- Page level custom scripts -->
 <script src="{{ asset('/assets/js/demo/datatables-demo.js') }}"></script>
+<script src="{{ asset('assets/js/common.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const commonConfig = {
+            title: "Confirm Delete",
+            method: 'DELETE',
+            confirmText: "Delete"
+        };
+        const deleteButtons = document.querySelectorAll('#delete-btn');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const userId = this.getAttribute('data-user-id');
+                ACTION_URL = "{{ route('users.destroy', ':id') }}".replace(':id', userId);
+                body = "Are you sure you want to delete this user?";
+
+                showModalConfirmation([userId], ACTION_URL, commonConfig.title, body, commonConfig.method, commonConfig.confirmText);
+            });
+        });
+    });
+</script>
 @endsection

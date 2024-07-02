@@ -45,13 +45,9 @@
                                         <a href="{{ route('languages.edit', $language->language_id)}}" class="mr-2 text-success">
                                             <i style="color: #1CC88A" class="fa-regular fa-pen-to-square fa-2xl"></i>
                                         </a>
-                                        <form action="{{ route('languages.destroy', $language->language_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete?')">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="button" class="btn btn-link p-0 m-0">
-                                                <i style="color: red" class="fa-regular fa-trash-can fa-2xl"></i>
-                                            </button>
-                                        </form>
+                                        <button type="button" class="btn btn-link p-0 m-0" data-language-id="{{ $language->language_id }}" id="delete-btn">
+                                            <i style="color: red" class="fa-regular fa-trash-can fa-2xl"></i>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -76,5 +72,24 @@
 
 <!-- Page level custom scripts -->
 <script src="{{ asset('/assets/js/demo/datatables-demo.js') }}"></script>
+<script src="{{ asset('assets/js/common.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const commonConfig = {
+            title: "Confirm Delete",
+            method: 'DELETE',
+            confirmText: "Delete"
+        };
+        const deleteButtons = document.querySelectorAll('#delete-btn');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const languageId = this.getAttribute('data-language-id');
+                ACTION_URL = "{{ route('languages.destroy', ':id') }}".replace(':id', languageId);
+                body = "Are you sure you want to delete this language?";
 
+                showModalConfirmation([languageId], ACTION_URL, commonConfig.title, body, commonConfig.method, commonConfig.confirmText);
+            });
+        });
+    });
+</script>
 @endsection
