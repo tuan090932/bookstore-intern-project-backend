@@ -39,7 +39,7 @@ class AuthController extends Controller
         $credentials = request(['email', 'password']);
 
         if (! $token = auth('api')->attempt($credentials)) {
-            return response()->json(['error' => trans('auth.incorrect_email_password')], 400);
+            return response()->json(['error' => trans('auth.incorrect_email_password')], 401);
         }
 
         $refreshToken = $this->createRefreshToken();
@@ -94,7 +94,7 @@ class AuthController extends Controller
             
             // Check if refresh token has expired
             if ($decodeToken['exp'] < time()) {
-                return response()->json(['error' => trans('auth.refresh_token_expired')], 411);
+                return response()->json(['error' => trans('auth.refresh_token_expired')], 401);
             }
     
             $user = User::find($decodeToken['user_id']);
