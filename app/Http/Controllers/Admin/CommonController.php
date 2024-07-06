@@ -21,6 +21,7 @@ class CommonController extends Controller
         $body = $request->input('body');
         $method = $request->input('method');
         $confirmText = $request->input('confirmText');
+        
 
         return view('components.confirm-modal', compact('title', 'body', 'confirmText', 'url', 'ids', 'method'));
     }
