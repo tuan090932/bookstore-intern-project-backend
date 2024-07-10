@@ -8,12 +8,13 @@ use App\Models\User;
 use App\Models\Cart;
 use App\Models\CartItem;
 use Exception;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use App\Http\Requests\AddCartItemRequest;
 use Illuminate\Validation\ValidationException;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Database\QueryException;
 class CartController extends Controller
 {
 
@@ -52,6 +53,7 @@ class CartController extends Controller
      */
     public function store(AddCartItemRequest $request)
     {
+        DB::beginTransaction();
         try {
             $user = auth('api')->user();
             $cart = Cart::firstOrCreate(['user_id' => $user->user_id]);
@@ -66,8 +68,13 @@ class CartController extends Controller
                     'quantity' => $request->quantity
                 ]);
             }
+            DB::commit();
             return response()->json(['cartItem' => $cartItem, 'message' => __('messages.cart.item_added_success')], 201);
-        } catch (Exception $e) {
+        }catch(QueryException  $e){
+           DB::rollBack();
+           return response()->json(['error' => 'Database query error', 'message' => $e->getMessage()], 500);
+        }  catch (Exception $e) {
+            DB::rollBack();
            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
