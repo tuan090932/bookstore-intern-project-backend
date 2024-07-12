@@ -99,7 +99,7 @@ Route::group([
 Route::group([
     'prefix' => 'categories',
 ], function () {
-    Route::get('/', [CategoryController::class, 'index']);
+    Route::get('/hello', [CategoryController::class, 'index']);
 });
 
 /**
