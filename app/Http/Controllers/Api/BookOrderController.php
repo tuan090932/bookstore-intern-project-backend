@@ -9,6 +9,8 @@ use App\Models\Address;
 use App\Enums\BookOrderStatus; // Import enum
 use Exception;
 use Illuminate\Http\Request;
+use App\Events\OrderCreated;
+use Illuminate\Support\Facades\Event;
 
 class BookOrderController extends Controller
 {
@@ -72,23 +74,26 @@ class BookOrderController extends Controller
                 'total_price' => array_sum(array_column($request->books, 'price')),
             ]);
  
-            $abc = [];
+            $bookOrderDetails = [];
             foreach ($request->books as $book) {
-               $abc[] = [
+               $bookOrderDetails[] = [
                     'order_id' => $order->order_id,
                     'book_id' => $book['book_id'],
                     'quantity' => $book['quantity'],
                     'price' => $book['price'],
                 ];
             }
-            BookOrderDetail::insert($abc);
- 
+            BookOrderDetail::insert($bookOrderDetails);
+            //Event::fire(new App\Events\OrderCreated($order));
+            event(new OrderCreated($order));
+
+
+
             return response()->json($order->load('bookOrderDetails.book'), 201);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
     /**
      * Display the specified order.
      *

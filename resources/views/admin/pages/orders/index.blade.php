@@ -94,7 +94,19 @@
 <script src="{{ asset('/assets/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('/assets/js/demo/datatables-demo.js') }}"></script>
 <script src="{{ asset('assets/js/common.js') }}"></script>
+<script src="{{ mix('js/app.js') }}"></script>
+
 <script>
+
+
+
+Echo.private('orders')
+    .listen('.OrderCreated', (e) => {
+        console.log('Order created event received:', e);
+    });
+
+
+    
     document.addEventListener('DOMContentLoaded', function() {
         const commonConfig = {
             title: "Confirm Delete",
@@ -111,5 +123,10 @@
             });
         });
     });
+
+  
+
+
+
 </script>
 @endsection
